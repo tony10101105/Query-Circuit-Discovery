@@ -4,7 +4,6 @@ Official code of the project Automated Circuit Labelling
 Code is built on [Michael Hanna's EAP-IG Repo](https://github.com/hannamw/eap-ig) and [Arthur Conmy's ADAC Repo](https://github.com/ArthurConmy/Automatic-Circuit-Discovery).
 
 During a preliminary analysis of the indirect object identification (IOI) circuit (GPT2-small), I had an interesting finding regarding attention heads. I wrap it as follows:
-The community's previous findings on LLM attention heads:
 
 The community's previous findings on LLM attention heads:
 1. Regarding feature similarity, shallow-layer attention heads are more similar within-layer, and deeper attention heads are more dis-similar within-layer.
