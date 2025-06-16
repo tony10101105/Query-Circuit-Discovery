@@ -13,7 +13,7 @@ The community's previous findings on LLM attention heads:
 Is this the end of the story? 
 I think one big mystery is unsolved: Why do LLMs develop multiple attention heads with the same functionality?
 
-Before diving into this mystery, I first study this question: what are the feature similarities of attention heads with the same functionality? 
+Before diving into this mystery, I first study this question: **what are the feature similarities of attention heads with the same functionality?**
 
 It may be intuitive to guess "highly similar" based on findings 1-3. But 1-3. do not drive an answer to this question. 
 
