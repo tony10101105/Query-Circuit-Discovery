@@ -16,7 +16,7 @@ from src.eap.evaluate import evaluate_graph, evaluate_baseline
 
 import numpy as np
 import matplotlib.pyplot as plt
-from svcca import cca_core
+# from svcca import cca_core
 from sklearn.cross_decomposition import CCA
 from tqdm import tqdm
 import seaborn as sns
@@ -86,13 +86,13 @@ dataloader = ds.to_dataloader(batch_size=10)
 g1 = Graph.from_json('ioi_gpt2_canonical_circuit.json')
 g2 = Graph.from_json('ioi_gpt2_canonical_circuit.json')
 # g2 = Graph.from_json('ioi_gpt2-small_500_circuit.json')
-print(f'g1 node, edge number: {g1.count_included_nodes()}, {g1.count_included_edges()}')
-print(f'g2 node, edge number: {g2.count_included_nodes()}, {g2.count_included_edges()}')
-for i in range(1, 13):
-    g1.in_graph[i*13, :] = False
-    g2.in_graph[i*13, :] = False
-g1.prune()
-g2.prune()
+# print(f'g1 node, edge number: {g1.count_included_nodes()}, {g1.count_included_edges()}')
+# print(f'g2 node, edge number: {g2.count_included_nodes()}, {g2.count_included_edges()}')
+# for i in range(1, 13):
+#     g1.in_graph[i*13, :] = False
+#     g2.in_graph[i*13, :] = False
+# g1.prune()
+# g2.prune()
 print(f'g1 node, edge number: {g1.count_included_nodes()}, {g1.count_included_edges()}')
 print(f'g2 node, edge number: {g2.count_included_nodes()}, {g2.count_included_edges()}')
 
@@ -185,6 +185,9 @@ for i in tqdm(range(node_num_g1), desc='Outer'):
     for j in tqdm(range(node_num_g2), desc='Inner', leave=False):
         Y = all_node_rep_g2[j, :, :]
 
+        print('X shape: ', X.shape)
+        print('Y shape: ', Y.shape)
+        exit(0)
         cca = CCA(n_components=n_cca_component, max_iter=500, scale=True)
         cca.fit(X, Y)
         X_c, Y_c = cca.transform(X, Y)
