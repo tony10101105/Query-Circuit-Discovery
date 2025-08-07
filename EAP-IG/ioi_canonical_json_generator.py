@@ -1,8 +1,3 @@
-"""
-read the base json file and generate the json file of canonical circuit of gpt2-small
-"""
-
-
 import torch
 import json
 from dataclasses import dataclass
@@ -81,7 +76,7 @@ from typing import Dict, List, Tuple, Set
 
 
 # --- Read base file ---
-with open("graph_base.json", "r") as f:
+with open("preprocessed_circuit/graph_base.json", "r") as f:
     base_data = json.load(f)
     
 
@@ -198,8 +193,5 @@ for (layer, head) in present_heads:
                     add_edge(attn_out, node_name(f"attn_{letter}", layer2, head2))
 
 
-# --- Dump to JSON ---
-
-output_path = "ioi_gpt2_canonical_circuit.json"
-with open(output_path, "w") as f:
+with open("preprocessed_circuit/ioi_gpt2_canonical_circuit.json", "w") as f:
     json.dump(base_data, f, indent=2)
