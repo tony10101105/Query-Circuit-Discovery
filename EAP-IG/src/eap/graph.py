@@ -505,6 +505,7 @@ class Graph:
         elif level == 'edge':
             assert n <= self.real_edge_mask.sum(), f"Requested n ({n}) is greater than the number of edges ({self.real_edge_mask.sum()})"
             edge_scores = self.scores.clone()
+            # edge_scores = torch.rand_like(edge_scores)
             if absolute: # default True
                 edge_scores = torch.abs(edge_scores)
             

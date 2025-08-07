@@ -8,7 +8,7 @@ from transformer_lens import HookedTransformer
 
 from tqdm import tqdm
 
-from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations
+from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations, no_tokenize_plus
 from .evaluate import evaluate_graph, evaluate_baseline
 from .graph import Graph
 
@@ -75,7 +75,7 @@ def get_scores_eap(model: HookedTransformer, graph: Graph, dataloader:DataLoader
         clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
         corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
 
-        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
 
         with torch.inference_mode():
             if intervention == 'patching':
@@ -99,7 +99,7 @@ def get_scores_eap(model: HookedTransformer, graph: Graph, dataloader:DataLoader
 
     return scores
 
-def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=30, quiet=False):
+def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=30, quiet=False, induction=False):
     """Gets edge attribution scores using EAP with integrated gradients.
 
     Args:
@@ -120,19 +120,24 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
     for clean, corrupted, label in dataloader:
         batch_size = len(clean)
         total_items += batch_size
-        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
+        # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        # corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
+        if not induction:
+            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+            corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
+        else: # when induction, the input is list of tokens, not string
+            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)
+            corrupted_tokens, _, _, n_pos_corrupted = no_tokenize_plus(model, corrupted)
+            
         if n_pos != n_pos_corrupted:
             print(f"Number of positions must match, but do not: {n_pos} (clean) != {n_pos_corrupted} (corrupted)")
-            print(clean)
-            print(corrupted)
             raise ValueError("Number of positions must match")
 
         # Here, we get our fwd / bwd hooks and the activation difference matrix
         # The forward corrupted hooks add the corrupted activations to the activation difference matrix
         # The forward clean hooks subtract the clean activations 
         # The backward hooks get the gradient, and use that, plus the activation difference, for the scores
-        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
 
         with torch.inference_mode():
             with model.hooks(fwd_hooks=fwd_hooks_corrupted):
@@ -181,6 +186,99 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
 
     return scores
 
+def get_scores_eap_ig_sg(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=30, quiet=False, var=1, perturb_times=5):
+    """Gets edge attribution scores using EAP with integrated gradients AND SmoothGrad.
+
+    Args:
+        model (HookedTransformer): The model to attribute
+        graph (Graph): Graph to attribute
+        dataloader (DataLoader): The data over which to attribute
+        metric (Callable[[Tensor], Tensor]): metric to attribute with respect to
+        steps (int, optional): number of IG steps. Defaults to 30.
+        quiet (bool, optional): suppress tqdm output. Defaults to False.
+        var (float, optional): the variance to be added to embedding space for SmoothGrad. Defaults to 1.
+
+    Returns:
+        Tensor: a [src_nodes, dst_nodes] tensor of scores for each edge
+    """
+    scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)    
+    
+    total_items = 0
+    total_steps = 0
+    dataloader = dataloader if quiet else tqdm(dataloader)
+    for clean, corrupted, label in dataloader:
+        batch_size = len(clean)
+        total_items += batch_size
+
+        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
+
+        if n_pos != n_pos_corrupted:
+            print(f"Number of positions must match, but do not: {n_pos} (clean) != {n_pos_corrupted} (corrupted)")
+            raise ValueError("Number of positions must match")
+
+        for t in range(0, perturb_times):
+            (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+
+            def input_perturbation_hook(var: float):
+                def hook_fn(activations, hook):
+                    noise = torch.randn_like(activations) * var
+                    new_input = activations + noise
+                    new_input.requires_grad = True 
+                    return new_input
+                return hook_fn
+
+            with torch.inference_mode():
+                # with model.hooks(fwd_hooks=fwd_hooks_corrupted + [(graph.nodes['input'].out_hook, input_perturbation_hook(var))]):
+                with model.hooks(fwd_hooks=fwd_hooks_corrupted):
+                    _ = model(corrupted_tokens, attention_mask=attention_mask)
+
+                input_activations_corrupted = activation_difference[:, :, graph.forward_index(graph.nodes['input'])].clone()
+
+            with torch.inference_mode():
+                with model.hooks(fwd_hooks=fwd_hooks_clean+[(graph.nodes['input'].out_hook, input_perturbation_hook(var))]):
+                    # Add noise to the input embeddings as "pseudo-clean" inputs
+                    clean_logits = model(clean_tokens, attention_mask=attention_mask)
+                # so the input_activations_clean is not really clean, but rather the pseudo-clean
+                input_activations_clean = input_activations_corrupted - activation_difference[:, :, graph.forward_index(graph.nodes['input'])]
+
+            def input_interpolation_hook(k: int): # interpolate between corrupted and pseudo-clean inputs
+                def hook_fn(activations, hook):
+                    new_input = input_activations_corrupted + (k / steps) * (input_activations_clean - input_activations_corrupted) 
+                    new_input.requires_grad = True 
+                    return new_input
+                return hook_fn
+
+            for step in range(0, steps):
+                total_steps += 1
+                with model.hooks(fwd_hooks=[(graph.nodes['input'].out_hook, input_interpolation_hook(step))], bwd_hooks=bwd_hooks):
+                    logits = model(clean_tokens, attention_mask=attention_mask)
+                    # metric_value = metric(logits, clean_logits, input_lengths, label)
+                    metric_value = metric(logits, 0, input_lengths, label)
+                    # print(metric_value)
+                    if torch.isnan(metric_value).any().item():
+                        print("Metric value is NaN")
+                        print(f"Clean: {clean}")
+                        print(f"Corrupted: {corrupted}")
+                        print(f"Label: {label}")
+                        print(f"Metric: {metric}")
+                        raise ValueError("Metric value is NaN")
+                    metric_value.backward()
+                
+                if torch.isnan(scores).any().item():
+                    print("Metric value is NaN")
+                    print(f"Clean: {clean}")
+                    print(f"Corrupted: {corrupted}")
+                    print(f"Label: {label}")
+                    print(f"Metric: {metric}")
+                    print(f'Step: {step}')
+                    raise ValueError("Metric value is NaN")
+
+    scores /= total_items
+    scores /= total_steps
+
+    return scores
+
 def get_scores_ig_activations(model: HookedTransformer, graph: Graph, dataloader: DataLoader, 
                               metric: Callable[[Tensor], Tensor], intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', 
                               steps=30, intervention_dataloader: Optional[DataLoader]=None, quiet=False):
@@ -204,9 +302,9 @@ def get_scores_ig_activations(model: HookedTransformer, graph: Graph, dataloader
         clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
         corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
 
-        (_, _, bwd_hooks), activation_difference, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
-        (fwd_hooks_corrupted, _, _), activations_corrupted, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
-        (fwd_hooks_clean, _, _), activations_clean, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (_, _, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (fwd_hooks_corrupted, _, _), activations_corrupted, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (fwd_hooks_clean, _, _), activations_clean, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
 
         if intervention == 'patching':
             with model.hooks(fwd_hooks=fwd_hooks_corrupted):
@@ -278,7 +376,7 @@ def get_scores_clean_corrupted(model: HookedTransformer, graph: Graph, dataloade
         clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
         corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
 
-        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
+        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
 
         with torch.inference_mode():
             with model.hooks(fwd_hooks=fwd_hooks_corrupted):
@@ -305,7 +403,7 @@ def get_scores_clean_corrupted(model: HookedTransformer, graph: Graph, dataloade
 
     return scores
 
-def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, dataloader: DataLoader, quiet=False) -> torch.Tensor:
+def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, dataloader: DataLoader, quiet=False, induction=False) -> torch.Tensor:
     """Gets scores using Ferrando et al.'s (2024) information flow routes method.
 
     Args:
@@ -389,19 +487,23 @@ def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, d
             prev_index = graph.prev_index(node)
             hooks.append((node.out_hook, partial(output_hook, fwd_index)))
             hooks.append((node.in_hook, partial(input_hook, prev_index, bwd_index, input_lengths)))
-            
+
         node = graph.nodes['logits']
         prev_index = graph.prev_index(node)
         bwd_index = graph.backward_index(node)
         hooks.append((node.in_hook, partial(input_hook, prev_index, bwd_index, input_lengths)))
         return hooks
-    
+
     total_items = 0
     dataloader = dataloader if quiet else tqdm(dataloader)
     for clean, _, _ in dataloader:
         batch_size = len(clean)
         total_items += batch_size
-        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        if not induction:
+            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        else: # when induction, the input is list of tokens, not string
+            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)          
 
         hooks = make_hooks(n_pos, input_lengths)
         with torch.inference_mode():
@@ -412,11 +514,12 @@ def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, d
 
     return scores
 
-allowed_aggregations = {'sum', 'mean'}    
+allowed_aggregations = {'sum', 'mean'}
 def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], 
               method: Literal['EAP', 'EAP-IG-inputs', 'clean-corrupted', 'EAP-IG-activations', 'information-flow-routes', 'exact'], 
               intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', aggregation='sum', 
-              ig_steps: Optional[int]=None, intervention_dataloader: Optional[DataLoader]=None, quiet=False):
+              ig_steps: Optional[int]=None, intervention_dataloader: Optional[DataLoader]=None, quiet=False,
+              induction: bool=False, perturb_times: int=5, var: float=1):
     assert model.cfg.use_attn_result, "Model must be configured to use attention result (model.cfg.use_attn_result)"
     assert model.cfg.use_split_qkv_input, "Model must be configured to use split qkv inputs (model.cfg.use_split_qkv_input)"
     assert model.cfg.use_hook_mlp_in, "Model must be configured to use hook MLP in (model.cfg.use_hook_mlp_in)"
@@ -434,7 +537,11 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
     elif method == 'EAP-IG-inputs':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs, but got {intervention}")
-        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet)
+        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, induction=induction)
+    elif method == 'EAP-IG-inputs-sg':
+        if intervention != 'patching':
+            raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs-sg, but got {intervention}")
+        scores = get_scores_eap_ig_sg(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, perturb_times=perturb_times, var=var)
     elif method == 'clean-corrupted':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for clean-corrupted, but got {intervention}")
@@ -443,7 +550,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
         scores = get_scores_ig_activations(model, graph, dataloader, metric, steps=ig_steps, intervention=intervention, 
                                            intervention_dataloader=intervention_dataloader, quiet=quiet)
     elif method == 'information-flow-routes':
-        scores = get_scores_information_flow_routes(model, graph, dataloader, quiet=quiet)
+        scores = get_scores_information_flow_routes(model, graph, dataloader, quiet=quiet, induction=induction)
     elif method == 'exact':
         scores = get_scores_exact(model, graph, dataloader, metric, intervention=intervention, intervention_dataloader=intervention_dataloader, 
                                   quiet=quiet)

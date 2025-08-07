@@ -1,20 +1,22 @@
 from typing import Callable, List, Union, Literal, Optional
 
 import torch
+import torch.nn.functional as F
 from torch import Tensor
 from torch.utils.data import DataLoader
 from transformer_lens import HookedTransformer
 from tqdm import tqdm
 from einops import einsum
 
-from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations
+from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations, no_tokenize_plus
 from .graph import Graph, AttentionNode
 
 
 def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoader, 
                    metrics: Union[Callable[[Tensor],Tensor], List[Callable[[Tensor], Tensor]]], 
                    quiet=False, intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', 
-                   intervention_dataloader: Optional[DataLoader]=None, skip_clean:bool=True, hook_rep:bool=False, hook_layer:bool=False) -> Union[torch.Tensor, List[torch.Tensor]]:
+                   intervention_dataloader: Optional[DataLoader]=None, skip_clean:bool=True, 
+                   hook_rep:bool=False, hook_layer:bool=False, hook_pattern:bool=False, induction=False) -> Union[torch.Tensor, List[torch.Tensor]]:
     """Evaluate a circuit (i.e. a graph where only some nodes are false, probably created by calling graph.apply_threshold). You probably want to prune 
         beforehand to make sure your circuit is valid.
 
@@ -81,11 +83,13 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     # Ours
     all_node_rep = [] if hook_rep else None
     all_layer_rep = [] if hook_layer else None
+    all_node_pattern = [] if hook_pattern else None
 
     # For each node in the graph, corrupt its inputs, if the corresponding edge isn't in the graph 
     # We corrupt it by adding in the activation difference (b/w clean and corrupted acts)
     def make_input_construction_hook(activation_matrix, in_graph_vector, neuron_matrix):
         def input_construction_hook(activations, hook):
+            # print('hook: ', hook.name)
             # Case where layernorm is applied after attention (gemma only)
             if model.cfg.use_normalization_before_and_after: # default false
                 activation_differences = activation_matrix[0] - activation_matrix[1]
@@ -146,6 +150,7 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
             else:
                 # In the non-gemma case, things are easy!
                 activation_differences = activation_matrix
+                # print('activation_differences: ', activation_differences.shape) # torch.Size([10, 21, 157, 768])
                 # The ... here is to account for a potential head dimension, when constructing a whole attention layer's input
                 if neuron_matrix is not None:
                     update = einsum(activation_differences[:, :, :len(in_graph_vector)], neuron_matrix[:len(in_graph_vector)], in_graph_vector,
@@ -153,9 +158,9 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
                 else:
                     update = einsum(activation_differences[:, :, :len(in_graph_vector)], in_graph_vector,
                                     'batch pos previous hidden, previous ... -> batch pos ... hidden')
-            #         print('in_graph_vector: ', in_graph_vector.shape)
-            #         print('b: ', activation_differences[:, :, :len(in_graph_vector)].shape)
-            # exit(0)
+                    # print('in_graph_vector: ', in_graph_vector.shape) # torch.Size([157])
+                    # print('b: ', activation_differences[:, :, :len(in_graph_vector)].shape) # torch.Size([10, 21, 157, 768]) 
+
             activations += update # torch.Size([bs, pos, 1 or 12, d_model])
             return activations
         return input_construction_hook
@@ -196,17 +201,24 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     if not isinstance(metrics, list):
         metrics = [metrics]
     results = [[] for _ in metrics]
-    
+
     # and here we actually run / evaluate the model
     dataloader = dataloader if quiet else tqdm(dataloader)
+    max_n_pos = -1
     for clean, corrupted, label in dataloader:
-        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
-        
+        # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        # corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
+        if not induction:
+            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+            corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
+        else: # when induction, the input is list of tokens, not string
+            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)
+            corrupted_tokens, _, _, _ = no_tokenize_plus(model, corrupted)
+        max_n_pos = max(max_n_pos, n_pos)
         # fwd_hooks_corrupted adds in corrupted acts to activation_difference
         # fwd_hooks_clean subtracts out clean acts from activation_difference
         # activation difference is of size (batch, pos, src_nodes, hidden)
-        (fwd_hooks_corrupted, fwd_hooks_clean, _), activation_difference, node_representation, layer_representation = make_hooks_and_matrices(model, graph, len(clean), n_pos, None, hook_rep=hook_rep, hook_layer=hook_layer)
+        (fwd_hooks_corrupted, fwd_hooks_clean, _), activation_difference, node_representation, layer_representation, node_pattern = make_hooks_and_matrices(model, graph, len(clean), n_pos, None, hook_rep=hook_rep, hook_layer=hook_layer, hook_pattern=hook_pattern)
         
         input_construction_hooks = make_input_construction_hooks(activation_difference, in_graph_matrix, neuron_matrix)
         with torch.inference_mode():
@@ -222,14 +234,19 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
 
             # For some metrics (e.g. accuracy or KL), we need the clean logits
             clean_logits = None if skip_clean else model(clean_tokens, attention_mask=attention_mask)
-                
             with model.hooks(fwd_hooks_clean + input_construction_hooks):
                 logits = model(clean_tokens, attention_mask=attention_mask)
-                if hook_rep:
-                    all_node_rep.append(node_representation)
-
-                if hook_layer:
-                    all_layer_rep.append(layer_representation)
+                if hook_rep or hook_layer or hook_pattern:
+                    mask = torch.arange(n_pos, device=activation_difference.device)[None, :] < input_lengths[:, None] # [bs, n_pos]
+                    if hook_rep:
+                        node_representation = node_representation * mask[:, :, None, None] # [bs, n_pos, node_num, d_model]
+                        all_node_rep.append(node_representation)
+                    if hook_layer:
+                        layer_representation = layer_representation * mask[:, :, None, None] # [bs, n_pos, n_layer, d_model]
+                        all_layer_rep.append(layer_representation)
+                    if hook_pattern:
+                        node_pattern = node_pattern * mask[:, None, :, None] # [bs, node_num, n_pos, n_pos]
+                        all_node_pattern.append(node_pattern)
 
         for i, metric in enumerate(metrics):
             r = metric(logits, clean_logits, input_lengths, label).cpu()
@@ -242,11 +259,38 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     if len(results) == 1:
         results = results[0]
 
-    return results, all_node_rep, all_layer_rep
+    if hook_rep:
+        all_node_rep_padded = []
+        for rep in all_node_rep:
+            current_size = rep.size(1)
+            padding_needed = max(0, max_n_pos - current_size)
+            rep = F.pad(rep, (0, 0, 0, 0, 0, padding_needed))
+            all_node_rep_padded.append(rep)
+        all_node_rep = torch.cat(all_node_rep_padded, dim=0)
+
+    if hook_layer:
+        all_layer_rep_padded = []
+        for rep in all_layer_rep:
+            current_size = rep.size(1)
+            padding_needed = max(0, max_n_pos - current_size)
+            rep = F.pad(rep, (0, 0, 0, 0, 0, padding_needed))
+            all_layer_rep_padded.append(rep)
+        all_layer_rep = torch.cat(all_layer_rep_padded, dim=0)
+
+    if hook_pattern:
+        all_node_pattern_padded = []
+        for pattern in all_node_pattern:
+            current_size = pattern.size(-2)
+            padding_needed = max(0, max_n_pos - current_size)
+            pattern = F.pad(pattern, (0, padding_needed, 0, padding_needed))
+            all_node_pattern_padded.append(pattern)
+        all_node_pattern = torch.cat(all_node_pattern_padded, dim=0)
+
+    return results, all_node_rep, all_layer_rep, all_node_pattern
 
 
 def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: List[Callable[[Tensor], Tensor]], 
-                      run_corrupted=False, quiet=False) -> Union[torch.Tensor, List[torch.Tensor]]:
+                      run_corrupted=False, quiet=False, induction=False) -> Union[torch.Tensor, List[torch.Tensor]]:
     """Evaluates the model on the given dataloader, without any intervention. This is useful for computing the baseline performance of the model.
 
     Args:
@@ -266,13 +310,23 @@ def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: 
         dataloader = tqdm(dataloader)
     for clean, corrupted, label in dataloader:
         clean_tokens, attention_mask, input_lengths, _ = tokenize_plus(model, clean)
-        corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
+        corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted)
+
+        def input_perturbation_hook(var: float):
+            def hook_fn(activations, hook):
+                noise = torch.randn_like(activations) * var
+                new_input = activations + noise
+                new_input.requires_grad = True 
+                return new_input
+            return hook_fn
+            
         with torch.inference_mode():
-            corrupted_logits = model(corrupted_tokens, attention_mask=attention_mask)
+            corrupted_logits = model(corrupted_tokens, attention_mask=attention_mask_corrupted)
+            # with model.hooks(fwd_hooks=[('hook_embed', input_perturbation_hook(0.01))]): # 3.731813907623291 # 0.01 std is good
             logits = model(clean_tokens, attention_mask=attention_mask)
         for i, metric in enumerate(metrics):
             if run_corrupted:
-                r = metric(corrupted_logits, logits, input_lengths, label).cpu()
+                r = metric(corrupted_logits, logits, input_lengths_corrupted, label).cpu()
             else:
                 r = metric(logits, corrupted_logits, input_lengths, label).cpu()
             if len(r.size()) == 0:

@@ -1,8 +1,68 @@
+"""
+read the base json file and generate the json file of canonical circuit of gpt2-small
+"""
+
+
 import torch
 import json
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Set
 
+class TorchIndex:
+    """There is not a clean bijection between things we 
+    want in the computational graph, and things that are hooked
+    (e.g hook_result covers all heads in a layer)
+    
+    `TorchIndex`s are essentially indices that say which part of the tensor is being affected. 
+
+    EXAMPLES: Initialise [:, :, 3] with TorchIndex([None, None, 3]) and [:] with TorchIndex([None])    
+
+    Also we want to be able to call e.g `my_dictionary[my_torch_index]` hence the hashable tuple stuff
+    
+    Note: ideally this would be integrated with transformer_lens.utils.Slice in future; they are accomplishing similar but different things"""
+
+    def __init__(
+        self, 
+        list_of_things_in_tuple: List,
+    ):
+        # check correct types
+        for arg in list_of_things_in_tuple:
+            if type(arg) in [type(None), int]:
+                continue
+            else:
+                assert isinstance(arg, list)
+                assert all([type(x) == int for x in arg])
+
+        # make an object that can be indexed into a tensor
+        self.as_index = tuple([slice(None) if x is None else x for x in list_of_things_in_tuple])
+
+        # make an object that can be hashed (so used as a dictionary key)
+        self.hashable_tuple = tuple(list_of_things_in_tuple)
+
+    def __hash__(self):
+        return hash(self.hashable_tuple)
+
+    def __eq__(self, other):
+        return self.hashable_tuple == other.hashable_tuple
+
+    # some graphics things
+
+    def __repr__(self, use_actual_colon=True) -> str: # graphviz, an old library used to dislike actual colons in strings, but this shouldn't be an issue anymore
+        ret = "["
+        for idx, x in enumerate(self.hashable_tuple):
+            if idx > 0:
+                ret += ", "
+            if x is None:
+                ret += ":" if use_actual_colon else "COLON"
+            elif type(x) == int:
+                ret += str(x)
+            else:
+                raise NotImplementedError(x)
+        ret += "]"
+        return ret
+
+    def graphviz_index(self, use_actual_colon=True) -> str:
+        return self.__repr__(use_actual_colon=use_actual_colon)
 
 # cfg = {'NTK_by_parts_factor': 8.0,                                                                                                                             
 #  'NTK_by_parts_high_freq_factor': 4.0,                                                                                                                   
@@ -74,13 +134,9 @@ from typing import Dict, List, Tuple, Set
 #  }
 
 
-
-# --- Read base file ---
+# --- Load base graph template ---
 with open("preprocessed_circuit/graph_base.json", "r") as f:
     base_data = json.load(f)
-    
-
-# --- Define circuit structure ---
 
 @dataclass(frozen=True)
 class Conn:
@@ -88,43 +144,36 @@ class Conn:
     out: str
     qkv: Tuple[str, ...]
 
-IOI_CIRCUIT = {
-    "name mover": [(9, 9), (10, 0), (9, 6)],
-    "backup name mover": [(10, 10), (10, 6), (10, 2), (10, 1), (11, 2), (9, 7), (9, 0), (11, 9)],
-    "negative": [(10, 7), (11, 10)],
-    "s2 inhibition": [(7, 3), (7, 9), (8, 6), (8, 10)],
-    "induction": [(5, 5), (5, 8), (5, 9), (6, 9)],
-    "duplicate token": [(0, 1), (0, 10), (3, 0)],
-    "previous token": [(2, 2), (4, 11)],
+CIRCUIT = {
+    "0305": [(0, 3), (0, 5)],
+    "01": [(0, 1)],
+    "MEARLY": [(0, None), (1, None), (2, None), (3, None)],
+    "AMID": [(5, 5), (6, 1), (6, 9), (7, 10), (8, 11), (9, 1)],
+    "MLATE": [(8, None), (9, None), (10, None), (11, None)],
 }
 
-special_connections: Set[Conn] = {
-    Conn("input", "previous token", ("q", "k", "v")),
-    Conn("input", "duplicate token", ("q", "k", "v")),
-    Conn("input", "s2 inhibition", ("q",)),
-    Conn("input", "negative", ("k", "v")),
-    Conn("input", "name mover", ("k", "v")),
-    Conn("input", "backup name mover", ("k", "v")),
-    Conn("previous token", "induction", ("k", "v")),
-    Conn("induction", "s2 inhibition", ("k", "v")),
-    Conn("duplicate token", "s2 inhibition", ("k", "v")),
-    Conn("s2 inhibition", "negative", ("q",)),
-    Conn("s2 inhibition", "name mover", ("q",)),
-    Conn("s2 inhibition", "backup name mover", ("q",)),
-    Conn("negative", "OUTPUT", ()),
-    Conn("name mover", "OUTPUT", ()),
-    Conn("backup name mover", "OUTPUT", ()),
+SPECIAL_CONNECTIONS: Set[Conn] = {
+    Conn("input", "0305", ("q", "k", "v")),
+    Conn("input", "01", ("q", "k", "v")),
+    Conn("input", "MEARLY", ("q", "k", "v")),
+    Conn("0305", "AMID", ("q", "k", "v")),
+    Conn("01", "MEARLY", ("q", "k", "v")),
+    Conn("01", "AMID", ("q", "k", "v")),
+    Conn("MEARLY", "AMID", ("q", "k", "v")),
+    Conn("AMID", "MLATE", ("q", "k", "v")),
+    Conn("AMID", "OUTPUT", ()),
+    Conn("MLATE", "OUTPUT", ()),
 }
 
-# --- Build the graph ---
-t_to_name = {}
-for name, heads in IOI_CIRCUIT.items():
-    for t in heads:
-        t_to_name[t] = name
+connected_pairs = [
+    ("01", "MEARLY"),
+    ("01", "AMID"),
+    ("0305", "AMID"),
+    ("MEARLY", "AMID"),
+    ("AMID", "MLATE"),
+]
 
-present_heads = set(t_to_name.keys())
-conn_map = {(c.inp, c.out): "".join(c.qkv) for c in special_connections}
-
+# --- Helper Functions ---
 def node_name(ntype: str, layer: int = None, head: int = None):
     if ntype == "MLP":
         return f"m{layer}"
@@ -146,52 +195,80 @@ def add_edge(src: str, dst: str):
     base_data['nodes'][src] = {"in_graph": True}
     base_data['nodes'][dst] = {"in_graph": True}
 
+def tuple_to_hooks(layer_idx, head_idx, outp=False):
+    if outp:
+        if head_idx is None:
+            return [(f"blocks.{layer_idx}.hook_mlp_out", TorchIndex([None]))]
+        else:
+            return [(f"blocks.{layer_idx}.attn.hook_result", TorchIndex([None, None, head_idx]))]
 
-# Add input -> logits
+    else:
+        if head_idx is None:
+            return [(f"blocks.{layer_idx}.hook_mlp_in", TorchIndex([None]))]
+        else:
+            ret = []
+            for letter in "qkv":
+                ret.append((f"blocks.{layer_idx}.hook_{letter}_input", TorchIndex([None, None, head_idx])))
+            return ret
+    
+    
+# --- Build Graph ---
 add_edge("input", "logits")
 
-# MLPs
-for i in range(base_data['cfg']["n_layers"]):
-    add_edge("input", node_name("MLP", i))
-    add_edge(node_name("MLP", i), "logits")
-    for j in range(i):
-        add_edge(node_name("MLP", j), node_name("MLP", i))
-
-# Heads
-for (layer, head) in present_heads:
-    group = t_to_name[(layer, head)]
-    attn_out = node_name("attn_out", layer, head)
-
-    # input -> qkv
-    for letter in "qkv":
-        if ("input", group) in conn_map and letter in conn_map[("input", group)]:
-            add_edge("input", node_name(f"attn_{letter}", layer, head))
-
-    # attn_out -> logits
-    if (group, "OUTPUT") in conn_map:
-        add_edge(attn_out, "logits")
-
-    # MLP -> qkv
-    for i in range(layer):
-        for letter in "qkv":
-            add_edge(node_name("MLP", i), node_name(f"attn_{letter}", layer, head))
-
-    # attn_out -> MLP
-    for i in range(layer, base_data['cfg']["n_layers"]):
-        add_edge(attn_out, node_name("MLP", i))
-
-
-    # attn_out -> attn_out
-    # for (layer, head) in present_heads:
-    src_group = t_to_name[(layer, head)]
-    attn_out = node_name("attn_out", layer, head)
-    for (layer2, head2) in present_heads:
-        dst_group = t_to_name[(layer2, head2)]
-        if (src_group, dst_group) in conn_map:
+# Attach input connections for early groups
+for GROUP in ["0305", "01", "MEARLY"]:
+    for layer, head in CIRCUIT[GROUP]:
+        # for hook_name, idx in tuple_to_hooks(layer, head, outp=False):
+            # Connect model input residual to head/MLP input
+            # add_edge("input", node_name(hook_name.split('.')[-3], layer, head) if 'attn' in hook_name else node_name("MLP", layer))
+        if head is None: # MLP
+            add_edge("input", node_name("MLP", layer))
+        else: # attention
             for letter in "qkv":
-                if letter in conn_map[(src_group, dst_group)]:
-                    add_edge(attn_out, node_name(f"attn_{letter}", layer2, head2))
+                add_edge("input", node_name(f"attn_{letter}", layer, head))
 
+# Attach output connections for later groups
+for GROUP in ["AMID", "MLATE"]:
+    for layer, head in CIRCUIT[GROUP]:
+        add_edge(node_name("attn_out", layer, head) if head is not None else node_name("MLP", layer), "logits")
 
-with open("preprocessed_circuit/ioi_gpt2_canonical_circuit.json", "w") as f:
+# Interconnect MLPs within each group (only MLP groups)
+for GROUP, nodes in CIRCUIT.items():
+    if nodes[0][1] is not None:
+        continue
+    for i1, _ in nodes:
+        for i2, _ in nodes:
+            if i1 >= i2:
+                continue
+            add_edge(node_name("MLP", i1), node_name("MLP", i2))
+
+# Connect groups according to connected_pairs
+for GROUP1, GROUP2 in connected_pairs:
+    for i1, j1 in CIRCUIT[GROUP1]:
+        for i2, j2 in CIRCUIT[GROUP2]:
+            # if GROUP1 == '01' and GROUP2 == 'MEARLY':
+            #     print(f'{j1}, {j2}')
+            if i1 > i2 or (i1 == i2 and j1 is None and j2 is not None): # ?
+                continue
+            # Connect output of GROUP1 to input of GROUP2
+            # for src_hook, src_idx in tuple_to_hooks(i1, j1, outp=True):
+                # for dst_hook, dst_idx in tuple_to_hooks(i2, j2, outp=False):
+            for letter in "qkv":
+                add_edge(
+                    node_name("attn_out", i1, j1) if j1 is not None else node_name("MLP", i1),
+                    node_name(f"attn_{letter}", i2, j2) if j2 is not None else node_name("MLP", i2)
+                )
+
+# # Connect qkv flows within heads
+# for layer, head in sum(CIRCUIT.values(), start=[]):
+#     if head is None:
+#         continue
+#     for letter in "qkv":
+#         # attn_out -> hook_{letter}
+#         add_edge(
+#             node_name("attn_out", layer, head),
+#             node_name(f"attn_{letter}", layer, head)
+#         )
+
+with open("preprocessed_circuit/gt_gpt2_canonical_circuit.json", "w") as f:
     json.dump(base_data, f, indent=2)
