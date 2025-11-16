@@ -1,7 +1,10 @@
+import os
 from typing import List, Optional, Tuple, Union
 from functools import partial
 import pickle
 
+import numpy as np
+import random
 from tqdm import tqdm
 import torch
 from torch import Tensor
@@ -13,7 +16,32 @@ from einops import einsum
 from .graph import Graph, AttentionNode, LogitNode
 
 
-def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optional[int] = None):
+def topn_indices(matrix: np.ndarray, topn: int):
+    # flatten the matrix
+    flat = matrix.ravel()
+    # get indices of top-n elements (unsorted)
+    flat_topn = np.argpartition(flat, -topn)[-topn:]
+    # sort them by actual values (descending)
+    flat_topn = flat_topn[np.argsort(-flat[flat_topn])]
+    # convert back to 2D indices
+    return [np.unravel_index(idx, matrix.shape) for idx in flat_topn]
+
+def set_seed(seed: int = 2025):
+    random.seed(seed)
+    np.random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # if using multi-GPU
+
+    # For TransformerLens:
+    # Optional: sets the default generator for dropout, noise etc.
+    generator = torch.Generator()
+    generator.manual_seed(seed)
+    return generator
+
+def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optional[int] = None, manual_pad_to_length: Optional[list] = None, padding_side = 'right'):
     """
     Tokenizes the input strings using the provided model.
 
@@ -28,10 +56,39 @@ def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optio
             - input_lengths (torch.Tensor): The lengths of the tokenized inputs.
             - n_pos (int): The maximum sequence length of the tokenized inputs.
     """
+    if manual_pad_to_length is not None:
+        assert len(inputs) == len(manual_pad_to_length), f'inputs: {len(inputs)}, manual_pad_to_length: {len(manual_pad_to_length)}'
+        t = [] # token length of corrupted input
+        for i in range(len(inputs)):
+            tokens = model.to_tokens([inputs[i]], prepend_bos=True, truncate=(max_length is not None))
+            if tokens.shape[1] > manual_pad_to_length[i]: # corrupted input is longer than manual_pad_to_length
+                inputs[i] = inputs[i].replace('Which is the most possible answer?', 'Which option?')
+                tokens = model.to_tokens([inputs[i]], prepend_bos=True, truncate=(max_length is not None))
+            t.append(tokens.shape[1])
+        pad_tok = model.tokenizer.decode([model.tokenizer.pad_token_id])
+        def padding_fn(lst, pad_to_length, ori_corrupt_len):
+            # print(f'ori lst: {lst}, pad_to_length: {pad_to_length}, ori_corrupt_len: {ori_corrupt_len}')
+            # assert pad_to_length - ori_corrupt_len >= 0, f'Error: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}'
+            if pad_to_length - ori_corrupt_len < 0:
+                print(f'Warning: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}, truncating the corrupted input')
+                print('after lst: ', lst[-pad_to_length:])
+                print('len: ', len(lst))
+                exit(0)
+            
+            # print(f'noraml. pad_to_length {pad_to_length} >= ori_corrupt_len {ori_corrupt_len}, padding the corrupted input')
+            # print('after lst len: ', len(pad_tok * (pad_to_length - ori_corrupt_len) + lst))
+            return pad_tok * (pad_to_length - ori_corrupt_len) + lst
+            # else:
+            #     print(f'Warning: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}, truncating the corrupted input')
+            #     print('after lst: ', lst[-pad_to_length:])
+            #     print('len: ', len(lst))
+            #     return lst[-pad_to_length:]
+        for i in range(len(inputs)):
+            inputs[i] = padding_fn(inputs[i], manual_pad_to_length[i], t[i])
+
     if max_length is not None: # by default is None
         old_n_ctx = model.cfg.n_ctx
         model.cfg.n_ctx = max_length
-    # print(inputs)
     tokens = model.to_tokens(inputs, prepend_bos=True, padding_side='right', truncate=(max_length is not None)) # 50256
     # print('tokens: ', tokens)
     # print('tokens shape: ', tokens.dtype)

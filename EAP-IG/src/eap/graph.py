@@ -440,7 +440,7 @@ class Graph:
         if prune:
             self.prune()
     
-    def apply_topn(self, n:int, absolute: bool=True, level:Literal['edge','node','neuron']='edge', reset: bool=True, prune:bool=True):
+    def apply_topn(self, n:int, absolute: bool=True, level:Literal['edge','node','neuron']='edge', reset: bool=True, prune:bool=True, complement:bool=False):
         """Sets the graph to contain only the top-n components. The components are specified by the level parameter, which can be 'edge','node', or 'neuron'. If 'node', the top-n nodes are selected based on their scores, and all outgoing edges to nodes in the graph are true. If 'edge', the top-n edges are selected based on their scores. If 'neuron', the top-n neurons are selected based on their scores, and all outgoing edges to nodes with neurons in the graph are true.
 
         Args:
@@ -511,11 +511,14 @@ class Graph:
             
             # masking out the edges that are not real
             edge_scores[~self.real_edge_mask] = -torch.inf 
-            # x = edge_scores.cpu().detach().numpy()
-            
+ 
             sorted_edges = torch.argsort(edge_scores.view(-1), descending=True)
-            self.in_graph.view(-1)[sorted_edges[:n]] = True
-            self.in_graph.view(-1)[sorted_edges[n:]] = False
+            if complement:
+                self.in_graph.view(-1)[sorted_edges[:n]] = False
+                self.in_graph.view(-1)[sorted_edges[n:]] = True
+            else:    
+                self.in_graph.view(-1)[sorted_edges[:n]] = True
+                self.in_graph.view(-1)[sorted_edges[n:]] = False
             if reset:
                 nodes_with_outgoing = self.in_graph.any(dim=1)
                 nodes_with_ingoing = einsum(self.in_graph.any(dim=0).float(), self.forward_to_backward.float(), 'backward, forward backward -> forward') > 0
@@ -527,6 +530,107 @@ class Graph:
         if prune:
             self.prune()
 
+    def apply_topn_and_rand(self, n:int, absolute: bool=True, level:Literal['edge','node','neuron']='edge', reset: bool=True, prune:bool=True, replace_ratio:float=0.1):
+        """Sets the graph to contain only the top-n components. The components are specified by the level parameter, which can be 'edge','node', or 'neuron'. If 'node', the top-n nodes are selected based on their scores, and all outgoing edges to nodes in the graph are true. If 'edge', the top-n edges are selected based on their scores. If 'neuron', the top-n neurons are selected based on their scores, and all outgoing edges to nodes with neurons in the graph are true.
+
+        Args:
+            n (int): number of edges/nodes/neurons to take
+            absolute (bool): whether to apply topn based on the absolute value of the scores
+            reset (bool): resets the graph, setting everything to zero, before applying topn. Only if reset=True will corresponding edges be added after neuron and node topn
+            level (str, optional): level at which to apply topn. Defaults to 'edge'.
+            prune (bool): whether to prune the graph after applying topn
+        """
+        if reset:
+            self.reset()
+
+        assert n <= self.real_edge_mask.sum(), f"Requested n ({n}) is greater than the number of edges ({self.real_edge_mask.sum()})"
+        edge_scores = self.scores.clone()
+        if absolute: # default True
+            edge_scores = torch.abs(edge_scores)
+        
+        # masking out the edges that are not real
+        edge_scores[~self.real_edge_mask] = -torch.inf 
+
+        sorted_edges = torch.argsort(edge_scores.view(-1), descending=True)
+        self.in_graph.view(-1)[sorted_edges[:n]] = True
+        self.in_graph.view(-1)[sorted_edges[n:]] = False
+        
+        # step 1: get selected and unselected indices
+        selected_idx = torch.where(self.in_graph.view(-1))[0]
+        unselected_idx = torch.where(~self.in_graph.view(-1))[0]
+
+        # step 2: compute how many to replace
+        num_replace = int(len(selected_idx) * replace_ratio)
+        if num_replace == 0:
+            num_replace = 1  # optional safeguard
+
+        # step 3: sample edges to drop from selected
+        drop_idx = selected_idx[torch.randperm(len(selected_idx))[:num_replace]]
+
+        # step 4: sample edges to add from unselected
+        add_idx = unselected_idx[torch.randperm(len(unselected_idx))[:num_replace]]
+
+        # step 5: update mask
+        new_mask = self.in_graph.view(-1).clone()
+        new_mask[drop_idx] = False
+        new_mask[add_idx] = True
+
+        self.in_graph = new_mask.view_as(self.in_graph)
+        
+        if reset:
+            nodes_with_outgoing = self.in_graph.any(dim=1)
+            nodes_with_ingoing = einsum(self.in_graph.any(dim=0).float(), self.forward_to_backward.float(), 'backward, forward backward -> forward') > 0
+            nodes_with_ingoing[0] = True
+            self.nodes_in_graph += nodes_with_outgoing & nodes_with_ingoing
+        else:
+            raise ValueError(f"Invalid level: {level}")
+        
+        if prune:
+            self.prune()
+            
+    def apply_topn_by_tier(self, n:int, tier_mat, reset: bool=True, prune:bool=True, complement:bool=False):
+        assert n <= self.real_edge_mask.sum(), f"Requested n ({n}) is greater than the number of edges ({self.real_edge_mask.sum()})"
+        chosen = []
+        for l in range(np.min(tier_mat), np.max(tier_mat)+1):
+            mask = (tier_mat == l)
+            # if not np.any(mask):
+            #     continue
+            vals = self.scores[mask]
+            # how many more do we still need?
+            need = n - len(chosen)
+            if need <= 0: break
+            need = min(need, len(vals))
+            # print('need: ', need)
+            # pick top-need indices within this tier
+            flat_idx = np.argpartition(vals, -need)[-need:]
+            # map back to (i,j)
+            # print('flat_idx: ', flat_idx)
+            coords = np.argwhere(mask)[flat_idx]
+            # print('coords: ', coords)
+            if need > 1:
+                chosen.extend(map(tuple, coords))
+            else:
+                chosen.append(tuple(coords))
+        
+        H, W = self.scores.shape
+        flat_chosen_idx = [i * W + j for (i, j) in chosen]
+        
+        if complement:
+            self.in_graph.view(-1)[:] = True
+            self.in_graph.view(-1)[flat_chosen_idx] = False
+        else:
+            self.in_graph.view(-1)[:] = False
+            self.in_graph.view(-1)[flat_chosen_idx] = True
+            
+        if reset:
+            nodes_with_outgoing = self.in_graph.any(dim=1)
+            nodes_with_ingoing = einsum(self.in_graph.any(dim=0).float(), self.forward_to_backward.float(), 'backward, forward backward -> forward') > 0
+            nodes_with_ingoing[0] = True
+            self.nodes_in_graph += nodes_with_outgoing & nodes_with_ingoing
+    
+        if prune:
+            self.prune()
+ 
     def apply_greedy(self, n_edges:int, absolute: bool = True, reset:bool = True, prune:bool = True):
         """
         Gets the topn edges of the graph using a greedy algorithm that works from the logits up. Only defined over edges

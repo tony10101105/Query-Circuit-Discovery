@@ -8,6 +8,7 @@ from functools import partial
 
 import pandas as pd
 import json
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -28,7 +29,6 @@ def collate_EAP(xs):
 class EAPDataset(Dataset):
     def __init__(self, filepath):
         self.df = pd.read_csv(filepath)
-        # self.df = self.df[:1]
 
     def __len__(self):
         return len(self.df)
@@ -83,9 +83,9 @@ def kl_div(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: torch
     return results.mean() if mean else results
 
 
-# topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
-topns = [4000, 10000, 15000, 20000, 25000, 30000, 32000] # 32491
-method = 'EAP-IG-activations' # EAP-IG-inputs
+topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
+# topns = [4000, 10000, 15000, 20000, 25000, 30000, 32000] # 32491
+method = 'EAP-IG-inputs' # EAP-IG-inputs
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
 model_name = 'gpt2-small'
 model = HookedTransformer.from_pretrained(model_name, device='cuda')
@@ -109,44 +109,61 @@ attribute(model, g, dataloader, partial(prob_diff, loss=True, mean=True), method
 
 print('evaluating circuit...')
 circuit_results = []
-circuit_faithfulness = []
-for topn in topns:
+circuit_faithfulness_g, circuit_faithfulness_t = [], []
+for topn in tqdm(topns):
     g.apply_topn(topn, True)
     g.prune()
-    print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
+    # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(prob_diff, loss=False, mean=False), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=intervention)
+    # g.to_json(f'ioi_{model_name}_{topn}_circuit.json')
+    # gz = g.to_image(f'ioi_{model_name}_{topn}_circuit.png')
+
+    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(prob_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention)
+
     results = results.mean().item()
     circuit_results.append(results)
     
-    faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
-    circuit_faithfulness.append(faithfulness)
+    faithfulness_t = (results - corrupted_baseline) / (baseline - corrupted_baseline)
+    # faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+    circuit_faithfulness_t.append(round(faithfulness_t, 2))
+
+    g.apply_greedy(topn, True)
+    g.prune()
+
+    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(prob_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention)
+
+    results = results.mean().item()
+    circuit_results.append(results)
     
-    print(f"Original performance was {baseline}; the circuit's performance is {results}; faithfulness is {faithfulness}")
+    faithfulness_g = (results - corrupted_baseline) / (baseline - corrupted_baseline)
+    circuit_faithfulness_g.append(round(faithfulness_g, 2))
 
-all_results = {
-    'baseline': baseline,
-    'corrupted_baseline': corrupted_baseline,
-    'topns': topns,
-    'circuit_results': circuit_results,
-    'circuit_faithfulness': circuit_faithfulness
-}
-# with open(f'gt_{method.lower()}_all_sample_data.json', 'w') as f:
-#     json.dump(all_results, f, indent=2)
+    # print(f"Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness: {faithfulness:.2f}")
 
-"""
-plt.plot(topns, circuit_faithfulness, label=method, marker='o')  # marker adds dots on points
+# all_results = {
+#     'baseline': baseline,
+#     'corrupted_baseline': corrupted_baseline,
+#     'topns': topns,
+#     'circuit_results': circuit_results,
+#     'circuit_faithfulness': circuit_faithfulness
+# }
+
+print('topns: ', topns)
+print('circuit_faithfulness_t: ', circuit_faithfulness_t)
+print('circuit_faithfulness_g: ', circuit_faithfulness_g)
+plt.plot(topns, circuit_faithfulness_t, label=f'Greedy Selection', marker='o')
+plt.plot(topns, circuit_faithfulness_g, label=f'Dijkstra-like Construction', marker='o')
 
 plt.ylim(-0.1, 1.1)
-plt.xlim(0, max(topns)+200)
-plt.xlabel('Top-K Edges')
-plt.ylabel('Circuit Faithfulness')
-plt.title('GT Circuit Faithfulness vs Top-K Edges')
-plt.legend()
+plt.xlabel('Number of Edges', fontsize=16)
+plt.ylabel('Normalized Faithfulness Score (NFS)', fontsize=16)
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.legend(fontsize=16, loc='lower right')
+plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
+plt.tight_layout()
+plt.savefig(f'gt_replication.pdf', bbox_inches='tight')
 
-plt.savefig('oseap_figures/gt_circuit_faithfulness.png')
-"""
-    
 """
 # Instantiate a graph with a model
 g_eap = Graph.from_model(model)

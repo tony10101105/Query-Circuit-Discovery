@@ -290,7 +290,7 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
 
 
 def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: List[Callable[[Tensor], Tensor]], 
-                      run_corrupted=False, quiet=False, induction=False) -> Union[torch.Tensor, List[torch.Tensor]]:
+                      run_corrupted=False, quiet=False, induction=False, manual_pad=False) -> Union[torch.Tensor, List[torch.Tensor]]:
     """Evaluates the model on the given dataloader, without any intervention. This is useful for computing the baseline performance of the model.
 
     Args:
@@ -310,7 +310,11 @@ def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: 
         dataloader = tqdm(dataloader)
     for clean, corrupted, label in dataloader:
         clean_tokens, attention_mask, input_lengths, _ = tokenize_plus(model, clean)
-        corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted)
+        if manual_pad:
+            corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted, manual_pad_to_length=input_lengths.cpu().tolist())
+            continue # only for padding corrupted input
+        else:
+            corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted)
 
         def input_perturbation_hook(var: float):
             def hook_fn(activations, hook):
@@ -333,7 +337,9 @@ def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: 
                 r = r.unsqueeze(0)
             results[i].append(r)
 
-    results = [torch.cat(rs) for rs in results]
+    if not manual_pad:
+        results = [torch.cat(rs) for rs in results]
+
     if len(results) == 1:
         results = results[0]
     return results
