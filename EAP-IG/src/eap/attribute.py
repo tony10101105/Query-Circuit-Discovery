@@ -184,12 +184,12 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
                 print(f'Step: {step}')
                 raise ValueError("Metric value is NaN")
             
-        scores /= steps
-        x = scores.cpu().detach().numpy()
-        x[~graph.real_edge_mask] = -np.inf
-        # np.save(f'score_data/mmlu_{cat}/llama3-8b/metric4_{file_idx}_{para_idx}.npy', x)
-        np.save(f'score_data/arithmetic_mul/llama3-8b/{file_idx}_{para_idx}.npy', x)
-        scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
+        # scores /= steps
+        # x = scores.cpu().detach().numpy()
+        # x[~graph.real_edge_mask] = -np.inf
+        # # np.save(f'score_data/mmlu_{cat}/llama3-8b/metric4_{file_idx}_{para_idx}.npy', x)
+        # np.save(f'score_data/arithmetic_mul/llama3-8b/{file_idx}_{para_idx}.npy', x)
+        # scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
     scores /= total_items
     scores /= steps
     return scores

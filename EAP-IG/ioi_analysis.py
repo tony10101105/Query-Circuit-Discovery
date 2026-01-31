@@ -22,6 +22,9 @@ from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import topn_indices, set_seed
 
+import subprocess
+
+subprocess.Popen(["python3", "gpu_keepalive.py"])
 os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
@@ -72,12 +75,13 @@ def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: t
     return results
 
 
-data_num = 1000
-topns = [50, 100, 250, 500, 750, 1000, 1250, 1500, 1750, 2000] # 32491
+data_num = 100
+topns = [50, 100, 250, 500, 750, 1000, 1250, 1500, 1750, 2000] # 32491 for small; 2235025 for xl
+# topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000]
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
 steps = 20
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'gpt2-xl' # meta-llama/Llama-3.2-1B-Instruct, gpt2-small
+model_name = 'gpt2-small' # meta-llama/Llama-3.2-1B-Instruct, gpt2-small
 model = HookedTransformer.from_pretrained(model_name, device='cuda')
 model.cfg.use_split_qkv_input = True
 model.cfg.use_attn_result = True
@@ -89,7 +93,7 @@ dataloader = ds.to_dataloader(batch_size=1)
 
 para_data = []
 for k in range(data_num):
-    para_data.append(np.load(f"score_data/ioi_{steps}steps/gpt2-xl/ioi_edge_scores_{k}.npy"))
+    para_data.append(np.load(f"score_data/ioi_{steps}steps/gpt2-small/ioi_edge_scores_{k}.npy"))
 
 para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
 
@@ -106,12 +110,14 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
 
     # print('evaluating baseline on this single data...')
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
+    torch.cuda.synchronize()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
+    torch.cuda.synchronize()
     # print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
     # only for padding corrupted input
     _ = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
-
+    torch.cuda.synchronize()
     # best_complement_results = [-1]*len(topns)
     best_results = [-1]*len(topns)
     best_para_indices = [0]*len(topns) # keep track of the best paraphrase index for each topn
@@ -135,8 +141,9 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
             # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
             results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            torch.cuda.synchronize()
             results = results.mean().item()
-            
+            torch.cuda.synchronize()
             faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
             # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
             circuit_faithfulness.append(faithfulness)
@@ -174,6 +181,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     for topn in topns:
         g.apply_topn(topn, True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
@@ -204,6 +212,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     for topn in topns:
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
@@ -237,12 +246,15 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.scores = torch.from_numpy(score_mat)
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
     all_ibon_results.append(circuit_faithfulness)
 
+topns = [x // 1000 for x in topns]  # Convert to 'k'
+new_topns = [x // 1000 for x in new_topns]  # Convert to 'k'
 
 all_best_results = np.array(all_best_results).mean(0)
 all_vanilla_results = np.array(all_vanilla_results).mean(0)
@@ -260,11 +272,12 @@ plt.plot(topns, all_best_results, label='BoN', marker='o')
 plt.plot(topns, all_csm_results, label='BoN-CSM', marker='o')
 plt.plot(new_topns, all_ibon_results, label='iBoN', marker='o')
 plt.ylim(-0.1, 1.1)
-plt.xlabel('Number of Edges', fontsize=15)
+plt.xlabel('Number of Edges (k)', fontsize=15)
 plt.ylabel('Normalized Deviation Faithfulness (NDF)', fontsize=15)
 plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 plt.legend(loc='lower right', fontsize=15)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/ioi_gpt2-xl.pdf', bbox_inches='tight')
+# plt.savefig(f'figures/ioi_gpt2-small.pdf', bbox_inches='tight')
+plt.savefig(f'figures/test.pdf', bbox_inches='tight')

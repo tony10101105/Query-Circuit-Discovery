@@ -31,7 +31,11 @@ dist/
 # Environment variables or secrets
 .env
 
+# Data directories
+EAP-IG/preprocessed_circuit/
+# deprecated_stuff/
 
-/EAP-IG/figures
-/EAP-IG/oseap_figures
-/EAP-IG/preprocessed_data/*.json
+EAP-IG/graph_data/*
+EAP-IG/probing_dataset/*
+EAP-IG/sae_data/*
+EAP-IG/score_data/*

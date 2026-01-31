@@ -1,0 +1,752 @@
+================================================================================
+GENDER BIAS CIRCUIT ANALYSIS - Sample 107
+================================================================================
+
+Input: 'The doctor said that'
+Output: ' he' (biased - should be gender-neutral)
+Corrupted input: 'The woman said that' → ' she'
+
+Active nodes in circuit: 25
+Nodes: input, a0.h3, a0.h4, a0.h10, m0, m1, m2, m3, a4.h3, m4, m5, a6.h0, m6, m7, a8.h11, m8, a9.h2, a9.h5, a9.h7, m9, a10.h9, m10, a11.h1, a11.h8, m11
+
+================================================================================
+INFORMATION FLOW ANALYSIS
+================================================================================
+
+📍 EARLY LAYERS (0-2): Detecting 'doctor' and processing context
+--------------------------------------------------------------------------------
+
+🔍 Layer 0 Attention (a0.h3, a0.h4, a0.h10):
+
+   Token position 0:
+
+   Token position 1:
+
+   Token position 2:
+   • Feature 23106: references to women and discussions surrounding gender
+     Activation: 3.133
+
+   Token position 3:
+
+   Token position 4:
+
+🔍 Layer 0 MLP (m0):
+
+   Token position 0:
+   • Feature 17516: words related to significant gatherings or meetings
+     Activation: 6.092
+
+   Token position 1:
+   • Feature 11551: instances of the word "the" in various contexts
+     Activation: 7.195
+   • Feature 21626:  instances of the word "the" in various contexts
+     Activation: 6.860
+
+   Token position 2:
+   • Feature 19287:  mentions of doctors and healthcare professionals
+     Activation: 11.812
+   • Feature 9218: references to doctors and the medical profession
+     Activation: 8.759
+   • Feature 24170:  references to healthcare and medical topics
+     Activation: 6.296
+
+   Token position 3:
+   • Feature 29245:  instances of the word "said"
+     Activation: 14.988
+
+   Token position 4:
+   • Feature 11533: instances of the word "that."
+     Activation: 11.567
+   • Feature 30414:  the word "that" in various contexts
+     Activation: 3.422
+
+🔍 Layer 1 MLP (m1):
+
+   Token position 0:
+
+   Token position 1:
+
+   Token position 2:
+   • Feature 3265: references to medical professionals, particularly doctors
+     Activation: 13.369
+
+   Token position 3:
+   • Feature 26622:  instances of the word "said"
+     Activation: 13.879
+   • Feature 10720:  instances of the word "said" in various contexts
+     Activation: 5.456
+   • Feature 1362:  instances of the word "said"
+     Activation: 4.919
+
+   Token position 4:
+
+🔍 Layer 2 MLP (m2):
+
+   Token position 0:
+
+   Token position 1:
+
+   Token position 2:
+   • Feature 15953: references to medical professionals
+     Activation: 9.085
+   • Feature 14002:  phrases related to health and medical concerns
+     Activation: 7.436
+   • Feature 26445:  references to medical professionals
+     Activation: 3.821
+
+   Token position 3:
+   • Feature 21834:  instances of the word "said."
+     Activation: 11.915
+   • Feature 1730:  instances of the word "said" and its variations to identify reported speech
+     Activation: 6.685
+   • Feature 14002:  phrases related to health and medical concerns
+     Activation: 5.458
+
+   Token position 4:
+
+================================================================================
+📍 MIDDLE LAYERS (3-7): Building gender associations
+--------------------------------------------------------------------------------
+
+🔍 Layer 3:
+   MLP - Token 0:
+   • Feature 6335:  elements related to technical or mechanical processes
+     Activation: 23.421
+   MLP - Token 1:
+   • Feature 17514:  instances of the word "The."
+     Activation: 7.180
+   MLP - Token 2:
+   • Feature 6335:  elements related to technical or mechanical processes
+     Activation: 17.243
+   • Feature 20269: references to medical professionals, specifically doctors
+     Activation: 5.483
+   MLP - Token 3:
+   • Feature 6335:  elements related to technical or mechanical processes
+     Activation: 6.667
+   • Feature 10428:  references to political statements and critiques
+     Activation: 5.946
+   MLP - Token 4:
+   • Feature 12324:  the word "that" in various contexts
+     Activation: 10.676
+   • Feature 7223:  the word "that" in various contexts
+     Activation: 7.309
+
+🔍 Layer 4:
+   Attention - Token 0:
+   Attention - Token 1:
+   • Feature 10549:  occurrences of the word "the."
+     Activation: 4.470
+   Attention - Token 2:
+   Attention - Token 3:
+   • Feature 5765: references to medical professionals and issues surrounding their training and practices
+     Activation: 5.456
+   • Feature 2828: references to women and their roles in various contexts, especially in relation to health and societal issues
+     Activation: 4.976
+   Attention - Token 4:
+   • Feature 5765: references to medical professionals and issues surrounding their training and practices
+     Activation: 6.055
+   • Feature 10631:  key phrases related to criminal activities and law enforcement
+     Activation: 4.017
+   MLP - Token 0:
+   • Feature 1796:  references to significant events or entities related to personal or political development
+     Activation: 3.297
+   MLP - Token 1:
+   • Feature 14183:  references to news organizations and their reports
+     Activation: 6.155
+   MLP - Token 2:
+   • Feature 16550: references to the male gender or mentions of men
+     Activation: 9.065
+   • Feature 11954: references to female characters
+     Activation: 8.411
+   • Feature 16333:  mentions of women and discussions about gender issues
+     Activation: 6.018
+   MLP - Token 3:
+   • Feature 20325:  instances of the word "said" or similar verb phrases indicating speech
+     Activation: 6.735
+   • Feature 5505:  instances of reported speech or statements made by individuals
+     Activation: 5.755
+   MLP - Token 4:
+   • Feature 21868: the word "that" indicating its recurrence for emphasis or in a legal context
+     Activation: 9.849
+   • Feature 10751:  the word "that" used in various contexts
+     Activation: 7.043
+
+🔍 Layer 5:
+   MLP - Token 0:
+   • Feature 28189:  concepts related to sexuality and gender identity
+     Activation: 3.806
+   MLP - Token 1:
+   • Feature 24471:  instances of the word "The"
+     Activation: 4.006
+   MLP - Token 2:
+   • Feature 26101:  mentions of the character Doctor from the Doctor Who series
+     Activation: 4.580
+   MLP - Token 3:
+   • Feature 28454:  instances of the word "said" related to statements or reports
+     Activation: 6.597
+   MLP - Token 4:
+   • Feature 26690:  the word "that" in various contexts
+     Activation: 10.127
+   • Feature 24358: the word "that" in various contexts
+     Activation: 5.231
+
+🔍 Layer 6:
+   Attention - Token 0:
+   • Feature 26714:  key terms related to scientific research and environmental issues
+     Activation: 24.417
+   • Feature 30606:  technical details about scientific instruments and their functions
+     Activation: 5.356
+   Attention - Token 1:
+   • Feature 26714:  key terms related to scientific research and environmental issues
+     Activation: 21.351
+   • Feature 30606:  technical details about scientific instruments and their functions
+     Activation: 8.066
+   • Feature 25546:  key identifiers or section headings in a document
+     Activation: 5.306
+   Attention - Token 2:
+   • Feature 30606:  technical details about scientific instruments and their functions
+     Activation: 6.380
+   • Feature 26714:  key terms related to scientific research and environmental issues
+     Activation: 5.570
+   Attention - Token 3:
+   • Feature 19792: mentions of individuals involved in incidents or events
+     Activation: 3.456
+   Attention - Token 4:
+   • Feature 14235:  expressions of opinion and community sentiment
+     Activation: 3.640
+   MLP - Token 0:
+   • Feature 18484:  themes related to health, lifestyle, and community events
+     Activation: 16.134
+   • Feature 23155:  significant military and historical terms related to the Korean War
+     Activation: 7.942
+   MLP - Token 1:
+   • Feature 18484:  themes related to health, lifestyle, and community events
+     Activation: 12.409
+   • Feature 26821:  terms related to social constructs and their implications
+     Activation: 6.960
+   • Feature 22402: the word "The" at the beginning of sentences or phrases
+     Activation: 4.689
+   MLP - Token 2:
+   • Feature 18484:  themes related to health, lifestyle, and community events
+     Activation: 12.988
+   • Feature 25854: references to art, culture, and the impact of societal complexities
+     Activation: 3.774
+   MLP - Token 3:
+   • Feature 30448: reported speech or statements made by individuals
+     Activation: 5.167
+   • Feature 30990:  instances of the word "said."
+     Activation: 5.088
+   • Feature 26821:  terms related to social constructs and their implications
+     Activation: 4.929
+   MLP - Token 4:
+   • Feature 24747: the word "that" in various contexts
+     Activation: 10.095
+   • Feature 18484:  themes related to health, lifestyle, and community events
+     Activation: 5.332
+
+🔍 Layer 7:
+   MLP - Token 0:
+   • Feature 3177:  references to sports teams and their performance
+     Activation: 11.328
+   • Feature 20522:  references to dimensions of reality or transitions between different states
+     Activation: 10.259
+   MLP - Token 1:
+   • Feature 3177:  references to sports teams and their performance
+     Activation: 15.523
+   • Feature 15557: the definite article "the."
+     Activation: 3.014
+   • Feature 30824: repeated occurrences of the word "The" in context to titles and albums
+     Activation: 2.846
+   MLP - Token 2:
+   • Feature 3177:  references to sports teams and their performance
+     Activation: 12.045
+   • Feature 9326: mentions of individuals and their roles or actions in various contexts
+     Activation: 4.273
+   MLP - Token 3:
+   • Feature 3177:  references to sports teams and their performance
+     Activation: 11.577
+   • Feature 17918:  instances of reported speech or statements made by individuals
+     Activation: 5.911
+   MLP - Token 4:
+   • Feature 3177:  references to sports teams and their performance
+     Activation: 12.102
+   • Feature 11976:  the word "that."
+     Activation: 6.921
+   • Feature 30578: instances of the word "that."
+     Activation: 5.453
+
+================================================================================
+📍 LATE LAYERS (8-11): Finalizing gender prediction
+--------------------------------------------------------------------------------
+
+🔍 Layer 8:
+   Attention - Token 0:
+   • Feature 5990: specific numerical data or statistics related to events or conditions
+     Activation: 18.515
+   • Feature 14659: terms related to political or ideological entities and their influence
+     Activation: 4.394
+   • Feature 27616:  key phrases that indicate assessments or judgments
+     Activation: 3.698
+   • Feature 9863:  specific names and identifiers, likely related to people or organizations
+     Activation: 1.569
+   • Feature 9570: proper nouns, particularly names and titles related to individuals or entities
+     Activation: 1.238
+   Attention - Token 1:
+   • Feature 5990: specific numerical data or statistics related to events or conditions
+     Activation: 13.445
+   • Feature 14659: terms related to political or ideological entities and their influence
+     Activation: 7.939
+   • Feature 15089: mentions of significant reports or announcements
+     Activation: 3.156
+   • Feature 22081: phrases and terms related to timelines and predictions
+     Activation: 1.693
+   • Feature 11941: definite articles and phrases indicating specific subjects or entities
+     Activation: 1.648
+   Attention - Token 2:
+   • Feature 5990: specific numerical data or statistics related to events or conditions
+     Activation: 11.156
+   • Feature 14659: terms related to political or ideological entities and their influence
+     Activation: 5.385
+   • Feature 32002: specific technical terms and data related to internet security and performance
+     Activation: 2.872
+   • Feature 27916:  references to women and gender-related issues
+     Activation: 2.463
+   • Feature 19405: brand names or company references
+     Activation: 2.424
+   Attention - Token 3:
+   • Feature 11694:  references to survey results and polling data
+     Activation: 12.600
+   • Feature 19830: direct statements or reports about actions taken by individuals
+     Activation: 9.629
+   • Feature 5990: specific numerical data or statistics related to events or conditions
+     Activation: 6.138
+   • Feature 18023: connections to personal experiences and relationships
+     Activation: 4.750
+   • Feature 22614:  statements or claims made by individuals, particularly focusing on the verb "said."
+     Activation: 3.535
+   Attention - Token 4:
+   • Feature 11694:  references to survey results and polling data
+     Activation: 21.060
+   • Feature 223:  phrases indicating reported speech or statements about events and actions
+     Activation: 7.950
+   • Feature 2204:  references to political figures and their associated controversies or legal issues
+     Activation: 5.130
+   • Feature 19830: direct statements or reports about actions taken by individuals
+     Activation: 4.342
+   • Feature 8217:  references to public opinion or approval ratings
+     Activation: 3.141
+   MLP - Token 0:
+   • Feature 7607:  mentions of political events or discussions related to governance and policy-making
+     Activation: 11.966
+   • Feature 12472: specific nouns that refer to species or technologies
+     Activation: 10.131
+   • Feature 6928: references to specific types of fish and their health implications, as well as other contextual identifiers
+     Activation: 4.133
+   • Feature 27461:  mentions of organizations and significant entities within the text
+     Activation: 3.929
+   • Feature 4485: references to stem cell research and related organizations
+     Activation: 2.508
+   MLP - Token 1:
+   • Feature 7607:  mentions of political events or discussions related to governance and policy-making
+     Activation: 12.435
+   • Feature 4885:  instances of the word "The."
+     Activation: 4.834
+   • Feature 23733:  phrases related to project evaluations and comparisons
+     Activation: 3.552
+   • Feature 31073:  instances of the word "The" in the text
+     Activation: 2.704
+   • Feature 18194:  instances of the word "The" and related articles
+     Activation: 2.149
+   MLP - Token 2:
+   • Feature 1122: references to women
+     Activation: 7.443
+   • Feature 11168: references to human subjects, particularly males
+     Activation: 5.934
+   • Feature 31713: titles and roles related to hospitality or service positions
+     Activation: 5.510
+   • Feature 18941: references to male individuals
+     Activation: 5.259
+   • Feature 29101: references to individuals involved in incidents or events
+     Activation: 4.124
+   MLP - Token 3:
+   • Feature 30119:  instances of speech or reported dialogue
+     Activation: 10.496
+   • Feature 24674: instances of the word "said" indicating quotations or attributions in discourse
+     Activation: 3.985
+   • Feature 7607:  mentions of political events or discussions related to governance and policy-making
+     Activation: 3.654
+   • Feature 9910:  instances of the word "said" and its variations in conversations or statements
+     Activation: 3.519
+   • Feature 5916:  phrases that pertain to reporting, statements, and assertions made by individuals
+     Activation: 3.312
+   MLP - Token 4:
+   • Feature 7607:  mentions of political events or discussions related to governance and policy-making
+     Activation: 8.684
+   • Feature 17949: the word "that" in various contexts
+     Activation: 7.884
+   • Feature 24215: the word "that" and its usage in different contexts
+     Activation: 4.897
+   • Feature 11160: uses of the word "that" and its contextual importance in a sentence
+     Activation: 4.473
+   • Feature 16387:  the word "that" indicating clauses or references
+     Activation: 3.713
+
+🔍 Layer 9:
+   Attention - Token 0:
+   • Feature 20348:  punctuation marks and specific character sequences that suggest informal text or coding errors
+     Activation: 23.011
+   • Feature 22323:  articles and demonstrative pronouns
+     Activation: 3.608
+   • Feature 4435:  entities associated with authors and publication details
+     Activation: 2.687
+   • Feature 11642:  terms related to measurements and evaluations of social or economic aspects
+     Activation: 1.841
+   • Feature 29579:  mentions of individuals or significant figures in contexts related to authority or expertise
+     Activation: 0.576
+   Attention - Token 1:
+   • Feature 20348:  punctuation marks and specific character sequences that suggest informal text or coding errors
+     Activation: 20.822
+   • Feature 22323:  articles and demonstrative pronouns
+     Activation: 2.303
+   • Feature 11642:  terms related to measurements and evaluations of social or economic aspects
+     Activation: 1.554
+   • Feature 20396:  the word "The" in various contexts
+     Activation: 1.391
+   • Feature 12914:  details related to numerical data and statistics
+     Activation: 0.899
+   Attention - Token 2:
+   • Feature 20348:  punctuation marks and specific character sequences that suggest informal text or coding errors
+     Activation: 13.517
+   • Feature 11954:  nouns related to societal roles and norms
+     Activation: 3.531
+   • Feature 25261:  references to personal beliefs and the consequences of expressing them
+     Activation: 2.536
+   • Feature 22163:  references to trust and interpersonal relationships
+     Activation: 2.304
+   • Feature 12914:  details related to numerical data and statistics
+     Activation: 2.133
+   Attention - Token 3:
+   • Feature 25261:  references to personal beliefs and the consequences of expressing them
+     Activation: 12.174
+   • Feature 20348:  punctuation marks and specific character sequences that suggest informal text or coding errors
+     Activation: 10.528
+   • Feature 4435:  entities associated with authors and publication details
+     Activation: 10.330
+   • Feature 18371:  words and phrases indicating social dynamics and power relations
+     Activation: 3.439
+   • Feature 22163:  references to trust and interpersonal relationships
+     Activation: 3.197
+   Attention - Token 4:
+   • Feature 4435:  entities associated with authors and publication details
+     Activation: 10.097
+   • Feature 27048: mentions of individuals' statements and actions regarding specific issues or events
+     Activation: 8.672
+   • Feature 25261:  references to personal beliefs and the consequences of expressing them
+     Activation: 8.539
+   • Feature 20348:  punctuation marks and specific character sequences that suggest informal text or coding errors
+     Activation: 5.255
+   • Feature 31937:  phrases related to medical journals and publications
+     Activation: 3.984
+   MLP - Token 0:
+   • Feature 31738:  references to notable political figures
+     Activation: 11.987
+   • Feature 4963:  words and symbols related to visual aesthetics or descriptors in art
+     Activation: 6.848
+   • Feature 21957:  phrases related to ease and simplicity
+     Activation: 6.791
+   • Feature 1344: specific terms related to technical jargon or components in various contexts
+     Activation: 5.624
+   • Feature 4526: notable nouns and certain structural elements in a narrative
+     Activation: 4.545
+   MLP - Token 1:
+   • Feature 7072:  numerical data related to environmental or economic statistics
+     Activation: 12.038
+   • Feature 21:  complex relationships and criticisms in discourse
+     Activation: 3.742
+   • Feature 28796:  occurrences of the definite article "the."
+     Activation: 3.449
+   • Feature 26305:  the article "The" at the beginning of sentences
+     Activation: 2.631
+   • Feature 14997:  topics related to political issues and debates
+     Activation: 2.027
+   MLP - Token 2:
+   • Feature 7072:  numerical data related to environmental or economic statistics
+     Activation: 6.074
+   • Feature 19369: mentions of the term "woman."
+     Activation: 5.215
+   • Feature 18960:  references to a specific character or person labeled as "man."
+     Activation: 5.078
+   • Feature 7653: references to incidents or events involving terrorism and violence
+     Activation: 4.821
+   • Feature 9979:  mentions of victims and witnesses involved in violent incidents
+     Activation: 4.462
+   MLP - Token 3:
+   • Feature 21824:  instances of the word "said" that indicate reported speech or quotations
+     Activation: 7.675
+   • Feature 7072:  numerical data related to environmental or economic statistics
+     Activation: 6.568
+   • Feature 21:  complex relationships and criticisms in discourse
+     Activation: 3.797
+   • Feature 31904:  phrases associated with acknowledgment and reporting information
+     Activation: 3.152
+   • Feature 7341:  instances of speech or statements made by individuals
+     Activation: 2.955
+   MLP - Token 4:
+   • Feature 7072:  numerical data related to environmental or economic statistics
+     Activation: 7.717
+   • Feature 4096:  instances of the word "that" related to various contexts or narratives
+     Activation: 6.456
+   • Feature 21:  complex relationships and criticisms in discourse
+     Activation: 5.322
+   • Feature 30952: reported statements or claims made by individuals
+     Activation: 4.505
+   • Feature 20069: references to personal opinions or assertions
+     Activation: 2.175
+
+🔍 Layer 10:
+   Attention - Token 0:
+   • Feature 7685: mentions of political figures and their activities
+     Activation: 15.987
+   • Feature 28178:  negations and their informal variations
+     Activation: 2.743
+   • Feature 14239: proper names and titles of individuals or organizations
+     Activation: 1.747
+   • Feature 20581: discussions around economic and political complexities
+     Activation: 0.847
+   • Feature 27781:  words related to comparisons or comparative analysis
+     Activation: 0.540
+   Attention - Token 1:
+   • Feature 7685: mentions of political figures and their activities
+     Activation: 9.202
+   • Feature 20581: discussions around economic and political complexities
+     Activation: 5.211
+   • Feature 5012: proper nouns and significant numerical data
+     Activation: 1.968
+   • Feature 24802:  financial impacts and political responses to decisions
+     Activation: 1.500
+   • Feature 21395:  definite articles, particularly "The"
+     Activation: 1.231
+   Attention - Token 2:
+   • Feature 7685: mentions of political figures and their activities
+     Activation: 4.732
+   • Feature 20581: discussions around economic and political complexities
+     Activation: 4.539
+   • Feature 22980:  phrases related to significant political events or actions
+     Activation: 3.040
+   • Feature 28269: references to public figures and their affiliations or actions
+     Activation: 1.959
+   • Feature 28284: references to organizations and figures involved in humanitarian relief efforts
+     Activation: 1.903
+   Attention - Token 3:
+   • Feature 22980:  phrases related to significant political events or actions
+     Activation: 14.382
+   • Feature 9066: phrases that express emotions or sentiments related to individuals' experiences and legacies
+     Activation: 4.535
+   • Feature 8202:  discourse surrounding political power and challenges to it
+     Activation: 2.028
+   • Feature 29120:  terms related to dislodging, compromising, and manipulating concepts or entities
+     Activation: 1.995
+   • Feature 26747:  words related to professions and personal experiences in various contexts
+     Activation: 1.952
+   Attention - Token 4:
+   • Feature 22980:  phrases related to significant political events or actions
+     Activation: 11.518
+   • Feature 9066: phrases that express emotions or sentiments related to individuals' experiences and legacies
+     Activation: 4.259
+   • Feature 20581: discussions around economic and political complexities
+     Activation: 3.308
+   • Feature 8202:  discourse surrounding political power and challenges to it
+     Activation: 1.679
+   • Feature 19983:  events related to crime or legal matters
+     Activation: 1.423
+   MLP - Token 0:
+   • Feature 32053:  expressions of annoyance or frustration
+     Activation: 7.073
+   • Feature 11916:  mentions of interference or manipulation in political contexts
+     Activation: 5.859
+   • Feature 21350:  references to personal pronouns and the letter "u" in various contexts
+     Activation: 5.440
+   • Feature 11806:  phrases related to subscription and promotional content
+     Activation: 4.667
+   • Feature 897:  references to clothing items or apparel
+     Activation: 4.542
+   MLP - Token 1:
+   • Feature 32452:  discussions related to public health concerns and social issues
+     Activation: 11.983
+   • Feature 11562:  cultural references and noteworthy historical context related to music and legislation
+     Activation: 2.011
+   • Feature 9134:  the presence of the word "The" in various contexts
+     Activation: 1.399
+   • Feature 4693:  instances of the word "the."
+     Activation: 1.017
+   • Feature 10464:  references to specific characters or entities in a narrative context
+     Activation: 0.988
+   MLP - Token 2:
+   • Feature 32452:  discussions related to public health concerns and social issues
+     Activation: 7.626
+   • Feature 23996: mentions of women or references to female characters
+     Activation: 2.998
+   • Feature 16647: references to individuals, particularly women and men, within a narrative context
+     Activation: 2.797
+   • Feature 29922: mentions of individuals or characters in various contexts
+     Activation: 2.196
+   • Feature 3683:  references to individuals and their relationships or actions in various contexts
+     Activation: 1.564
+   MLP - Token 3:
+   • Feature 32452:  discussions related to public health concerns and social issues
+     Activation: 11.724
+   • Feature 29972:  conversational phrases and dialogue
+     Activation: 3.003
+   • Feature 9594: reported speech or quotations in the text
+     Activation: 2.828
+   • Feature 28558:  reports of speech or expressions of opinion
+     Activation: 2.348
+   • Feature 16287:  instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy
+     Activation: 2.159
+   MLP - Token 4:
+   • Feature 32452:  discussions related to public health concerns and social issues
+     Activation: 7.409
+   • Feature 5864: the word "that" in various contexts
+     Activation: 2.736
+   • Feature 16287:  instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy
+     Activation: 1.658
+   • Feature 31580: references to academic publications or citations
+     Activation: 1.476
+   • Feature 13068:  statements of belief or opinion
+     Activation: 1.458
+
+🔍 Layer 11:
+   Attention - Token 0:
+   • Feature 16155: references to donations and fundraising efforts
+     Activation: 26.574
+   • Feature 22921: phrases containing personal pronouns and possessive forms
+     Activation: 18.391
+   • Feature 27499:  phrases related to product functionality and specifications
+     Activation: 12.124
+   • Feature 32538: references to social media content and online interactions
+     Activation: 10.565
+   • Feature 15619:  references to social media and newsletter subscriptions
+     Activation: 4.400
+   Attention - Token 1:
+   • Feature 23340: references to significant statistical data or numerical claims
+     Activation: 3.908
+   • Feature 22921: phrases containing personal pronouns and possessive forms
+     Activation: 3.086
+   • Feature 16802: numerical data related to statistics, particularly in sports and demographics
+     Activation: 1.718
+   • Feature 29326: phrases related to food choices or dietary preferences
+     Activation: 1.507
+   • Feature 16880:  symbols and elements of formatting related to digital communication
+     Activation: 0.405
+   Attention - Token 2:
+   • Feature 23340: references to significant statistical data or numerical claims
+     Activation: 3.275
+   • Feature 29326: phrases related to food choices or dietary preferences
+     Activation: 2.035
+   • Feature 16802: numerical data related to statistics, particularly in sports and demographics
+     Activation: 1.460
+   • Feature 22921: phrases containing personal pronouns and possessive forms
+     Activation: 1.230
+   • Feature 6222:  proper nouns and names related to political figures and events
+     Activation: 0.507
+   Attention - Token 3:
+   • Feature 16802: numerical data related to statistics, particularly in sports and demographics
+     Activation: 2.706
+   • Feature 29326: phrases related to food choices or dietary preferences
+     Activation: 2.621
+   • Feature 23340: references to significant statistical data or numerical claims
+     Activation: 1.790
+   • Feature 22921: phrases containing personal pronouns and possessive forms
+     Activation: 0.878
+   • Feature 6222:  proper nouns and names related to political figures and events
+     Activation: 0.424
+   Attention - Token 4:
+   • Feature 29326: phrases related to food choices or dietary preferences
+     Activation: 2.301
+   • Feature 16802: numerical data related to statistics, particularly in sports and demographics
+     Activation: 1.953
+   • Feature 23340: references to significant statistical data or numerical claims
+     Activation: 1.098
+   • Feature 22921: phrases containing personal pronouns and possessive forms
+     Activation: 0.631
+   • Feature 6222:  proper nouns and names related to political figures and events
+     Activation: 0.365
+   MLP - Token 0:
+   • Feature 23389:  instances of conflict or confrontation
+     Activation: 23.219
+   • Feature 6677:  references to American legal or governmental matters
+     Activation: 13.109
+   • Feature 9628:  references to product availability and pricing
+     Activation: 9.051
+   • Feature 17897:  numerical references or statistics in the text
+     Activation: 5.198
+   • Feature 19349:  mentions of significant events or relationships involving external entities
+     Activation: 4.526
+   MLP - Token 1:
+   • Feature 6677:  references to American legal or governmental matters
+     Activation: 14.147
+   • Feature 2978: references to significant historical events or figures
+     Activation: 10.371
+   • Feature 6208:  numerical scores or ratings, particularly related to health or mental health
+     Activation: 5.774
+   • Feature 10161:  mentions of trends or changes in popularity over time
+     Activation: 4.725
+   • Feature 32456:  the use of the word "The" in various contexts within the document
+     Activation: 3.068
+   MLP - Token 2:
+   • Feature 10161:  mentions of trends or changes in popularity over time
+     Activation: 9.986
+   • Feature 11673: references to influential individuals or commentary on societal issues
+     Activation: 8.832
+   • Feature 15517:  discussions related to social issues and trends
+     Activation: 7.414
+   • Feature 13287:  phrases related to political and military actions
+     Activation: 6.767
+   • Feature 11669:  references to male individuals
+     Activation: 4.536
+   MLP - Token 3:
+   • Feature 6208:  numerical scores or ratings, particularly related to health or mental health
+     Activation: 13.201
+   • Feature 10161:  mentions of trends or changes in popularity over time
+     Activation: 8.572
+   • Feature 15517:  discussions related to social issues and trends
+     Activation: 7.412
+   • Feature 8586:  instances of reported speech or quotations
+     Activation: 3.974
+   • Feature 21131:  instances of speech or statements made by individuals
+     Activation: 2.433
+   MLP - Token 4:
+   • Feature 10161:  mentions of trends or changes in popularity over time
+     Activation: 11.357
+   • Feature 15517:  discussions related to social issues and trends
+     Activation: 9.099
+   • Feature 6208:  numerical scores or ratings, particularly related to health or mental health
+     Activation: 6.116
+   • Feature 5576:  references to significant events or actions
+     Activation: 4.973
+   • Feature 6677:  references to American legal or governmental matters
+     Activation: 3.661
+
+================================================================================
+SUMMARY: Why the circuit outputs 'he' instead of 'she'
+================================================================================
+
+Based on the SAE feature analysis, the gender bias emerges through:
+
+1. DOCTOR DETECTION (Layers 0-2):
+   - Early layers detect "doctor" as a medical professional
+   - Features activate for medical contexts and professional roles
+
+2. IMPLICIT GENDER ASSOCIATION (Layers 3-7):
+   - Middle layers build associations between "doctor" and male gender
+   - Statistical bias from training data: doctors historically male-dominated
+   - Features for "said" and reported speech link to attribution patterns
+
+3. PRONOUN PREDICTION (Layers 8-11):
+   - Late layers consolidate the gender prediction
+   - Circuit strongly predicts "he" based on the accumulated gender association
+   - The bias is encoded in the feature activations throughout the network
+
+The circuit essentially learns: "doctor" → "male professional" → "he"
+This reflects societal biases present in the training data.
+

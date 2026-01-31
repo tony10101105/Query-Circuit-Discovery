@@ -449,6 +449,7 @@ class Graph:
             reset (bool): resets the graph, setting everything to zero, before applying topn. Only if reset=True will corresponding edges be added after neuron and node topn
             level (str, optional): level at which to apply topn. Defaults to 'edge'.
             prune (bool): whether to prune the graph after applying topn
+            complement (bool): whether to take the bottom-n instead of top-n
         """
         if reset:
             self.reset()
@@ -476,7 +477,6 @@ class Graph:
                 # and activate their outgoing edges
                 self.nodes_in_graph += self.neurons_in_graph.any(dim=1)
                 self.in_graph += self.nodes_in_graph.view(-1, 1)
-                
         elif level == 'node':
             scored_nodes =  ~torch.isnan(self.nodes_scores)
             n_scored_nodes = scored_nodes.sum()
@@ -511,7 +511,7 @@ class Graph:
             
             # masking out the edges that are not real
             edge_scores[~self.real_edge_mask] = -torch.inf 
- 
+            num_valid = torch.isfinite(edge_scores).sum().item()
             sorted_edges = torch.argsort(edge_scores.view(-1), descending=True)
             if complement:
                 self.in_graph.view(-1)[sorted_edges[:n]] = False
@@ -526,7 +526,7 @@ class Graph:
                 self.nodes_in_graph += nodes_with_outgoing & nodes_with_ingoing
         else:
             raise ValueError(f"Invalid level: {level}")
-        
+
         if prune:
             self.prune()
 

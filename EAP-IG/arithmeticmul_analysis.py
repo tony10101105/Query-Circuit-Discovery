@@ -22,6 +22,10 @@ from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import topn_indices, set_seed
 
+import subprocess
+
+subprocess.Popen(["python3", "gpu_keepalive.py"])
+
 os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
@@ -72,12 +76,12 @@ def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: t
     return results
 
 
-data_num = 500
+data_num = 100
 topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000] # 32491 for gpt2-small, 386713 for llama
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
 steps = 20
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'meta-llama/Llama-3.2-1B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
+model_name = 'meta-llama/Meta-Llama-3-8B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B-Instruct # meta-llama/Meta-Llama-3-8B-Instruct
 model = HookedTransformer.from_pretrained(model_name, device='cuda')
 model.cfg.use_split_qkv_input = True
 model.cfg.use_attn_result = True
@@ -97,18 +101,21 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     
     para_data = []
     for k in range(10):
-        para_data.append(np.load(f"score_data/arithmetic_mul/{i}_{k}.npy"))
+        para_data.append(np.load(f"score_data/arithmetic_mul/llama3-8b/{i}_{k}.npy"))
 
     para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
     
     single_data = [(clean, corrupted, label)]
 
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
+    torch.cuda.synchronize()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
+    torch.cuda.synchronize()
     # print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
     # only for padding corrupted input
     _ = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
+    torch.cuda.synchronize()
 
     best_results = [-1]*len(topns)
     # best_complement_results = [-1]*len(topns)
@@ -128,6 +135,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
             # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
             results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            torch.cuda.synchronize()
             results = results.mean().item()
             circuit_performance.append(results)
             
@@ -167,6 +175,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     for topn in topns:
         g.apply_topn(topn, True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         circuit_faithfulness.append(faithfulness)
@@ -196,6 +205,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     for topn in topns:
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         circuit_faithfulness.append(faithfulness)
@@ -242,6 +252,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.scores = torch.from_numpy(score_mat)
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        torch.cuda.synchronize()
         results = results.mean().item()
         faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
         circuit_faithfulness.append(faithfulness)
@@ -274,4 +285,4 @@ plt.yticks(fontsize=15)
 plt.legend(loc='lower right', fontsize=15)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/arithmetic_mul.pdf')
+plt.savefig(f'figures/arithmetic_mul_llama3-8b.pdf')

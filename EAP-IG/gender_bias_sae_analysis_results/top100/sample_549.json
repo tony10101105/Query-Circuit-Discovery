@@ -1,0 +1,3087 @@
+{
+  "sample_idx": 549,
+  "clean_text": "The waiter wished that",
+  "corrupted_text": "The woman wished that",
+  "clean_label": " he",
+  "corrupted_label": " she",
+  "circuit_features": {
+    "0-att": [
+      [
+        {
+          "layer": "0-att",
+          "feature_index": 7426,
+          "activation": 11.748734474182129,
+          "description": " self-referential statements or expressions of personal opinion"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 21004,
+          "activation": 10.145354270935059,
+          "description": "personal preferences or opinions"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 8192,
+          "activation": 9.324506759643555,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 8525,
+          "activation": 7.871822834014893,
+          "description": " references to political party affiliations"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 16768,
+          "activation": 5.8849382400512695,
+          "description": " concepts related to gun ownership and laws"
+        }
+      ],
+      [
+        {
+          "layer": "0-att",
+          "feature_index": 25960,
+          "activation": 6.021232604980469,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 4182,
+          "activation": 4.506333351135254,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 8192,
+          "activation": 4.365413665771484,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 24711,
+          "activation": 4.300137042999268,
+          "description": " specific quantitative values and statistics related to costs and measurements"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 25844,
+          "activation": 3.012570381164551,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "layer": "0-att",
+          "feature_index": 25960,
+          "activation": 6.19828987121582,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 4182,
+          "activation": 4.354705810546875,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 29468,
+          "activation": 4.195990562438965,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 9399,
+          "activation": 3.0363738536834717,
+          "description": "keywords related to events and gatherings"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 23106,
+          "activation": 2.800553321838379,
+          "description": "references to women and discussions surrounding gender"
+        }
+      ],
+      [
+        {
+          "layer": "0-att",
+          "feature_index": 25960,
+          "activation": 6.764531135559082,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 10636,
+          "activation": 5.928350448608398,
+          "description": " expressions of longing or desire"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 29468,
+          "activation": 5.183687686920166,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 4182,
+          "activation": 3.8397603034973145,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 2311,
+          "activation": 3.508843183517456,
+          "description": "expressions of hope"
+        }
+      ],
+      [
+        {
+          "layer": "0-att",
+          "feature_index": 25960,
+          "activation": 7.3254876136779785,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 3997,
+          "activation": 5.074199676513672,
+          "description": " phrases related to time and scheduling"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 11014,
+          "activation": 4.853855133056641,
+          "description": "instances of the word \"that\" in various contexts"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 4182,
+          "activation": 3.341947555541992,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "layer": "0-att",
+          "feature_index": 31650,
+          "activation": 2.4576754570007324,
+          "description": "the word \"that\" in various contexts"
+        }
+      ]
+    ],
+    "0-mlp": [
+      [
+        {
+          "layer": "0-mlp",
+          "feature_index": 17058,
+          "activation": 6.952686309814453,
+          "description": null
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 4811,
+          "activation": 6.403016567230225,
+          "description": null
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 17516,
+          "activation": 6.092202186584473,
+          "description": "words related to significant gatherings or meetings"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 23427,
+          "activation": 6.050160884857178,
+          "description": null
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 13129,
+          "activation": 5.5874834060668945,
+          "description": null
+        }
+      ],
+      [
+        {
+          "layer": "0-mlp",
+          "feature_index": 12249,
+          "activation": 14.654702186584473,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 21479,
+          "activation": 7.221620559692383,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 11551,
+          "activation": 7.195229530334473,
+          "description": "instances of the word \"the\" in various contexts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 21626,
+          "activation": 6.859923362731934,
+          "description": " instances of the word \"the\" in various contexts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 23830,
+          "activation": 6.829350471496582,
+          "description": " prepositions and conjunctions that indicate relationships or connections between ideas"
+        }
+      ],
+      [
+        {
+          "layer": "0-mlp",
+          "feature_index": 12249,
+          "activation": 12.782449722290039,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 4748,
+          "activation": 4.940551280975342,
+          "description": " mentions of restaurants and related hospitality concepts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 21479,
+          "activation": 4.815027713775635,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 25149,
+          "activation": 4.327537536621094,
+          "description": "references to officials and service roles, particularly within the context of sports or hospitality"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 8979,
+          "activation": 3.6328978538513184,
+          "description": "references to food items, particularly pizza and burgers"
+        }
+      ],
+      [
+        {
+          "layer": "0-mlp",
+          "feature_index": 13855,
+          "activation": 15.078871726989746,
+          "description": " expressions of desire or aspirations"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 12249,
+          "activation": 10.832429885864258,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 3283,
+          "activation": 8.782258033752441,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 9388,
+          "activation": 7.0201287269592285,
+          "description": "words associated with engineering or engineering fields"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 21647,
+          "activation": 5.541992664337158,
+          "description": " expressions of hopes and desires"
+        }
+      ],
+      [
+        {
+          "layer": "0-mlp",
+          "feature_index": 12249,
+          "activation": 14.413591384887695,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 11533,
+          "activation": 12.49549674987793,
+          "description": "instances of the word \"that.\""
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 21479,
+          "activation": 4.068794250488281,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 12492,
+          "activation": 3.0298428535461426,
+          "description": " contextually significant statements or claims regarding events or situations"
+        },
+        {
+          "layer": "0-mlp",
+          "feature_index": 12671,
+          "activation": 2.893615245819092,
+          "description": " instances of reporting or noting information"
+        }
+      ]
+    ],
+    "1-mlp": [
+      [
+        {
+          "layer": "1-mlp",
+          "feature_index": 24447,
+          "activation": 27.549169540405273,
+          "description": " references to local contexts and events"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 17714,
+          "activation": 2.8644983768463135,
+          "description": " forms of the verb \"subsidize\" as well as related variations indicating financial support"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 21164,
+          "activation": 2.454787254333496,
+          "description": " phrases indicating a lack or scarcity of something"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 1618,
+          "activation": 2.102822780609131,
+          "description": " keywords related to environmental issues and their consequences"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 21280,
+          "activation": 1.677138328552246,
+          "description": " terms and concepts related to self-destructive behaviors and toxic substances"
+        }
+      ],
+      [
+        {
+          "layer": "1-mlp",
+          "feature_index": 31245,
+          "activation": 7.668729782104492,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 4035,
+          "activation": 5.7548112869262695,
+          "description": " elements associated with news reporting and official statements"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 9515,
+          "activation": 5.72321891784668,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 5845,
+          "activation": 5.645639419555664,
+          "description": " occurrences of the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 4865,
+          "activation": 5.301807880401611,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "layer": "1-mlp",
+          "feature_index": 1098,
+          "activation": 10.02656078338623,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 14863,
+          "activation": 5.899522304534912,
+          "description": "references to positions of authority or membership within organizations"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 1773,
+          "activation": 4.571384906768799,
+          "description": " words and terms related to construction and roles associated with building"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 1618,
+          "activation": 4.442869663238525,
+          "description": " keywords related to environmental issues and their consequences"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 3579,
+          "activation": 3.8611667156219482,
+          "description": " keywords related to environmental issues, policies, and specific entities or subjects in various contexts"
+        }
+      ],
+      [
+        {
+          "layer": "1-mlp",
+          "feature_index": 10824,
+          "activation": 15.682304382324219,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 1098,
+          "activation": 7.838346481323242,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 29338,
+          "activation": 6.510242462158203,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 10857,
+          "activation": 4.7116312980651855,
+          "description": " references to dreams and aspirations"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 15,
+          "activation": 4.4892683029174805,
+          "description": "the alpha hormone levels in medical contexts"
+        }
+      ],
+      [
+        {
+          "layer": "1-mlp",
+          "feature_index": 1098,
+          "activation": 17.97429084777832,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 7933,
+          "activation": 11.048186302185059,
+          "description": " occurrences of the word \"that\" in various contexts"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 24915,
+          "activation": 6.198523998260498,
+          "description": "the word \"that\" in various contexts"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 24848,
+          "activation": 3.914608955383301,
+          "description": " references to family dynamics and relationships"
+        },
+        {
+          "layer": "1-mlp",
+          "feature_index": 24602,
+          "activation": 3.3301615715026855,
+          "description": " the preposition \"to\" and its variations across different contexts"
+        }
+      ]
+    ],
+    "2-mlp": [
+      [
+        {
+          "layer": "2-mlp",
+          "feature_index": 7487,
+          "activation": 22.30758285522461,
+          "description": " phrases related to legal and judicial matters"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 3422,
+          "activation": 5.525945663452148,
+          "description": " proper nouns and organizational names"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 10940,
+          "activation": 0.7014608979225159,
+          "description": " references to environmental resources and energy production methods"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 12555,
+          "activation": 0.5482848882675171,
+          "description": " references to time and temporal measures"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 1367,
+          "activation": 0.5186920762062073,
+          "description": " phrases and references to traditional or outdated concepts"
+        }
+      ],
+      [
+        {
+          "layer": "2-mlp",
+          "feature_index": 21867,
+          "activation": 7.221458435058594,
+          "description": "the definite article \"The\""
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 24733,
+          "activation": 6.2333984375,
+          "description": " proper nouns and names"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 4481,
+          "activation": 5.893153190612793,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 8745,
+          "activation": 5.122257232666016,
+          "description": "the word \"the.\""
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 25010,
+          "activation": 4.414124488830566,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "layer": "2-mlp",
+          "feature_index": 19810,
+          "activation": 7.398619174957275,
+          "description": "brands and names associated with popular culture and events"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 31123,
+          "activation": 5.406016826629639,
+          "description": " references to government and political structures"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 22104,
+          "activation": 4.158329963684082,
+          "description": " references to notable professionals and their roles in various contexts"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 21069,
+          "activation": 3.152437210083008,
+          "description": " references to materials and concepts related to scientific substrates and justice systems"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 24402,
+          "activation": 3.1088802814483643,
+          "description": " references to economic policies and their impacts on various industries"
+        }
+      ],
+      [
+        {
+          "layer": "2-mlp",
+          "feature_index": 23463,
+          "activation": 15.194212913513184,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 11633,
+          "activation": 4.317049026489258,
+          "description": " actions and states related to library or reading activities"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 26471,
+          "activation": 3.941133737564087,
+          "description": " expressions of longing or requests for clarity"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 10394,
+          "activation": 3.5746541023254395,
+          "description": " expressions of gratitude and appreciation"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 8130,
+          "activation": 3.303152322769165,
+          "description": " instances of the word \"hoped\" and variations thereof, indicating wishes or aspirations"
+        }
+      ],
+      [
+        {
+          "layer": "2-mlp",
+          "feature_index": 14002,
+          "activation": 15.365001678466797,
+          "description": " phrases related to health and medical concerns"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 26190,
+          "activation": 6.669961929321289,
+          "description": " phrases indicating desires or intentions regarding possession"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 21557,
+          "activation": 6.110525608062744,
+          "description": " the word \"that\" in various contexts"
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 29534,
+          "activation": 5.003877639770508,
+          "description": " the word \"that.\""
+        },
+        {
+          "layer": "2-mlp",
+          "feature_index": 6187,
+          "activation": 3.712127208709717,
+          "description": " the word \"that\" in various contexts"
+        }
+      ]
+    ],
+    "3-att": [
+      [
+        {
+          "layer": "3-att",
+          "feature_index": 14736,
+          "activation": 23.93012237548828,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 25389,
+          "activation": 13.55732536315918,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 10921,
+          "activation": 12.127897262573242,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 25003,
+          "activation": 2.824861526489258,
+          "description": "common function words used in various contexts"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 10752,
+          "activation": 1.2594029903411865,
+          "description": " instances of potential and uncertainty in contexts related to decision-making or risk"
+        }
+      ],
+      [
+        {
+          "layer": "3-att",
+          "feature_index": 14736,
+          "activation": 24.51125144958496,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 25389,
+          "activation": 11.764572143554688,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 10921,
+          "activation": 11.109990119934082,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 32080,
+          "activation": 2.336536407470703,
+          "description": " introductory phrases that indicate ongoing actions or transitional statements"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 27491,
+          "activation": 1.8982603549957275,
+          "description": " references to specific TV shows, characters, or events"
+        }
+      ],
+      [
+        {
+          "layer": "3-att",
+          "feature_index": 14736,
+          "activation": 16.420345306396484,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 16949,
+          "activation": 6.4511003494262695,
+          "description": "words or phrases that indicate various titles and names, particularly in media and organizations"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 13022,
+          "activation": 5.647604942321777,
+          "description": " references to organizations and governmental structures"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 10921,
+          "activation": 5.2303595542907715,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 12597,
+          "activation": 4.439619541168213,
+          "description": "elements related to significant events or changes"
+        }
+      ],
+      [
+        {
+          "layer": "3-att",
+          "feature_index": 5710,
+          "activation": 5.101608753204346,
+          "description": " expressions of hope and well-wishing"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 10921,
+          "activation": 5.0368804931640625,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 14736,
+          "activation": 4.970409393310547,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 27237,
+          "activation": 4.773306846618652,
+          "description": " references to women and their roles or experiences in various contexts"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 15117,
+          "activation": 4.334519386291504,
+          "description": " references to key individuals and their roles or actions"
+        }
+      ],
+      [
+        {
+          "layer": "3-att",
+          "feature_index": 4889,
+          "activation": 12.913421630859375,
+          "description": " expressions of desire or wishes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 4792,
+          "activation": 9.776142120361328,
+          "description": " phrases expressing wishes or desires"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 5710,
+          "activation": 8.499004364013672,
+          "description": " expressions of hope and well-wishing"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 14736,
+          "activation": 7.225470542907715,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "layer": "3-att",
+          "feature_index": 30083,
+          "activation": 6.520347595214844,
+          "description": " expressions of longing or desire for change"
+        }
+      ]
+    ],
+    "3-mlp": [
+      [
+        {
+          "layer": "3-mlp",
+          "feature_index": 6335,
+          "activation": 23.421144485473633,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 31165,
+          "activation": 7.090890884399414,
+          "description": " references to media, particularly related to tragedies or significant events"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 24921,
+          "activation": 3.5742170810699463,
+          "description": "company names or entities related to technology and social issues"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 27906,
+          "activation": 0.9237955212593079,
+          "description": " words related to actions and activities, particularly focusing on verbs"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 15035,
+          "activation": 0.4052051305770874,
+          "description": " mentions of organizations and their roles in socio-political contexts"
+        }
+      ],
+      [
+        {
+          "layer": "3-mlp",
+          "feature_index": 19317,
+          "activation": 10.586612701416016,
+          "description": " proper nouns or significant references"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 17514,
+          "activation": 7.179682731628418,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 3655,
+          "activation": 6.440921783447266,
+          "description": " proper nouns and significant terms"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 2653,
+          "activation": 6.123481750488281,
+          "description": " occurrences of the word \"The\" at the beginning of sentences"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 17523,
+          "activation": 4.8364434242248535,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "layer": "3-mlp",
+          "feature_index": 6335,
+          "activation": 11.777362823486328,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 14572,
+          "activation": 6.103237628936768,
+          "description": "references to relationships and roles of individuals in various contexts like weddings and film"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 5602,
+          "activation": 4.404559135437012,
+          "description": "titles or roles related to authority and professions"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 12848,
+          "activation": 4.029312610626221,
+          "description": " proper nouns and terms related to specific locations, entities, and technological components"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 1914,
+          "activation": 3.135469913482666,
+          "description": " references to physical structures and objects in the environment"
+        }
+      ],
+      [
+        {
+          "layer": "3-mlp",
+          "feature_index": 14538,
+          "activation": 10.014997482299805,
+          "description": " phrases expressing a desire or option"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 17189,
+          "activation": 7.221207618713379,
+          "description": "references to desires or aspirations"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 8455,
+          "activation": 6.520614147186279,
+          "description": " forms of the verb \"lend\" and related concepts of giving or providing"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 24979,
+          "activation": 5.154757499694824,
+          "description": " expressions of desire or longing"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 22855,
+          "activation": 4.471938133239746,
+          "description": " expressions of social interaction and conversation"
+        }
+      ],
+      [
+        {
+          "layer": "3-mlp",
+          "feature_index": 6335,
+          "activation": 10.978801727294922,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 25921,
+          "activation": 7.4376020431518555,
+          "description": " the word \"that\" in various contexts"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 19311,
+          "activation": 7.425909042358398,
+          "description": "the word \"that\" in various contexts"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 30557,
+          "activation": 4.903599739074707,
+          "description": " references to email addresses and IP addresses"
+        },
+        {
+          "layer": "3-mlp",
+          "feature_index": 973,
+          "activation": 4.187873840332031,
+          "description": " phrases expressing wishes or desires"
+        }
+      ]
+    ],
+    "4-att": [
+      [
+        {
+          "layer": "4-att",
+          "feature_index": 13475,
+          "activation": 22.977815628051758,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 31406,
+          "activation": 14.306181907653809,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 29966,
+          "activation": 1.8365923166275024,
+          "description": " expressions of personal perspective or ownership"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 29572,
+          "activation": 1.0223978757858276,
+          "description": " phrases that indicate relationships or possessive connections"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 6094,
+          "activation": 0.9571835398674011,
+          "description": "technical specifications and details of engineering or mechanical systems"
+        }
+      ],
+      [
+        {
+          "layer": "4-att",
+          "feature_index": 13475,
+          "activation": 17.755727767944336,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 31406,
+          "activation": 16.937480926513672,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 10549,
+          "activation": 4.469695091247559,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 26610,
+          "activation": 4.444665431976318,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 25774,
+          "activation": 4.339725017547607,
+          "description": " sentences that begin with the word \"The.\""
+        }
+      ],
+      [
+        {
+          "layer": "4-att",
+          "feature_index": 31406,
+          "activation": 10.040903091430664,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 23103,
+          "activation": 7.119408130645752,
+          "description": "specific nouns or terms related to politics, society, or notable entities"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 32714,
+          "activation": 6.938907623291016,
+          "description": " terms related to formal processes or structures in governance"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 900,
+          "activation": 5.717429161071777,
+          "description": " references to gender issues, particularly related to women and their representation or treatment in various contexts, including gaming and societal roles"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 24135,
+          "activation": 4.8719258308410645,
+          "description": "references to male individuals in various contexts"
+        }
+      ],
+      [
+        {
+          "layer": "4-att",
+          "feature_index": 26610,
+          "activation": 8.176795959472656,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 10631,
+          "activation": 5.815929889678955,
+          "description": " key phrases related to criminal activities and law enforcement"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 2828,
+          "activation": 5.203882217407227,
+          "description": "references to women and their roles in various contexts, especially in relation to health and societal issues"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 5765,
+          "activation": 3.931239366531372,
+          "description": "references to medical professionals and issues surrounding their training and practices"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 23103,
+          "activation": 2.655416488647461,
+          "description": "specific nouns or terms related to politics, society, or notable entities"
+        }
+      ],
+      [
+        {
+          "layer": "4-att",
+          "feature_index": 12159,
+          "activation": 15.560911178588867,
+          "description": " expressions of wishes and desires"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 7542,
+          "activation": 7.5173420906066895,
+          "description": " expressions of well-wishes and support for others"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 8279,
+          "activation": 7.190911769866943,
+          "description": "expressions of desires and wishes"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 31406,
+          "activation": 3.5524048805236816,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "layer": "4-att",
+          "feature_index": 1488,
+          "activation": 3.4340224266052246,
+          "description": " concepts relating to origins and existence"
+        }
+      ]
+    ],
+    "4-mlp": [
+      [
+        {
+          "layer": "4-mlp",
+          "feature_index": 22732,
+          "activation": 22.082338333129883,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 1796,
+          "activation": 3.2969422340393066,
+          "description": " references to significant events or entities related to personal or political development"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 5592,
+          "activation": 2.7546751499176025,
+          "description": " references to analytical research and discussions of sociopolitical issues"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 16081,
+          "activation": 2.1118760108947754,
+          "description": " terms related to authority and legal proceedings"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 3219,
+          "activation": 1.4328160285949707,
+          "description": " instances of technical or quantitative terminology related to data analysis and team performance"
+        }
+      ],
+      [
+        {
+          "layer": "4-mlp",
+          "feature_index": 22732,
+          "activation": 14.978063583374023,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 14183,
+          "activation": 6.155094623565674,
+          "description": " references to news organizations and their reports"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 7626,
+          "activation": 5.643144130706787,
+          "description": "capitalized proper nouns or entities"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 5911,
+          "activation": 3.8384649753570557,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 7522,
+          "activation": 3.548691987991333,
+          "description": " occurrences of the word \"The\" and its variations in various contexts"
+        }
+      ],
+      [
+        {
+          "layer": "4-mlp",
+          "feature_index": 28849,
+          "activation": 6.310001373291016,
+          "description": " professions and job titles"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 11033,
+          "activation": 4.967959880828857,
+          "description": " references to specific celebrities or public figures"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 22732,
+          "activation": 4.269186973571777,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 13637,
+          "activation": 3.2027409076690674,
+          "description": " references to violent incidents and attacks involving racial or political elements"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 18387,
+          "activation": 2.8561713695526123,
+          "description": " references to police violence and misconduct"
+        }
+      ],
+      [
+        {
+          "layer": "4-mlp",
+          "feature_index": 707,
+          "activation": 11.643224716186523,
+          "description": " expressions of desire or regret"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 22732,
+          "activation": 5.904659748077393,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 10320,
+          "activation": 4.9807868003845215,
+          "description": " references to uncertainties and confirmations regarding events or conditions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 18677,
+          "activation": 4.291236400604248,
+          "description": " references to skiing and related activities"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 27041,
+          "activation": 3.212890148162842,
+          "description": "verbs and actions associated with significant events or changes"
+        }
+      ],
+      [
+        {
+          "layer": "4-mlp",
+          "feature_index": 32037,
+          "activation": 10.308479309082031,
+          "description": " phrases indicating speculative or conditional situations regarding past events"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 11663,
+          "activation": 7.880366325378418,
+          "description": " expressions of regret or desire related to past actions"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 20295,
+          "activation": 6.73267126083374,
+          "description": "the word \"that\" in various contexts"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 26186,
+          "activation": 6.447827339172363,
+          "description": " instances of the word \"that\" and its use in requests or demands"
+        },
+        {
+          "layer": "4-mlp",
+          "feature_index": 22327,
+          "activation": 6.442330360412598,
+          "description": " associations with desire and recommendations"
+        }
+      ]
+    ],
+    "5-mlp": [
+      [
+        {
+          "layer": "5-mlp",
+          "feature_index": 13903,
+          "activation": 22.058029174804688,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 2349,
+          "activation": 6.352739334106445,
+          "description": " words and phrases related to discussion, opinions, and verb forms indicating actions or states"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 28189,
+          "activation": 3.806490421295166,
+          "description": " concepts related to sexuality and gender identity"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 31564,
+          "activation": 0.8844175338745117,
+          "description": "references to computational systems and their components"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 112,
+          "activation": 0.7678804397583008,
+          "description": "terms related to healthcare and political contexts"
+        }
+      ],
+      [
+        {
+          "layer": "5-mlp",
+          "feature_index": 13903,
+          "activation": 12.466797828674316,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 1962,
+          "activation": 4.840167999267578,
+          "description": "phrases related to warnings and alerts"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 24471,
+          "activation": 4.0058369636535645,
+          "description": " instances of the word \"The\""
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 31748,
+          "activation": 3.9753921031951904,
+          "description": " occurrences of the word \"A\" and \"You\" at the beginning of sentences or clauses"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 9867,
+          "activation": 3.8952114582061768,
+          "description": " occurrences of the word \"The\" in varying contexts"
+        }
+      ],
+      [
+        {
+          "layer": "5-mlp",
+          "feature_index": 13903,
+          "activation": 13.438668251037598,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 9717,
+          "activation": 4.844782829284668,
+          "description": "titles or professions related to authority figures or professionals"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 24639,
+          "activation": 3.6482672691345215,
+          "description": " references to saints, religious figures, and related cultural contexts"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 2094,
+          "activation": 3.2935791015625,
+          "description": " terms and phrases related to food and nutrition"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 236,
+          "activation": 2.6971611976623535,
+          "description": "references to male entities or individuals"
+        }
+      ],
+      [
+        {
+          "layer": "5-mlp",
+          "feature_index": 18858,
+          "activation": 7.0793962478637695,
+          "description": " expressions of longing or regret"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 16821,
+          "activation": 6.9777655601501465,
+          "description": " references to desires or wishes"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 17512,
+          "activation": 4.790395259857178,
+          "description": "expressions of positive feelings and relief related to receiving news"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 22554,
+          "activation": 4.266805648803711,
+          "description": " references to hospitality and acts of kindness"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 5892,
+          "activation": 4.1687822341918945,
+          "description": " negative contractions related to refusal or lack of action"
+        }
+      ],
+      [
+        {
+          "layer": "5-mlp",
+          "feature_index": 27718,
+          "activation": 8.359633445739746,
+          "description": "conditional statements and hypothetical scenarios"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 12625,
+          "activation": 5.940591812133789,
+          "description": " expressions of regret or wistfulness regarding past decisions"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 22598,
+          "activation": 5.7171783447265625,
+          "description": " instances of the word \"that.\""
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 17512,
+          "activation": 5.549191951751709,
+          "description": "expressions of positive feelings and relief related to receiving news"
+        },
+        {
+          "layer": "5-mlp",
+          "feature_index": 22008,
+          "activation": 4.778531074523926,
+          "description": " phrases relating to expectations or intentions"
+        }
+      ]
+    ],
+    "6-att": [
+      [
+        {
+          "layer": "6-att",
+          "feature_index": 26714,
+          "activation": 24.417211532592773,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 6007,
+          "activation": 6.4337286949157715,
+          "description": "words related to opinions, personal preferences, and social contexts"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 30606,
+          "activation": 5.355624675750732,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 8139,
+          "activation": 1.648313045501709,
+          "description": "specific names or terms, potentially related to people or entities"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 21296,
+          "activation": 1.1463143825531006,
+          "description": " token representations and specific linguistic patterns"
+        }
+      ],
+      [
+        {
+          "layer": "6-att",
+          "feature_index": 26714,
+          "activation": 21.350994110107422,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 30606,
+          "activation": 8.065577507019043,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 25546,
+          "activation": 5.305937767028809,
+          "description": " key identifiers or section headings in a document"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 886,
+          "activation": 4.205081939697266,
+          "description": "sentences that start with the word \"The\" or \"the.\""
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 30368,
+          "activation": 3.0326802730560303,
+          "description": " references to places, organizations, or supported entities"
+        }
+      ],
+      [
+        {
+          "layer": "6-att",
+          "feature_index": 30606,
+          "activation": 6.313311576843262,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 26714,
+          "activation": 5.516626358032227,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 10843,
+          "activation": 4.313427448272705,
+          "description": "references to personal relationships or familial connections"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 3439,
+          "activation": 4.108475208282471,
+          "description": "content related to criminal incidents and law enforcement activities"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 5930,
+          "activation": 4.050451278686523,
+          "description": " references to sexual content and activities"
+        }
+      ],
+      [
+        {
+          "layer": "6-att",
+          "feature_index": 24496,
+          "activation": 4.469088554382324,
+          "description": " descriptions of interpersonal interactions and comparisons"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 30606,
+          "activation": 4.384758949279785,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 6575,
+          "activation": 4.114854335784912,
+          "description": "specific numerical references and statistics in historical and contemporary contexts"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 31145,
+          "activation": 3.6526849269866943,
+          "description": "certain numerical and demographic data related to social statistics and conditions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 19792,
+          "activation": 3.62089467048645,
+          "description": "mentions of individuals involved in incidents or events"
+        }
+      ],
+      [
+        {
+          "layer": "6-att",
+          "feature_index": 8427,
+          "activation": 13.219148635864258,
+          "description": " expressions of regret or desire for change"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 30606,
+          "activation": 3.731995105743408,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 26714,
+          "activation": 3.6369833946228027,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 5856,
+          "activation": 3.0091392993927,
+          "description": "instances of the phrase \"wanted to\" or actions indicating desire or intention"
+        },
+        {
+          "layer": "6-att",
+          "feature_index": 20592,
+          "activation": 2.6404190063476562,
+          "description": " phrases related to communication and expression of opinions"
+        }
+      ]
+    ],
+    "6-mlp": [
+      [
+        {
+          "layer": "6-mlp",
+          "feature_index": 18484,
+          "activation": 16.133623123168945,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 4755,
+          "activation": 10.91988468170166,
+          "description": " terms related to non-traditional or unconventional ideas"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 23155,
+          "activation": 7.942433834075928,
+          "description": " significant military and historical terms related to the Korean War"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 21825,
+          "activation": 1.3498210906982422,
+          "description": "references to statistical or numerical data"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 25176,
+          "activation": 1.2052528858184814,
+          "description": " phrases related to school or educational environments"
+        }
+      ],
+      [
+        {
+          "layer": "6-mlp",
+          "feature_index": 18484,
+          "activation": 12.409345626831055,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 26821,
+          "activation": 6.9601359367370605,
+          "description": " terms related to social constructs and their implications"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 22402,
+          "activation": 4.689006328582764,
+          "description": "the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 24644,
+          "activation": 3.6793551445007324,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 6285,
+          "activation": 3.1676864624023438,
+          "description": " locations and places within an urban context"
+        }
+      ],
+      [
+        {
+          "layer": "6-mlp",
+          "feature_index": 18484,
+          "activation": 10.661321640014648,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 24591,
+          "activation": 4.453042507171631,
+          "description": "details related to accidents and incidents involving vehicles"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 26821,
+          "activation": 3.54958438873291,
+          "description": " terms related to social constructs and their implications"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 25854,
+          "activation": 3.215470314025879,
+          "description": "references to art, culture, and the impact of societal complexities"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 25202,
+          "activation": 2.959210157394409,
+          "description": " references to manufacturing and jobs in the context of business sectors"
+        }
+      ],
+      [
+        {
+          "layer": "6-mlp",
+          "feature_index": 5769,
+          "activation": 12.554499626159668,
+          "description": " expressions of longing or desire"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 28888,
+          "activation": 6.323800086975098,
+          "description": "phrases expressing desires or wishes"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 7240,
+          "activation": 5.198769569396973,
+          "description": "conditional phrases and expressions of hypothetical scenarios"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 26821,
+          "activation": 4.718260765075684,
+          "description": " terms related to social constructs and their implications"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 2543,
+          "activation": 2.9254112243652344,
+          "description": "mathematical or statistical terminology related to complexity and effects in studies"
+        }
+      ],
+      [
+        {
+          "layer": "6-mlp",
+          "feature_index": 29059,
+          "activation": 7.621451377868652,
+          "description": " expressions of desire or hypothetical situations"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 31118,
+          "activation": 5.409572601318359,
+          "description": " occurrences of the word \"that.\""
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 28447,
+          "activation": 5.010188579559326,
+          "description": " expressions of hope and expectation"
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 13371,
+          "activation": 3.582824468612671,
+          "description": " instances of the word \"that.\""
+        },
+        {
+          "layer": "6-mlp",
+          "feature_index": 26552,
+          "activation": 3.489041566848755,
+          "description": "instances of the word \"that.\""
+        }
+      ]
+    ],
+    "7-mlp": [
+      [
+        {
+          "layer": "7-mlp",
+          "feature_index": 3177,
+          "activation": 11.327537536621094,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 20522,
+          "activation": 10.25881290435791,
+          "description": " references to dimensions of reality or transitions between different states"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 6668,
+          "activation": 8.1578369140625,
+          "description": " references to technology and media companies, particularly focusing on business dynamics and relationships"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 9460,
+          "activation": 2.985372543334961,
+          "description": "instances of the word \"the\" and its occurrences in phrases or sentences"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 6856,
+          "activation": 2.220337390899658,
+          "description": "sports statistics and performance metrics"
+        }
+      ],
+      [
+        {
+          "layer": "7-mlp",
+          "feature_index": 3177,
+          "activation": 15.522842407226562,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 15557,
+          "activation": 3.0142149925231934,
+          "description": "the definite article \"the.\""
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 30824,
+          "activation": 2.8464999198913574,
+          "description": "repeated occurrences of the word \"The\" in context to titles and albums"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 27522,
+          "activation": 2.4680416584014893,
+          "description": " elements related to research and analysis"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 21835,
+          "activation": 2.282222270965576,
+          "description": " instances of the definite article \"the\" in various contexts"
+        }
+      ],
+      [
+        {
+          "layer": "7-mlp",
+          "feature_index": 3177,
+          "activation": 7.877078533172607,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 9326,
+          "activation": 4.621114730834961,
+          "description": "mentions of individuals and their roles or actions in various contexts"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 13040,
+          "activation": 4.112293243408203,
+          "description": " mentions of people involved in incidents or events"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 25392,
+          "activation": 3.6050848960876465,
+          "description": " references to a specific individual or concept related to \"man.\""
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 26422,
+          "activation": 2.975292205810547,
+          "description": " references to roles and titles related to authority or occupation"
+        }
+      ],
+      [
+        {
+          "layer": "7-mlp",
+          "feature_index": 5679,
+          "activation": 13.175285339355469,
+          "description": " expressions of regret or desire for change"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 1676,
+          "activation": 5.757490158081055,
+          "description": "expressions of desire or wishful thinking"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 29027,
+          "activation": 3.8166182041168213,
+          "description": " expressions of faith and gratitude"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 18887,
+          "activation": 3.778327703475952,
+          "description": " numerical data and statistics related to sports or events"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 30021,
+          "activation": 3.1109848022460938,
+          "description": " references to identity and societal constructs"
+        }
+      ],
+      [
+        {
+          "layer": "7-mlp",
+          "feature_index": 29146,
+          "activation": 10.091099739074707,
+          "description": " phrases expressing hypothetical scenarios or conditions"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 21851,
+          "activation": 5.18904972076416,
+          "description": " expressions of desire or wishful thinking"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 21213,
+          "activation": 4.906894207000732,
+          "description": "the word \"that\" in various contexts"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 31933,
+          "activation": 4.232946395874023,
+          "description": "the word \"that\" used frequently in various contexts"
+        },
+        {
+          "layer": "7-mlp",
+          "feature_index": 3177,
+          "activation": 4.201434135437012,
+          "description": " references to sports teams and their performance"
+        }
+      ]
+    ],
+    "8-mlp": [
+      [
+        {
+          "layer": "8-mlp",
+          "feature_index": 7607,
+          "activation": 11.965631484985352,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 12472,
+          "activation": 10.130983352661133,
+          "description": "specific nouns that refer to species or technologies"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 6928,
+          "activation": 4.132698059082031,
+          "description": "references to specific types of fish and their health implications, as well as other contextual identifiers"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 27461,
+          "activation": 3.9290499687194824,
+          "description": " mentions of organizations and significant entities within the text"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 4485,
+          "activation": 2.508228063583374,
+          "description": "references to stem cell research and related organizations"
+        }
+      ],
+      [
+        {
+          "layer": "8-mlp",
+          "feature_index": 7607,
+          "activation": 12.434798240661621,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 4885,
+          "activation": 4.833812713623047,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 23733,
+          "activation": 3.5517828464508057,
+          "description": " phrases related to project evaluations and comparisons"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 31073,
+          "activation": 2.7040393352508545,
+          "description": " instances of the word \"The\" in the text"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 18194,
+          "activation": 2.1487832069396973,
+          "description": " instances of the word \"The\" and related articles"
+        }
+      ],
+      [
+        {
+          "layer": "8-mlp",
+          "feature_index": 31713,
+          "activation": 6.075261116027832,
+          "description": "titles and roles related to hospitality or service positions"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 7607,
+          "activation": 5.406891822814941,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 31852,
+          "activation": 3.8735575675964355,
+          "description": "references to individuals and their opinions or statements"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 11168,
+          "activation": 3.8544554710388184,
+          "description": "references to human subjects, particularly males"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 6374,
+          "activation": 2.9638359546661377,
+          "description": " terms related to programming or coding processes"
+        }
+      ],
+      [
+        {
+          "layer": "8-mlp",
+          "feature_index": 4510,
+          "activation": 8.463494300842285,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 19058,
+          "activation": 7.330655097961426,
+          "description": "expressions of desire or intention"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 7607,
+          "activation": 5.27169132232666,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 17839,
+          "activation": 3.8261120319366455,
+          "description": " references to political actions and figures, particularly in a critical context"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 2193,
+          "activation": 2.5620381832122803,
+          "description": " requests and inquiries directed towards receiving assistance or approval"
+        }
+      ],
+      [
+        {
+          "layer": "8-mlp",
+          "feature_index": 13857,
+          "activation": 5.565237998962402,
+          "description": " references to geographical locations and their implications"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 7338,
+          "activation": 5.445359706878662,
+          "description": " expressions of regret or longing related to personal choices"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 19099,
+          "activation": 4.33414888381958,
+          "description": " the word \"that\" used in various contexts"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 31612,
+          "activation": 3.7513701915740967,
+          "description": " expressions of hope or expectation"
+        },
+        {
+          "layer": "8-mlp",
+          "feature_index": 17839,
+          "activation": 3.478102207183838,
+          "description": " references to political actions and figures, particularly in a critical context"
+        }
+      ]
+    ],
+    "9-att": [
+      [
+        {
+          "layer": "9-att",
+          "feature_index": 20348,
+          "activation": 23.01085090637207,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 22323,
+          "activation": 3.6080894470214844,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 4435,
+          "activation": 2.6865010261535645,
+          "description": " entities associated with authors and publication details"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 11642,
+          "activation": 1.840606927871704,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 29579,
+          "activation": 0.5757319331169128,
+          "description": " mentions of individuals or significant figures in contexts related to authority or expertise"
+        }
+      ],
+      [
+        {
+          "layer": "9-att",
+          "feature_index": 20348,
+          "activation": 20.821815490722656,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 22323,
+          "activation": 2.3029680252075195,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 11642,
+          "activation": 1.5535200834274292,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 20396,
+          "activation": 1.3907203674316406,
+          "description": " the word \"The\" in various contexts"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 12914,
+          "activation": 0.8989306688308716,
+          "description": " details related to numerical data and statistics"
+        }
+      ],
+      [
+        {
+          "layer": "9-att",
+          "feature_index": 20348,
+          "activation": 13.388832092285156,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 22163,
+          "activation": 3.161712408065796,
+          "description": " references to trust and interpersonal relationships"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 11954,
+          "activation": 2.9880905151367188,
+          "description": " nouns related to societal roles and norms"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 25261,
+          "activation": 2.70263409614563,
+          "description": " references to personal beliefs and the consequences of expressing them"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 13393,
+          "activation": 2.434093475341797,
+          "description": " mentions of significant political events and figures"
+        }
+      ],
+      [
+        {
+          "layer": "9-att",
+          "feature_index": 25261,
+          "activation": 11.792135238647461,
+          "description": " references to personal beliefs and the consequences of expressing them"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 20348,
+          "activation": 6.2352190017700195,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 25453,
+          "activation": 3.544785261154175,
+          "description": "medical incidents or health-related events involving diseases"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 18371,
+          "activation": 3.234574317932129,
+          "description": " words and phrases indicating social dynamics and power relations"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 4254,
+          "activation": 3.088808059692383,
+          "description": " expressions of well-wishing and good luck sentiments"
+        }
+      ],
+      [
+        {
+          "layer": "9-att",
+          "feature_index": 25261,
+          "activation": 8.3668851852417,
+          "description": " references to personal beliefs and the consequences of expressing them"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 13197,
+          "activation": 5.5069780349731445,
+          "description": "terms related to infrastructure and construction"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 4254,
+          "activation": 5.446451663970947,
+          "description": " expressions of well-wishing and good luck sentiments"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 27048,
+          "activation": 4.796640872955322,
+          "description": "mentions of individuals' statements and actions regarding specific issues or events"
+        },
+        {
+          "layer": "9-att",
+          "feature_index": 13393,
+          "activation": 3.460158109664917,
+          "description": " mentions of significant political events and figures"
+        }
+      ]
+    ],
+    "9-mlp": [
+      [
+        {
+          "layer": "9-mlp",
+          "feature_index": 31738,
+          "activation": 11.98694133758545,
+          "description": " references to notable political figures"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 4963,
+          "activation": 6.847686767578125,
+          "description": " words and symbols related to visual aesthetics or descriptors in art"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 21957,
+          "activation": 6.790663242340088,
+          "description": " phrases related to ease and simplicity"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 1344,
+          "activation": 5.624309539794922,
+          "description": "specific terms related to technical jargon or components in various contexts"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 4526,
+          "activation": 4.545205116271973,
+          "description": "notable nouns and certain structural elements in a narrative"
+        }
+      ],
+      [
+        {
+          "layer": "9-mlp",
+          "feature_index": 7072,
+          "activation": 12.037785530090332,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 21,
+          "activation": 3.7420685291290283,
+          "description": " complex relationships and criticisms in discourse"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 28796,
+          "activation": 3.448972225189209,
+          "description": " occurrences of the definite article \"the.\""
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 26305,
+          "activation": 2.6314451694488525,
+          "description": " the article \"The\" at the beginning of sentences"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 14997,
+          "activation": 2.027219295501709,
+          "description": " topics related to political issues and debates"
+        }
+      ],
+      [
+        {
+          "layer": "9-mlp",
+          "feature_index": 19369,
+          "activation": 5.859479904174805,
+          "description": "mentions of the term \"woman.\""
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 18960,
+          "activation": 5.596974849700928,
+          "description": " references to a specific character or person labeled as \"man.\""
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 9979,
+          "activation": 5.204159736633301,
+          "description": " mentions of victims and witnesses involved in violent incidents"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 7653,
+          "activation": 5.026360988616943,
+          "description": "references to incidents or events involving terrorism and violence"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 21441,
+          "activation": 4.13023567199707,
+          "description": " interactions involving dialogue and emotional expressions"
+        }
+      ],
+      [
+        {
+          "layer": "9-mlp",
+          "feature_index": 10774,
+          "activation": 8.168910026550293,
+          "description": " expressions of regret or desires for change"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 7072,
+          "activation": 7.747830390930176,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 22804,
+          "activation": 3.7421278953552246,
+          "description": " terms associated with violent crime and physical harm"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 7653,
+          "activation": 3.0450098514556885,
+          "description": "references to incidents or events involving terrorism and violence"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 21,
+          "activation": 2.648289918899536,
+          "description": " complex relationships and criticisms in discourse"
+        }
+      ],
+      [
+        {
+          "layer": "9-mlp",
+          "feature_index": 7072,
+          "activation": 6.966915607452393,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 21,
+          "activation": 5.711226940155029,
+          "description": " complex relationships and criticisms in discourse"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 4675,
+          "activation": 3.3893349170684814,
+          "description": " references to life expectancy and its implications"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 2667,
+          "activation": 3.0888612270355225,
+          "description": " the word \"that\" in various contexts"
+        },
+        {
+          "layer": "9-mlp",
+          "feature_index": 270,
+          "activation": 3.0680623054504395,
+          "description": "expressions of hope or desire for positive outcomes"
+        }
+      ]
+    ],
+    "10-att": [
+      [
+        {
+          "layer": "10-att",
+          "feature_index": 7685,
+          "activation": 15.987248420715332,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 28178,
+          "activation": 2.7430591583251953,
+          "description": " negations and their informal variations"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 14239,
+          "activation": 1.7468616962432861,
+          "description": "proper names and titles of individuals or organizations"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 20581,
+          "activation": 0.8471742272377014,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 27781,
+          "activation": 0.539635419845581,
+          "description": " words related to comparisons or comparative analysis"
+        }
+      ],
+      [
+        {
+          "layer": "10-att",
+          "feature_index": 7685,
+          "activation": 9.20150089263916,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 20581,
+          "activation": 5.210770606994629,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 5012,
+          "activation": 1.968210220336914,
+          "description": "proper nouns and significant numerical data"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 24802,
+          "activation": 1.4996366500854492,
+          "description": " financial impacts and political responses to decisions"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 21395,
+          "activation": 1.2309176921844482,
+          "description": " definite articles, particularly \"The\""
+        }
+      ],
+      [
+        {
+          "layer": "10-att",
+          "feature_index": 7685,
+          "activation": 5.22900915145874,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 20581,
+          "activation": 4.585762023925781,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 28269,
+          "activation": 2.0916078090667725,
+          "description": "references to public figures and their affiliations or actions"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 28284,
+          "activation": 1.9475927352905273,
+          "description": "references to organizations and figures involved in humanitarian relief efforts"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 28445,
+          "activation": 1.657593011856079,
+          "description": "instances of violent crime and related legal consequences"
+        }
+      ],
+      [
+        {
+          "layer": "10-att",
+          "feature_index": 22980,
+          "activation": 11.847691535949707,
+          "description": " phrases related to significant political events or actions"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 9066,
+          "activation": 4.060512542724609,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 18861,
+          "activation": 3.626826286315918,
+          "description": " phrases related to legal proceedings and constraints"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 7685,
+          "activation": 2.9977269172668457,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 20581,
+          "activation": 2.094581127166748,
+          "description": "discussions around economic and political complexities"
+        }
+      ],
+      [
+        {
+          "layer": "10-att",
+          "feature_index": 22980,
+          "activation": 11.414987564086914,
+          "description": " phrases related to significant political events or actions"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 9066,
+          "activation": 4.596307754516602,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 18861,
+          "activation": 3.8502585887908936,
+          "description": " phrases related to legal proceedings and constraints"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 20581,
+          "activation": 2.7319061756134033,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "layer": "10-att",
+          "feature_index": 8202,
+          "activation": 2.1336653232574463,
+          "description": " discourse surrounding political power and challenges to it"
+        }
+      ]
+    ],
+    "10-mlp": [
+      [
+        {
+          "layer": "10-mlp",
+          "feature_index": 32053,
+          "activation": 7.073322296142578,
+          "description": " expressions of annoyance or frustration"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 11916,
+          "activation": 5.859247207641602,
+          "description": " mentions of interference or manipulation in political contexts"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 21350,
+          "activation": 5.439944267272949,
+          "description": " references to personal pronouns and the letter \"u\" in various contexts"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 11806,
+          "activation": 4.66694974899292,
+          "description": " phrases related to subscription and promotional content"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 897,
+          "activation": 4.542171955108643,
+          "description": " references to clothing items or apparel"
+        }
+      ],
+      [
+        {
+          "layer": "10-mlp",
+          "feature_index": 32452,
+          "activation": 11.982858657836914,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 11562,
+          "activation": 2.0106496810913086,
+          "description": " cultural references and noteworthy historical context related to music and legislation"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 9134,
+          "activation": 1.3987661600112915,
+          "description": " the presence of the word \"The\" in various contexts"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 4693,
+          "activation": 1.0167884826660156,
+          "description": " instances of the word \"the.\""
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 10464,
+          "activation": 0.9884961843490601,
+          "description": " references to specific characters or entities in a narrative context"
+        }
+      ],
+      [
+        {
+          "layer": "10-mlp",
+          "feature_index": 32452,
+          "activation": 7.7430644035339355,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 23996,
+          "activation": 2.973573923110962,
+          "description": "mentions of women or references to female characters"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 16647,
+          "activation": 2.7938268184661865,
+          "description": "references to individuals, particularly women and men, within a narrative context"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 29922,
+          "activation": 2.172675848007202,
+          "description": "mentions of individuals or characters in various contexts"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 3683,
+          "activation": 1.5543911457061768,
+          "description": " references to individuals and their relationships or actions in various contexts"
+        }
+      ],
+      [
+        {
+          "layer": "10-mlp",
+          "feature_index": 32452,
+          "activation": 12.900338172912598,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 12725,
+          "activation": 3.5859055519104004,
+          "description": " expressions of desire or longing"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 16287,
+          "activation": 2.36607027053833,
+          "description": " instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 20016,
+          "activation": 2.2291126251220703,
+          "description": " references to technology companies and their market strategies"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 23269,
+          "activation": 1.7917402982711792,
+          "description": " references to people in authoritative or spokesperson roles"
+        }
+      ],
+      [
+        {
+          "layer": "10-mlp",
+          "feature_index": 32452,
+          "activation": 10.663820266723633,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 27747,
+          "activation": 1.2969229221343994,
+          "description": " questions that express confusion or disbelief"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 16287,
+          "activation": 1.0573549270629883,
+          "description": " instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 11562,
+          "activation": 1.053358793258667,
+          "description": " cultural references and noteworthy historical context related to music and legislation"
+        },
+        {
+          "layer": "10-mlp",
+          "feature_index": 1245,
+          "activation": 0.9838627576828003,
+          "description": "references to events involving violence or legal cases"
+        }
+      ]
+    ],
+    "11-att": [
+      [
+        {
+          "layer": "11-att",
+          "feature_index": 16155,
+          "activation": 26.57368278503418,
+          "description": "references to donations and fundraising efforts"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 22921,
+          "activation": 18.39116668701172,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 27499,
+          "activation": 12.124272346496582,
+          "description": " phrases related to product functionality and specifications"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 32538,
+          "activation": 10.56457233428955,
+          "description": "references to social media content and online interactions"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 15619,
+          "activation": 4.399703502655029,
+          "description": " references to social media and newsletter subscriptions"
+        }
+      ],
+      [
+        {
+          "layer": "11-att",
+          "feature_index": 23340,
+          "activation": 3.9084689617156982,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 22921,
+          "activation": 3.085679531097412,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 16802,
+          "activation": 1.7184062004089355,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 29326,
+          "activation": 1.5065852403640747,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 16880,
+          "activation": 0.4047996401786804,
+          "description": " symbols and elements of formatting related to digital communication"
+        }
+      ],
+      [
+        {
+          "layer": "11-att",
+          "feature_index": 23340,
+          "activation": 3.718235492706299,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 16802,
+          "activation": 1.9452439546585083,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 29326,
+          "activation": 1.8456515073776245,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 22921,
+          "activation": 1.7137645483016968,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 6222,
+          "activation": 0.5759088397026062,
+          "description": " proper nouns and names related to political figures and events"
+        }
+      ],
+      [
+        {
+          "layer": "11-att",
+          "feature_index": 23340,
+          "activation": 2.8914318084716797,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 29326,
+          "activation": 2.004509687423706,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 16802,
+          "activation": 1.9435456991195679,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 22921,
+          "activation": 1.3184517621994019,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 6222,
+          "activation": 0.5552276968955994,
+          "description": " proper nouns and names related to political figures and events"
+        }
+      ],
+      [
+        {
+          "layer": "11-att",
+          "feature_index": 29326,
+          "activation": 1.9939945936203003,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 23340,
+          "activation": 1.778083324432373,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 16802,
+          "activation": 1.7168934345245361,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 22921,
+          "activation": 0.6951090097427368,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "layer": "11-att",
+          "feature_index": 26518,
+          "activation": 0.37729114294052124,
+          "description": " terms related to heritability and genetic variation"
+        }
+      ]
+    ],
+    "11-mlp": [
+      [
+        {
+          "layer": "11-mlp",
+          "feature_index": 23389,
+          "activation": 23.219194412231445,
+          "description": " instances of conflict or confrontation"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 6677,
+          "activation": 13.109424591064453,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 9628,
+          "activation": 9.051448822021484,
+          "description": " references to product availability and pricing"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 17897,
+          "activation": 5.198482513427734,
+          "description": " numerical references or statistics in the text"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 19349,
+          "activation": 4.5261430740356445,
+          "description": " mentions of significant events or relationships involving external entities"
+        }
+      ],
+      [
+        {
+          "layer": "11-mlp",
+          "feature_index": 6677,
+          "activation": 14.147054672241211,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 2978,
+          "activation": 10.370565414428711,
+          "description": "references to significant historical events or figures"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 6208,
+          "activation": 5.774070739746094,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 10161,
+          "activation": 4.724844932556152,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 32456,
+          "activation": 3.0679819583892822,
+          "description": " the use of the word \"The\" in various contexts within the document"
+        }
+      ],
+      [
+        {
+          "layer": "11-mlp",
+          "feature_index": 10161,
+          "activation": 9.200913429260254,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 11673,
+          "activation": 8.84042739868164,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 15517,
+          "activation": 6.919106483459473,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 13287,
+          "activation": 6.552981376647949,
+          "description": " phrases related to political and military actions"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 11669,
+          "activation": 4.610767841339111,
+          "description": " references to male individuals"
+        }
+      ],
+      [
+        {
+          "layer": "11-mlp",
+          "feature_index": 10161,
+          "activation": 11.627077102661133,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 15517,
+          "activation": 10.880125999450684,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 17897,
+          "activation": 7.72767972946167,
+          "description": " numerical references or statistics in the text"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 11155,
+          "activation": 6.896306037902832,
+          "description": "expressions of desire or longing"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 1951,
+          "activation": 4.149505138397217,
+          "description": " statistical comparisons and gender differences"
+        }
+      ],
+      [
+        {
+          "layer": "11-mlp",
+          "feature_index": 10161,
+          "activation": 11.558717727661133,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 6208,
+          "activation": 9.341257095336914,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 15517,
+          "activation": 9.173066139221191,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 6677,
+          "activation": 5.591289520263672,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "layer": "11-mlp",
+          "feature_index": 26086,
+          "activation": 2.315764904022217,
+          "description": "instances of the word \"that\" as well as phrases indicating desire or attraction"
+        }
+      ]
+    ]
+  }
+}

@@ -41,6 +41,9 @@ class EAPDataset(Dataset):
             self.df = self.df[self.df['category'] == category]
         if num_samples and num_samples < len(self.df):
             self.df = self.df.head(num_samples)
+            
+        # self.df = self.df.iloc[:70]
+        self.df = self.df.iloc[70:]
         print(f'Loaded {len(self.df)} samples from {filepath} with category {category} and {len(self.df)} samples')
 
     def __len__(self):
@@ -156,13 +159,15 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
             g.apply_topn(topn, True)
             # g.to_json(f'mmlu_Llama-3.2-1B-Instruct_{topn}_circuit.json')
             # gz = g.to_image(f'mmlu_{model_name}_{topn}_circuit.png')
-            # exit(0)
+            exit(0)
             # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
             results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
             results = results.mean().item()
-            
-            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+            try:
+                faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+            except:
+                faithfulness = 0
             # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
             c.append(results)
             circuit_faithfulness.append(faithfulness)
@@ -204,7 +209,10 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.apply_topn(topn, True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        try: 
+            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        except:
+            faithfulness = 0
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
 
@@ -234,7 +242,10 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        try:
+            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        except:
+            faithfulness = 0
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
 
@@ -281,7 +292,10 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        try:
+            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        except:
+            faithfulness = 0
         # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
     all_ibon_results.append(circuit_faithfulness)
@@ -313,4 +327,4 @@ plt.yticks(fontsize=15)
 plt.legend(loc='lower right', fontsize=15)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/mmlu_{category}_llama3-8b.pdf')
+plt.savefig(f'figures/mmlu_{category}_llama3-8b_2.pdf')

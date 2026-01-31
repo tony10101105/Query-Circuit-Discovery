@@ -6,7 +6,7 @@ gpt_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 # llama_tokenizer = AutoTokenizer.from_pretrained("meta-llama/meta-llama/Llama-3.2-1B")
 llama_tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B")
 
-df = pd.read_csv("mmlu_gpt2.csv")
+df = pd.read_csv("ioi_gpt2.csv")
 
 # Decode llama3 token indices to strings
 # decoded_correct = []
