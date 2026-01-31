@@ -214,16 +214,6 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
             print(hook.name, activation_difference.size(), activation_difference.device, grads.size(), grads.device)
             print(prev_index, bwd_index, scores.size(), s.size())
             raise e
-    
-    def pattern_hook(index, patterns, hook):
-        """
-            index: neuron index
-        """
-        try:
-            node_pattern[:, index, :, :] = patterns.detach() # attention node attention pattern.
-        except RuntimeError as e:
-            print(f'pattern hook fails at {hook.name}')
-            raise e
 
     node = graph.nodes['input']
     fwd_index = graph.forward_index(node)
@@ -235,9 +225,6 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
         fwd_index = graph.forward_index(node)
         fwd_hooks_corrupted.append((node.out_hook, partial(activation_hook, fwd_index, hook_rep=False)))
         fwd_hooks_clean.append((node.out_hook, partial(activation_hook, fwd_index, add=False, hook_rep=hook_rep)))
-        # ours
-
-            fwd_hooks_clean.append((f'blocks.{layer}.attn.hook_pattern', partial(pattern_hook, fwd_index)))
         
         prev_index = graph.prev_index(node)
         for i, letter in enumerate('qkv'):

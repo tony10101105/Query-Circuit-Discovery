@@ -100,7 +100,7 @@ def get_scores_eap(model: HookedTransformer, graph: Graph, dataloader:DataLoader
 
     return scores
 
-def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=30, quiet=False, induction=False, file_idx=None, cat=None):
+def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=5, quiet=False, file_idx=None):
     """Gets edge attribution scores using EAP with integrated gradients.
 
     Args:
@@ -122,15 +122,10 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
     for para_idx, (clean, corrupted, label) in enumerate(dataloader):
         batch_size = len(clean)
         total_items += batch_size
-        # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        # corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
-        if not induction:
-            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-            corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
-        else: # when induction, the input is list of tokens, not string
-            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)
-            corrupted_tokens, _, _, n_pos_corrupted = no_tokenize_plus(model, corrupted)
-            
+        
+        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted)
+              
         if n_pos != n_pos_corrupted:
             print('clean: ', clean)
             print('corrupted: ', corrupted)
@@ -184,12 +179,11 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
                 raise ValueError("Metric value is NaN")
             
         ### to store intermediate score matrix
-        # scores /= steps
-        # x = scores.cpu().detach().numpy()
-        # x[~graph.real_edge_mask] = -np.inf
-        # # np.save(f'score_data/mmlu_{cat}/llama3-8b/metric4_{file_idx}_{para_idx}.npy', x)
-        # np.save(f'score_data/arithmetic_mul/llama3-8b/{file_idx}_{para_idx}.npy', x)
-        # scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
+        scores /= steps
+        x = scores.cpu().detach().numpy()
+        x[~graph.real_edge_mask] = -np.inf
+        np.save(f'score_data/arc_challenge/llama32-1b/{file_idx}_{para_idx}.npy', x)
+        scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
     
     scores /= total_items
     scores /= steps
@@ -319,7 +313,7 @@ def get_scores_clean_corrupted(model: HookedTransformer, graph: Graph, dataloade
 
     return scores
 
-def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, dataloader: DataLoader, quiet=False, induction=False) -> torch.Tensor:
+def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, dataloader: DataLoader, quiet=False) -> torch.Tensor:
     """Gets scores using Ferrando et al.'s (2024) information flow routes method.
 
     Args:
@@ -415,11 +409,7 @@ def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, d
     for clean, _, _ in dataloader:
         batch_size = len(clean)
         total_items += batch_size
-        # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        if not induction:
-            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        else: # when induction, the input is list of tokens, not string
-            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)          
+        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
 
         hooks = make_hooks(n_pos, input_lengths)
         with torch.inference_mode():
@@ -435,7 +425,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
               method: Literal['EAP', 'EAP-IG-inputs', 'clean-corrupted', 'EAP-IG-activations', 'information-flow-routes', 'exact'], 
               intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', aggregation='sum', 
               ig_steps: Optional[int]=None, intervention_dataloader: Optional[DataLoader]=None, quiet=False,
-              induction: bool=False, perturb_times: int=5, var: float=1, file_idx: int=None, cat: str=None):
+              perturb_times: int=5, var: float=1, file_idx: int=None):
     assert model.cfg.use_attn_result, "Model must be configured to use attention result (model.cfg.use_attn_result)"
     assert model.cfg.use_split_qkv_input, "Model must be configured to use split qkv inputs (model.cfg.use_split_qkv_input)"
     assert model.cfg.use_hook_mlp_in, "Model must be configured to use hook MLP in (model.cfg.use_hook_mlp_in)"
@@ -453,7 +443,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
     elif method == 'EAP-IG-inputs':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs, but got {intervention}")
-        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, induction=induction, file_idx=file_idx, cat=cat)
+        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, file_idx=file_idx)
     elif method == 'EAP-IG-inputs-sg':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs-sg, but got {intervention}")
@@ -466,7 +456,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
         scores = get_scores_ig_activations(model, graph, dataloader, metric, steps=ig_steps, intervention=intervention, 
                                            intervention_dataloader=intervention_dataloader, quiet=quiet)
     elif method == 'information-flow-routes':
-        scores = get_scores_information_flow_routes(model, graph, dataloader, quiet=quiet, induction=induction)
+        scores = get_scores_information_flow_routes(model, graph, dataloader, quiet=quiet)
     elif method == 'exact':
         scores = get_scores_exact(model, graph, dataloader, metric, intervention=intervention, intervention_dataloader=intervention_dataloader, 
                                   quiet=quiet)

@@ -106,8 +106,6 @@ dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []
 for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloader), desc="Processing samples")):
-    if i < 205:
-        continue
     assert len(clean) == len(corrupted) and len(corrupted) == len(label)
     batch_slice_data = [([clean[0][j]], [corrupted[0][j]], torch.tensor([label[0][j]])) for j in range(len(clean[0]))]
 
@@ -142,42 +140,3 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         circuit_faithfulness.append(faithfulness)
 
         print(f"Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness: {faithfulness:.2f}")
-
-    all_results.append({
-        'baseline': baseline,
-        'corrupted_baseline': corrupted_baseline,
-        'topns': topns,
-        'circuit_results': circuit_results,
-        'circuit_faithfulness': circuit_faithfulness
-    })
-exit(0)
-faithfulness_matrix = np.array([res['circuit_faithfulness'] for res in all_results])
-average_faithfulness = faithfulness_matrix.mean(axis=0)
-plt.plot(topns, average_faithfulness, marker='o', label='Avg Faithfulness')
-plt.xlabel('Top-n Edges')
-plt.ylabel('Average Circuit Faithfulness')
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.savefig('arithmetic_mul.png')
-
-# topns = [x // 1000 for x in topns]  # Convert to 'k'
-# for i, results in enumerate(all_results):
-#     plt.plot(topns, results['circuit_faithfulness'], label=f'EAP-IG (step=20) on Query {i}', marker='o')
-# plt.ylim(-2.1, 2.1)
-# plt.axhline(y=0, linestyle='--', color='gray')
-# plt.axhline(y=1, linestyle='--', color='gray')
-# plt.xlabel('Number of Edges (k)', fontsize=16)
-# plt.ylabel('Normalized Faithfulness Score (NFS)', fontsize=16)
-# plt.xticks(fontsize=16)
-# plt.yticks(fontsize=16)
-# plt.legend(fontsize=16)
-# plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
-# plt.tight_layout()
-# plt.savefig(f'figures/arithmetic_add_instability.pdf', bbox_inches='tight')
-# plt.close()        
-exit(0)
-
-with open(f'preprocessed_data/arithmetic_add_{method.lower()}_{steps}steps.json', 'w') as f:
-    json.dump(all_results, f, indent=2)
-    

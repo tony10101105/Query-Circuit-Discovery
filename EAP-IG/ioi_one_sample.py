@@ -16,8 +16,8 @@ from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import set_seed
-
 set_seed(2025)
+
 
 def collate_EAP(xs):
     clean, corrupted, labels = zip(*xs)
@@ -100,70 +100,4 @@ for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(datalo
     
     x = g.scores.cpu().detach().numpy()
     x[~g.real_edge_mask] = -np.inf
-    np.save(f'score_data/ioi_{steps}steps/gpt2-xl/ioi_edge_scores_{i}.npy', x)
-    continue
-
-    print('evaluating circuit of this single data...')
-    circuit_results = []
-    circuit_faithfulness = []
-    for topn in topns:
-        g.apply_topn(topn, True)
-        # g.apply_greedy(topn, True) # very slow; not scalable
-    
-        # edge_mask = g.in_graph.cpu().numpy() # 1=has the edge
-        # np.save(f'{method}_{topn}_connected_edges_mask.npy', edge_mask)
-        print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
-
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=intervention, quiet=True)
-        results = results.mean().item()
-        circuit_results.append(results)
-        
-        # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-        circuit_faithfulness.append(round(faithfulness, 2))
-
-        print(f"Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness: {faithfulness:.2f}")
-        
-    all_results.append({
-        'baseline': baseline,
-        'corrupted_baseline': corrupted_baseline,
-        'topns': topns,
-        'circuit_results': circuit_results,
-        'circuit_faithfulness': circuit_faithfulness
-    })
-exit(0)
-
-# with open(f'preprocessed_data/ioi_{method.lower()}_{steps}steps_{data_num}datanum_{var}var_{perturb_times}pt_one_sample_data.json', 'w') as f:
-# with open(f'preprocessed_data/ioi_{method.lower()}_{steps}steps_{bs}_sample_per_circuit.json', 'w') as f:
-#     json.dump(all_results, f, indent=2)
-
-
-method2 = 'eap-ig-inputs' # eap-ig-activations # eap-ig-inputs
-
-one_sample_data1 = all_results
-one_sample_faithfulness1 = [d['circuit_faithfulness'] for d in one_sample_data1]
-one_sample_faithfulness1 = np.mean(one_sample_faithfulness1, axis=0)
-one_sample_faithfulness1 = one_sample_faithfulness1.tolist()
-print('one_sample_faithfulness1: ', one_sample_faithfulness1)
-one_sample_filepath2 = f'preprocessed_data/ioi_{method2}_{steps}steps_5_sample_per_circuit.json'
-with open(one_sample_filepath2, 'r') as file:
-    one_sample_data2 = json.load(file)
-one_sample_data2 = one_sample_data2[:data_num]
-assert len(one_sample_data1) == len(one_sample_data2), "Data length mismatch between two methods."
-
-one_sample_faithfulness2 = [d['circuit_faithfulness'] for d in one_sample_data2]
-one_sample_faithfulness2 = np.mean(one_sample_faithfulness2, axis=0)
-one_sample_faithfulness2 = one_sample_faithfulness2.tolist()
-
-assert one_sample_data1[0]['topns'] == one_sample_data2[0]['topns'], "Top-n values do not match between one-sample and all-sample experiments."
-
-print('one_sample_faithfulness1: ', one_sample_faithfulness1)
-print('one_sample_faithfulness2: ', one_sample_faithfulness2)
-plt.plot(one_sample_data1[0]['topns'], one_sample_faithfulness1, label='One Sample IG', marker='o')
-plt.plot(one_sample_data2[0]['topns'], one_sample_faithfulness2, label='One Sample IG 500', marker='s')
-plt.ylim(-0.1, 1.1)
-plt.xlabel('Top-K Edges')
-plt.ylabel('Circuit Faithfulness')
-plt.legend()
-plt.tight_layout()
-plt.savefig(f'test.pdf', bbox_inches='tight')
+    np.save(f'score_data/ioi_{steps}steps/{model_name}/ioi_edge_scores_{i}.npy', x)
