@@ -89,7 +89,7 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     # We corrupt it by adding in the activation difference (b/w clean and corrupted acts)
     def make_input_construction_hook(activation_matrix, in_graph_vector, neuron_matrix):
         def input_construction_hook(activations, hook):
-            # print('hook: ', hook.name)
+
             # Case where layernorm is applied after attention (gemma only)
             if model.cfg.use_normalization_before_and_after: # default false
                 activation_differences = activation_matrix[0] - activation_matrix[1]
@@ -150,7 +150,6 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
             else:
                 # In the non-gemma case, things are easy!
                 activation_differences = activation_matrix
-                # print('activation_differences: ', activation_differences.shape) # torch.Size([10, 21, 157, 768])
                 # The ... here is to account for a potential head dimension, when constructing a whole attention layer's input
                 if neuron_matrix is not None:
                     update = einsum(activation_differences[:, :, :len(in_graph_vector)], neuron_matrix[:len(in_graph_vector)], in_graph_vector,
@@ -158,10 +157,8 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
                 else:
                     update = einsum(activation_differences[:, :, :len(in_graph_vector)], in_graph_vector,
                                     'batch pos previous hidden, previous ... -> batch pos ... hidden')
-                    # print('in_graph_vector: ', in_graph_vector.shape) # torch.Size([157])
-                    # print('b: ', activation_differences[:, :, :len(in_graph_vector)].shape) # torch.Size([10, 21, 157, 768]) 
 
-            activations += update # torch.Size([bs, pos, 1 or 12, d_model])
+            activations += update
             return activations
         return input_construction_hook
 

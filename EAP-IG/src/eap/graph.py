@@ -600,13 +600,10 @@ class Graph:
             need = n - len(chosen)
             if need <= 0: break
             need = min(need, len(vals))
-            # print('need: ', need)
             # pick top-need indices within this tier
             flat_idx = np.argpartition(vals, -need)[-need:]
             # map back to (i,j)
-            # print('flat_idx: ', flat_idx)
             coords = np.argwhere(mask)[flat_idx]
-            # print('coords: ', coords)
             if need > 1:
                 chosen.extend(map(tuple, coords))
             else:

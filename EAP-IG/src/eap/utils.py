@@ -67,22 +67,14 @@ def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optio
             t.append(tokens.shape[1])
         pad_tok = model.tokenizer.decode([model.tokenizer.pad_token_id])
         def padding_fn(lst, pad_to_length, ori_corrupt_len):
-            # print(f'ori lst: {lst}, pad_to_length: {pad_to_length}, ori_corrupt_len: {ori_corrupt_len}')
-            # assert pad_to_length - ori_corrupt_len >= 0, f'Error: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}'
             if pad_to_length - ori_corrupt_len < 0:
                 print(f'Warning: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}, truncating the corrupted input')
                 print('after lst: ', lst[-pad_to_length:])
                 print('len: ', len(lst))
                 exit(0)
             
-            # print(f'noraml. pad_to_length {pad_to_length} >= ori_corrupt_len {ori_corrupt_len}, padding the corrupted input')
-            # print('after lst len: ', len(pad_tok * (pad_to_length - ori_corrupt_len) + lst))
             return pad_tok * (pad_to_length - ori_corrupt_len) + lst
-            # else:
-            #     print(f'Warning: pad_to_length {pad_to_length} < ori_corrupt_len {ori_corrupt_len}, truncating the corrupted input')
-            #     print('after lst: ', lst[-pad_to_length:])
-            #     print('len: ', len(lst))
-            #     return lst[-pad_to_length:]
+
         for i in range(len(inputs)):
             inputs[i] = padding_fn(inputs[i], manual_pad_to_length[i], t[i])
 
@@ -90,17 +82,13 @@ def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optio
         old_n_ctx = model.cfg.n_ctx
         model.cfg.n_ctx = max_length
     tokens = model.to_tokens(inputs, prepend_bos=True, padding_side='right', truncate=(max_length is not None)) # 50256
-    # print('tokens: ', tokens)
-    # print('tokens shape: ', tokens.dtype)
+
     if max_length is not None:
         model.cfg.n_ctx = old_n_ctx
     attention_mask = get_attention_mask(model.tokenizer, tokens, True)
-    # print('attention_mask: ', attention_mask)
     input_lengths = attention_mask.sum(1)
-    # print('input_lengths: ', input_lengths)
     n_pos = attention_mask.size(1)
-    # print('n_pos: ', n_pos)
-    # exit(0)
+
     return tokens, attention_mask, input_lengths, n_pos
 
 def no_tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optional[int] = None):
@@ -128,17 +116,13 @@ def no_tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Op
     max_len = max(len(lst) for lst in inputs)
     inputs = [lst + [PAD_TOKEN_ID] * (max_len - len(lst)) for lst in inputs]
     tokens = torch.tensor(inputs, device=model.cfg.device, dtype=torch.int64)
-    # print('tokens: ', tokens)
     if max_length is not None:
         model.cfg.n_ctx = old_n_ctx
-    # torch.set_printoptions(threshold=float('inf'))
+
     attention_mask = get_attention_mask(model.tokenizer, tokens, True) # TODO
-    # print('attention_mask: ', attention_mask)
     input_lengths = attention_mask.sum(1)
-    # print('input_lengths: ', input_lengths)
     n_pos = attention_mask.size(1)
-    # print('n_pos: ', n_pos)
-    # exit(0)
+
     return tokens, attention_mask, input_lengths, n_pos
 
 def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:int , n_pos:int, scores: Optional[Tensor], hook_rep:bool=False, hook_layer:bool=False, hook_pattern:bool=False):
@@ -156,15 +140,15 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
     """
     # To record each node's output representations of the dataset
     if hook_rep:
-        node_representation = torch.zeros((batch_size, n_pos, graph.n_forward, model.cfg.d_model), device=model.cfg.device, dtype=model.cfg.dtype) # torch.Size([10, 21, 157, 768])
+        node_representation = torch.zeros((batch_size, n_pos, graph.n_forward, model.cfg.d_model), device=model.cfg.device, dtype=model.cfg.dtype)
     else:
         node_representation = None
     if hook_layer:
-        layer_representation = torch.zeros((batch_size, n_pos, graph.cfg['n_layers'], model.cfg.d_model), device=model.cfg.device, dtype=model.cfg.dtype) # torch.Size([10, 21, 157, 768])
+        layer_representation = torch.zeros((batch_size, n_pos, graph.cfg['n_layers'], model.cfg.d_model), device=model.cfg.device, dtype=model.cfg.dtype)
     else:
         layer_representation = None
     if hook_pattern:
-        node_pattern = torch.zeros((batch_size, graph.n_forward, n_pos, n_pos), device=model.cfg.device, dtype=model.cfg.dtype) # torch.Size([10, 157, 21, 21])
+        node_pattern = torch.zeros((batch_size, graph.n_forward, n_pos, n_pos), device=model.cfg.device, dtype=model.cfg.dtype)
     else:
         node_pattern = None
     
@@ -187,7 +171,7 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
         """
             index: neuron index
         """
-        acts = activations.detach() # node output representation. torch.Size([10, 21, 12, 768]) or torch.Size([10, 21, 768]) 
+        acts = activations.detach() # node output representation
         try:
             if separate_activations:
                 if add:
@@ -217,22 +201,14 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
             hook (_type_): (unused)
 
         """
-        # print('hook name: ', hook.name)
-        grads = gradients.detach() # torch.Size([10, 21, 768])
+
+        grads = gradients.detach()
         try:
             if grads.ndim == 3:
                 grads = grads.unsqueeze(2)
-            # print('grads: ', grads.shape) # torch.Size([10, 21, 1 or 12, 768])
-            # print('prev_index: ', prev_index)
-            # print('activation_difference: ', activation_difference.shape) # torch.Size([10, 21, 157, 768])
-            # print('ad: ', activation_difference[:, :, :prev_index].shape)
+
             s = einsum(activation_difference[:, :, :prev_index], grads,'batch pos forward hidden, batch pos backward hidden -> forward backward')
-            # print('s: ', s.shape)
             s = s.squeeze(1)
-            # print('bwd_index: ', bwd_index)
-            # print('bb: ', scores[:prev_index, bwd_index].shape)
-            # print('s: ', s.shape)
-            # exit(0)
             scores[:prev_index, bwd_index] += s
         except RuntimeError as e:
             print(hook.name, activation_difference.size(), activation_difference.device, grads.size(), grads.device)
@@ -243,7 +219,6 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
         """
             index: neuron index
         """
-        # pattern = patterns.detach() # attention node attention pattern.  # torch.Size([10, 157, 21, 21])
         try:
             node_pattern[:, index, :, :] = patterns.detach() # attention node attention pattern.
         except RuntimeError as e:
@@ -261,23 +236,19 @@ def make_hooks_and_matrices(model: HookedTransformer, graph: Graph, batch_size:i
         fwd_hooks_corrupted.append((node.out_hook, partial(activation_hook, fwd_index, hook_rep=False)))
         fwd_hooks_clean.append((node.out_hook, partial(activation_hook, fwd_index, add=False, hook_rep=hook_rep)))
         # ours
-        if hook_pattern:
+
             fwd_hooks_clean.append((f'blocks.{layer}.attn.hook_pattern', partial(pattern_hook, fwd_index)))
-        #
         
         prev_index = graph.prev_index(node)
-        # print('prev_index: ', prev_index) # 1->14->27->40...
         for i, letter in enumerate('qkv'):
             bwd_index = graph.backward_index(node, qkv=letter)
-            # print(f'{letter} bwd_index: ', bwd_index) # slice(0, 12, None), slice(12, 24, None), slice(24, 36, None)->slice(37, 49, None)...
             bwd_hooks.append((node.qkv_inputs[i], partial(gradient_hook, prev_index, bwd_index)))
 
         node = graph.nodes[f'm{layer}']
         fwd_index = graph.forward_index(node)
         bwd_index = graph.backward_index(node)
         prev_index = graph.prev_index(node)
-        # print('prev_index: ', prev_index) # 13->26->39->52...
-        # print('bwd_index: ', bwd_index) # 36->73->110...
+
         fwd_hooks_corrupted.append((node.out_hook, partial(activation_hook, fwd_index, hook_rep=False)))
         fwd_hooks_clean.append((node.out_hook, partial(activation_hook, fwd_index, add=False, hook_rep=hook_rep)))
         bwd_hooks.append((node.in_hook, partial(gradient_hook, prev_index, bwd_index)))

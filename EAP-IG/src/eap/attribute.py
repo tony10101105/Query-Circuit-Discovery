@@ -114,10 +114,9 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
     Returns:
         Tensor: a [src_nodes, dst_nodes] tensor of scores for each edge
     """
-    # print(graph.n_backward)
+
     scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
-    # print('sss: ', scores.shape)
-    
+
     total_items = 0
     dataloader = dataloader if quiet else tqdm(dataloader)
     for para_idx, (clean, corrupted, label) in enumerate(dataloader):
@@ -184,116 +183,16 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
                 print(f'Step: {step}')
                 raise ValueError("Metric value is NaN")
             
+        ### to store intermediate score matrix
         # scores /= steps
         # x = scores.cpu().detach().numpy()
         # x[~graph.real_edge_mask] = -np.inf
         # # np.save(f'score_data/mmlu_{cat}/llama3-8b/metric4_{file_idx}_{para_idx}.npy', x)
         # np.save(f'score_data/arithmetic_mul/llama3-8b/{file_idx}_{para_idx}.npy', x)
         # scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
+    
     scores /= total_items
     scores /= steps
-    return scores
-
-def get_scores_eap_ig_sg(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=30, quiet=False, var=1, perturb_times=5):
-    """Gets edge attribution scores using EAP with integrated gradients AND SmoothGrad.
-
-    Args:
-        model (HookedTransformer): The model to attribute
-        graph (Graph): Graph to attribute
-        dataloader (DataLoader): The data over which to attribute
-        metric (Callable[[Tensor], Tensor]): metric to attribute with respect to
-        steps (int, optional): number of IG steps. Defaults to 30.
-        quiet (bool, optional): suppress tqdm output. Defaults to False.
-        var (float, optional): the variance to be added to embedding space for SmoothGrad. Defaults to 1.
-
-    Returns:
-        Tensor: a [src_nodes, dst_nodes] tensor of scores for each edge
-    """
-    scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)    
-    
-    total_items = 0
-    total_steps = 0
-    dataloader = dataloader if quiet else tqdm(dataloader)
-    for clean, corrupted, label in dataloader:
-        batch_size = len(clean)
-        total_items += batch_size
-
-        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-        corrupted_tokens, _, _, n_pos_corrupted = tokenize_plus(model, corrupted) #
-
-        if n_pos != n_pos_corrupted:
-            print(f"Number of positions must match, but do not: {n_pos} (clean) != {n_pos_corrupted} (corrupted)")
-            raise ValueError("Number of positions must match")
-
-        if perturb_times == 'adaptive':
-            perturb_times = n_pos
-        # all_vars = np.linspace(0, var, perturb_times)
-        all_perform = []
-        # for v in all_vars:
-        (fwd_hooks_corrupted, fwd_hooks_clean, bwd_hooks), activation_difference, _, _, _ = make_hooks_and_matrices(model, graph, batch_size, n_pos, scores)
-
-        def input_perturbation_hook(v: float):
-            def hook_fn(activations, hook):
-                noise = torch.randn_like(activations) * v
-                activations += noise
-                new_input = activations
-                new_input.requires_grad = True 
-                return new_input
-            return hook_fn
-
-        with torch.inference_mode():
-            with model.hooks(fwd_hooks=[(graph.nodes['input'].out_hook, input_perturbation_hook(var))]+fwd_hooks_corrupted): # fwd_hooks has order
-            # with model.hooks(fwd_hooks=fwd_hooks_corrupted):
-                _ = model(corrupted_tokens, attention_mask=attention_mask)
-            input_activations_corrupted = activation_difference[:, :, graph.forward_index(graph.nodes['input'])].clone()
-
-        with torch.inference_mode():
-            with model.hooks(fwd_hooks=[(graph.nodes['input'].out_hook, input_perturbation_hook(var))]+fwd_hooks_clean):
-            # with model.hooks(fwd_hooks=fwd_hooks_clean):
-                clean_logits = model(clean_tokens, attention_mask=attention_mask)
-                all_perform.append(metric(clean_logits, 0, input_lengths, label).item())
-
-            input_activations_clean = input_activations_corrupted - activation_difference[:, :, graph.forward_index(graph.nodes['input'])]
-
-        def input_interpolation_hook(k: int): # interpolate between corrupted and pseudo-clean inputs
-            def hook_fn(activations, hook):
-                new_input = input_activations_corrupted + (k / steps) * (input_activations_clean - input_activations_corrupted) 
-                new_input.requires_grad = True 
-                return new_input
-            return hook_fn
-
-        for step in range(0, steps):
-            total_steps += 1
-            with model.hooks(fwd_hooks=[(graph.nodes['input'].out_hook, input_interpolation_hook(step))], bwd_hooks=bwd_hooks):
-                logits = model(clean_tokens, attention_mask=attention_mask)
-                metric_value = metric(logits, clean_logits, input_lengths, label)
-                if torch.isnan(metric_value).any().item():
-                    print("Metric value is NaN")
-                    print(f"Clean: {clean}")
-                    print(f"Corrupted: {corrupted}")
-                    print(f"Label: {label}")
-                    print(f"Metric: {metric}")
-                    raise ValueError("Metric value is NaN")
-                metric_value.backward()
-            
-            if torch.isnan(scores).any().item():
-                print("Metric value is NaN")
-                print(f"Clean: {clean}")
-                print(f"Corrupted: {corrupted}")
-                print(f"Label: {label}")
-                print(f"Metric: {metric}")
-                print(f'Step: {step}')
-                raise ValueError("Metric value is NaN")
-    # print(all_perform)
-            # scores /= steps
-            # x = scores.cpu().detach().numpy()
-            # x[~graph.real_edge_mask] = -np.inf
-            # np.save(f'score_data/ioi_1st_sample_noise/var_{var}_{v}.npy', x)
-            # scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
-    # exit(0)
-    scores /= total_items
-    scores /= total_steps
-
     return scores
 
 def get_scores_ig_activations(model: HookedTransformer, graph: Graph, dataloader: DataLoader, 
@@ -470,7 +369,7 @@ def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, d
                 mask = torch.arange(max_len, device=input_lengths.device,
                             dtype=input_lengths.dtype).expand(len(input_lengths), max_len) < input_lengths.unsqueeze(1)
                 mask = mask.unsqueeze(-1).unsqueeze(-1)
-                # print(importance.size(), mask.size())
+
                 importance *= mask
                 importance = importance.sum(1) / input_lengths.view(-1,1,1) # mean over positions
                 importance = importance.sum(0)

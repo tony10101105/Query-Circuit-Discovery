@@ -11,6 +11,6 @@ exclude = ["Astronomy - EM", "Marketing - EM", "Professional Medicine - EM"]
 df_high = df_high[~df_high['Category'].isin(exclude)]
 
 # randomly sample 7 rows (or fewer if not enough left)
-sampled = df_high.sample(n=min(7, len(df_high)), random_state=2025)
+# sampled = df_high.sample(n=min(7, len(df_high)), random_state=2025)
 
 print(sampled)
