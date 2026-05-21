@@ -33,7 +33,7 @@ def format_corrupted_prompt(row):
     return complete_prompt
 
 
-category = 'Easy'
+category = 'Challenge'
 model_name = 'meta-llama/Llama-3.2-1B' # gpt2 # meta-llama/Llama-3.2-1B
 splits = {'train': f'ARC-{category}/train-00000-of-00001.parquet', 'test': f'ARC-{category}/test-00000-of-00001.parquet', 'validation': f'ARC-{category}/validation-00000-of-00001.parquet'}
 df = pd.read_parquet("hf://datasets/allenai/ai2_arc/" + splits["test"])
