@@ -15,78 +15,9 @@ from transformer_lens import HookedTransformer
 from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
-
-def set_seed(seed: int = 2025):
-    random.seed(seed)
-    np.random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)  # if using multi-GPU
-
-    # For TransformerLens:
-    # Optional: sets the default generator for dropout, noise etc.
-    generator = torch.Generator()
-    generator.manual_seed(seed)
-    return generator
+from src.eap.utils import set_seed
+from utils import get_logit_positions, logit_diff, EAPDataset
 set_seed(2025) 
-
-def collate_EAP(xs):
-    clean, corrupted, labels = zip(*xs)
-    clean = list(clean)
-    corrupted = list(corrupted)
-    labels = torch.tensor(labels)
-    return clean, corrupted, labels
-
-class EAPDataset(Dataset):
-    def __init__(self, filepath):
-        self.df = pd.read_csv(filepath)
-        self.df = self.df[:data_num]
-
-    def __len__(self):
-        return len(self.df)
-    
-    def shuffle(self):
-        self.df = self.df.sample(frac=1)
-
-    def head(self, n: int):
-        self.df = self.df.head(n)
-    
-    def __getitem__(self, index):
-        row = self.df.iloc[index]
-        return row['clean'], row['corrupted'], [row['clean_answer_idx'], row['corrupted_answer_idx']]
-    
-    def to_dataloader(self, batch_size: int):
-        return DataLoader(self, batch_size=batch_size, collate_fn=collate_EAP)
-    
-def get_logit_positions(logits: torch.Tensor, input_length: torch.Tensor):
-    batch_size = logits.size(0)
-    idx = torch.arange(batch_size, device=logits.device)
-
-    logits = logits[idx, input_length - 1]
-    return logits
-
-def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: torch.Tensor, labels: torch.Tensor, mean=True, loss=False, a=False):
-    logits = get_logit_positions(logits, input_length)
-    good_bad = torch.gather(logits, -1, labels.to(logits.device))
-
-    probs = torch.softmax(logits, dim=-1)
-    good_bad = torch.gather(probs, -1, labels.to(probs.device))
-    if a:
-        print('good: ', good_bad[:, 0])
-        print('bad: ', good_bad[:, 1])
-        print('diff: ', good_bad[:, 0] - good_bad[:, 1])
-
-    
-    results = good_bad[:, 0] - good_bad[:, 1]
-    if loss:
-        results = -results
-    if mean: 
-        results = results.mean()
-    return results
-
-
 data_num = 1000
 # topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
 topns = [100]
@@ -101,7 +32,8 @@ model.cfg.use_attn_result = True
 model.cfg.use_hook_mlp_in = True
 model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset('probing_dataset/gender_bias_gpt2.csv')
+ds = EAPDataset('probing_dataset/gender_bias_gpt2.csv', data_num=data_num,
+                correct_col='clean_answer_idx', incorrect_col='corrupted_answer_idx')
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []
@@ -132,7 +64,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader)):
         g.prune()
         print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False, a=True), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=intervention, quiet=True)
         exit(0)
         results = results.mean().item()
         circuit_results.append(results)

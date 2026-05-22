@@ -17,7 +17,6 @@ from transformer_lens import HookedTransformer
 
 from src.eap.utils import topn_indices, set_seed
 
-os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
 
@@ -26,10 +25,10 @@ i = 1
 para_data = []
 if 'mmlu' in dataset:
     for k in range(10):
-        para_data.append(np.load(f"score_data/mmlu_astronomy/metric4_{i}_{k}.npy"))
+        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/mmlu_astronomy/metric4_{i}_{k}.npy"))
 elif 'ioi' in dataset:
     for i in range(0, 10):
-        para_data.append(np.load(f"score_data/ioi_20steps/llama32-1b/ioi_edge_scores_{i}.npy"))
+        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/ioi_20steps/llama32-1b/ioi_edge_scores_{i}.npy"))
 
 para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
 

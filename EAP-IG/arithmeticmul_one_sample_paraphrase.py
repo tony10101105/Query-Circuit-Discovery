@@ -18,76 +18,10 @@ from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import topn_indices, set_seed
+from utils import get_logit_positions, logit_diff, PARAEAPDataset
 
-os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
-
-def collate_EAP(xs):
-    clean, corrupted, labels = zip(*xs)
-    clean = list(clean)
-    corrupted = list(corrupted)
-    # labels = torch.tensor(labels)
-    return clean, corrupted, labels
-
-class EAPDataset(Dataset):
-    def __init__(self, filepath, data_num):
-        self.df = pd.read_csv(filepath)
-        self.df = self.df[:data_num]
-
-    def __len__(self):
-        return len(self.df)
-    
-    def shuffle(self):
-        self.df = self.df.sample(frac=1)
-
-    def head(self, n: int):
-        self.df = self.df.head(n)
-    
-    # def __getitem__(self, index):
-    #     row = self.df.iloc[index]
-    #     print(row['clean'])
-    #     print([row['correct_idx'], row['incorrect_idx']])
-    #     exit(0)
-    #     return row['clean'], row['corrupted'], [row['correct_idx'], row['incorrect_idx']]
-    def __getitem__(self, index):
-        row = self.df.iloc[index]
-        # expand each row to 10 paraphrases
-        clean = []
-        for i in range(10):
-            if i == 0:
-                clean.append(row['clean'])
-            else:
-                clean.append(row['paraphrase' + str(i)])
-        
-        corrupted = [row['corrupted']] * 10
-
-        correct_idx = int(row['correct_idx'])
-        incorrect_idx = int(row['incorrect_idx'])
-        labels = [[correct_idx, incorrect_idx]] * 10
-        return clean, corrupted, labels
-    
-    def to_dataloader(self, batch_size: int):
-        return DataLoader(self, batch_size=batch_size, collate_fn=collate_EAP)
-
-def get_logit_positions(logits: torch.Tensor, input_length: torch.Tensor):
-    batch_size = logits.size(0)
-    idx = torch.arange(batch_size, device=logits.device)
-
-    logits = logits[idx, input_length - 1]
-    return logits
-
-def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: torch.Tensor, labels: torch.Tensor, mean=True, loss=False):
-    logits = get_logit_positions(logits, input_length)
-    good_bad = torch.gather(logits, -1, labels.to(logits.device))
-    results = good_bad[:, 0] - good_bad[:, 1]
-    if loss:
-        results = -results
-    if mean: 
-        results = results.mean()
-    return results
-
-
 data_num = 500
 topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000] # 32491 for gpt2-small, 386713 for llama
 # topns = [100, 250, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000] # 386713 for llama
@@ -101,7 +35,7 @@ model.cfg.use_attn_result = True
 model.cfg.use_hook_mlp_in = True
 model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset(f'probing_dataset/arithmetic_mul_Llama-32-1B.csv', data_num=data_num)
+ds = PARAEAPDataset(f'probing_dataset/arithmetic_mul_Llama-32-1B.csv', data_num=data_num, simple=True)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []

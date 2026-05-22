@@ -21,61 +21,12 @@ from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import topn_indices, set_seed
+from utils import get_logit_positions, logit_diff, EAPDataset
 
-import subprocess
 
-subprocess.Popen(["python3", "gpu_keepalive.py"])
 
-os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
-
-def collate_EAP(xs):
-    clean, corrupted, labels = zip(*xs)
-    clean = list(clean)
-    corrupted = list(corrupted)
-    labels = torch.tensor(labels)
-    return clean, corrupted, labels
-
-class EAPDataset(Dataset):
-    def __init__(self, filepath, data_num):
-        self.df = pd.read_csv(filepath)
-        self.df = self.df[:data_num]
-
-    def __len__(self):
-        return len(self.df)
-    
-    def shuffle(self):
-        self.df = self.df.sample(frac=1)
-
-    def head(self, n: int):
-        self.df = self.df.head(n)
-    
-    def __getitem__(self, index):
-        row = self.df.iloc[index]
-        return row['clean'], row['corrupted'], [row['correct_idx'], row['incorrect_idx']]
-    
-    def to_dataloader(self, batch_size: int):
-        return DataLoader(self, batch_size=batch_size, collate_fn=collate_EAP)
-    
-def get_logit_positions(logits: torch.Tensor, input_length: torch.Tensor):
-    batch_size = logits.size(0)
-    idx = torch.arange(batch_size, device=logits.device)
-
-    logits = logits[idx, input_length - 1]
-    return logits
-
-def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: torch.Tensor, labels: torch.Tensor, mean=True, loss=False):
-    logits = get_logit_positions(logits, input_length)
-    good_bad = torch.gather(logits, -1, labels.to(logits.device))
-    results = good_bad[:, 0] - good_bad[:, 1]
-    if loss:
-        results = -results
-    if mean: 
-        results = results.mean()
-    return results
-
-
 data_num = 100
 topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000] # 32491 for gpt2-small, 386713 for llama
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
@@ -101,7 +52,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     
     para_data = []
     for k in range(10):
-        para_data.append(np.load(f"score_data/arithmetic_mul/llama3-8b/{i}_{k}.npy"))
+        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/arithmetic_mul/llama3-8b/{i}_{k}.npy"))
 
     para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
     

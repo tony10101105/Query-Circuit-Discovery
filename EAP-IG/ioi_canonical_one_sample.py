@@ -15,69 +15,9 @@ from transformer_lens import HookedTransformer
 from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
-
-def set_seed(seed: int = 2025):
-    random.seed(seed)
-    np.random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)  # if using multi-GPU
-
-    # For TransformerLens:
-    # Optional: sets the default generator for dropout, noise etc.
-    generator = torch.Generator()
-    generator.manual_seed(seed)
-    return generator
+from src.eap.utils import set_seed
+from utils import get_logit_positions, logit_diff, EAPDataset
 set_seed(2025)
-
-def collate_EAP(xs):
-    clean, corrupted, labels = zip(*xs)
-    clean = list(clean)
-    corrupted = list(corrupted)
-    labels = torch.tensor(labels)
-    return clean, corrupted, labels
-
-class EAPDataset(Dataset):
-    def __init__(self, filepath):
-        self.df = pd.read_csv(filepath)
-        self.df = self.df[:data_num]
-
-    def __len__(self):
-        return len(self.df)
-    
-    def shuffle(self):
-        self.df = self.df.sample(frac=1)
-
-    def head(self, n: int):
-        self.df = self.df.head(n)
-    
-    def __getitem__(self, index):
-        row = self.df.iloc[index]
-        return row['clean'], row['corrupted'], [row['correct_idx'], row['incorrect_idx']]
-    
-    def to_dataloader(self, batch_size: int):
-        return DataLoader(self, batch_size=batch_size, collate_fn=collate_EAP)
-    
-def get_logit_positions(logits: torch.Tensor, input_length: torch.Tensor):
-    batch_size = logits.size(0)
-    idx = torch.arange(batch_size, device=logits.device)
-
-    logits = logits[idx, input_length - 1]
-    return logits
-
-def logit_diff(logits: torch.Tensor, clean_logits: torch.Tensor, input_length: torch.Tensor, labels: torch.Tensor, mean=True, loss=False):
-    logits = get_logit_positions(logits, input_length)
-    good_bad = torch.gather(logits, -1, labels.to(logits.device))
-    results = good_bad[:, 0] - good_bad[:, 1]
-    if loss:
-        results = -results
-    if mean: 
-        results = results.mean()
-    return results
-
-
 data_num = 3
 # topns = [50, 100, 250, 500, 1000, 1500, 2000] # 32491
 topns = [500, 1000, 1500, 2000] # 32491

@@ -21,89 +21,10 @@ from src.eap.graph import Graph
 from src.eap.evaluate import evaluate_graph, evaluate_baseline
 from src.eap.attribute import attribute
 from src.eap.utils import topn_indices, set_seed
+from utils import get_logit_positions, logit_diff, EAPDataset
 
-os.environ["TRANSFORMERS_CACHE"] = "/data/huggingface"
 
 set_seed(2025)
-
-def collate_EAP(xs):
-    clean, corrupted, labels = zip(*xs)
-    clean = list(clean)
-    corrupted = list(corrupted)
-    labels = list(labels)
-    # labels = torch.tensor(labels)
-    return clean, corrupted, labels
-
-class EAPDataset(Dataset):
-    def __init__(self, filepath, category=None, num_samples=None):
-        self.df = pd.read_csv(filepath)
-        if category:
-            self.df = self.df[self.df['category'] == category]
-        if num_samples and num_samples < len(self.df):
-            self.df = self.df.head(num_samples)
-            
-        # self.df = self.df.iloc[:70]
-        self.df = self.df.iloc[70:]
-        print(f'Loaded {len(self.df)} samples from {filepath} with category {category} and {len(self.df)} samples')
-
-    def __len__(self):
-        return len(self.df)
-    
-    def shuffle(self):
-        self.df = self.df.sample(frac=1)
-
-    def head(self, n: int):
-        self.df = self.df.head(n)
-    
-    def __getitem__(self, index):
-        row = self.df.iloc[index]
-        return row['clean'], row['corrupted'], [int(row['correct_idx']), ast.literal_eval(row['incorrect_idx'])]
-
-    def to_dataloader(self, batch_size: int):
-        return DataLoader(self, batch_size=batch_size, collate_fn=collate_EAP)
-
-def get_logit_positions(logits: torch.Tensor, input_length: torch.Tensor):
-    batch_size = logits.size(0)
-    idx = torch.arange(batch_size, device=logits.device)
-
-    logits = logits[idx, input_length - 1]
-    return logits
-
-def logit_diff(
-    logits: torch.Tensor,
-    clean_logits: torch.Tensor,
-    input_length: torch.Tensor,
-    labels: list[list],             # list of [correct_idx, [wrong_idx1, wrong_idx2, ...]]
-    mean: bool = True,
-    loss: bool = False,
-):
-    # Extract the last-token logits: [batch_size, vocab_size]
-    logits = get_logit_positions(logits, input_length)
-    probs = torch.softmax(logits, dim=-1)
-
-    batch_size = logits.size(0)
-
-    # Get correct token logits
-    correct_idxs = torch.tensor([lbl[0] for lbl in labels], device=logits.device)
-    correct_logits = logits[torch.arange(batch_size), correct_idxs]
-
-    # (4) correct - average over all wrong option tokens
-    bad_vals = []
-    for i, (_, wrong_ids) in enumerate(labels):
-        wrong_logits = logits[i, torch.tensor(wrong_ids, device=logits.device)]
-        bad_vals.append(wrong_logits.mean())
-    bad = torch.stack(bad_vals)
-
-    results = correct_logits - bad
-    # results = probs[torch.arange(batch_size), correct_idxs]
-
-    if loss:
-        results = -results
-    if mean:
-        results = results.mean()
-    return results
-
-
 topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000] # 386713 for llama
 category = 'astronomy' # marketing, professional_medicine, astronomy, college_biology, high_school_computer_science, logical_fallacies, nutrition, international_law, management
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
@@ -116,7 +37,7 @@ model.cfg.use_attn_result = True
 model.cfg.use_hook_mlp_in = True
 model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset(f'probing_dataset/mmlu_{category}_Llama-32-1B.csv', num_samples=500)
+ds = EAPDataset(f'probing_dataset/mmlu_{category}_Llama-32-1B.csv', num_samples=500, mc=True)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_best_results = []
@@ -128,18 +49,18 @@ all_ibon_results = []
 for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloader), desc="Processing samples", position=0)):
     para_data = []
     for k in range(10):
-        para_data.append(np.load(f"score_data/mmlu_{category}/llama3-8b/metric4_{i}_{k}.npy"))
+        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/mmlu_{category}/llama3-8b/metric4_{i}_{k}.npy"))
 
     para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
     
     single_data = [(clean, corrupted, label)]
 
-    baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
-    corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
+    baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), quiet=True).mean().item()
+    corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
     # print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
     # only for padding corrupted input
-    _ = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
+    _ = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
 
     best_c = [-1]*len(topns)
     best_results = [-1]*len(topns)
@@ -162,7 +83,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
             exit(0)
             # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
             results = results.mean().item()
             try:
                 faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
@@ -173,7 +94,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
             circuit_faithfulness.append(faithfulness)
 
             # g.apply_topn(topn, True, complement=True) # if complement is True, return M\C instead of C
-            # complement_results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            # complement_results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
             # complement_results = complement_results.mean().item()
             
             # complement_faithfulness = 1 - min(abs((baseline - complement_results) / (baseline - corrupted_baseline)), 1)
@@ -207,7 +128,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     circuit_faithfulness = []
     for topn in topns:
         g.apply_topn(topn, True)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
         try: 
             faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
@@ -240,7 +161,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     circuit_faithfulness = []
     for topn in topns:
         g.apply_topn_by_tier(topn, tier_mat)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
         try:
             faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
@@ -290,7 +211,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
 
         g.scores = torch.from_numpy(score_mat)
         g.apply_topn_by_tier(topn, tier_mat)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
         results = results.mean().item()
         try:
             faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
