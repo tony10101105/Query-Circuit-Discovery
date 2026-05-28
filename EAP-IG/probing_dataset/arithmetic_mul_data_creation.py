@@ -66,7 +66,7 @@ for x in range(100, 1000):
             ll += 1
             tuple_by_op[z].append(tuple(g))
 
-model_name = 'meta-llama/Llama-3.2-1B' # gpt2 # meta-llama/Llama-3.2-1B
+model_name = 'meta-llama/Llama-3.2-1B'
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 sampled_tuple_by_op = {}

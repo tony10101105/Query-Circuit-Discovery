@@ -35,7 +35,6 @@ for z in zs:
 df = pd.DataFrame(columns=["clean", "corrupted", "answer", "correct_idx", "incorrect_idx"] + [f'paraphrase{i}' for i in range(1, 10)])
 for z, tuples in sampled_tuple_by_op.items():
     for operands in tuples:
-        # print(operands) # a tuple like (9, 111)
         summation = sum(operands)
         clean = '+'.join(map(str, operands)) + '=' # expression
         corrupted = ''
@@ -62,11 +61,7 @@ for z, tuples in sampled_tuple_by_op.items():
         else:
             all_reorders = all_reorders + [all_reorders[-1]] * (9 - len(all_reorders))
 
-        # print(operands)
         paraphrases = ['+'.join(map(str, i)) + '=' for i in all_reorders]
-        # print(paraphrases)
         df.loc[len(df)] = [clean, corrupted, answer, correct_idx, incorrect_idx] + paraphrases
-        
-print(len(df))
 
 df.to_csv(f"arithmetic_add_{model_name.split('/')[-1].replace('.', '')}.csv", index=False)

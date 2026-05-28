@@ -75,12 +75,9 @@ def build_messages(question_text: str):
 def parse_paraphrases(mcq_text: str, raw: str, n_expected: int) -> List[str]:
     """Parse the model output into N paraphrases of the question stem using '||||' as the separator.
        Also trims whitespace and discards empty chunks."""
-    # print('mcq text: ', mcq_text)
-    # print('raw: ', raw)
 
     parts = [p.strip() for p in raw.strip().strip('|').split('||||')]
     parts = [p for p in parts if p]  # drop empties
-    # print('parts: ', parts)
 
     # Regex explanation:
     # ^(.*?)\n   -> capture the first line (the description) up to the first newline
@@ -91,6 +88,7 @@ def parse_paraphrases(mcq_text: str, raw: str, n_expected: int) -> List[str]:
     except:
         print('parts: ', parts)
         valid = ['X' for _ in parts]
+    
     # Truncate or pad to exactly N
     if len(valid) == n_expected:
         return valid
@@ -122,12 +120,14 @@ def get_paraphrases_for_mcq(mcq_text: str) -> List[str]:
         print(f"Attempt {attempt + 1}/{MAX_RETRIES + 1}: Got {len(paras)} paraphrases, expected {N_PARAPHRASES}. Retrying...")
         # brief backoff before retry
         time.sleep(1)
+    
     # Final fallback: if still fewer, pad with copies of the original MCQ (discouraged but keeps shape)
     if len(paras) < N_PARAPHRASES:
         stats['sample_fewer_cnt'] += 1
         print(f"Final attempt: got {len(paras)} paraphrases, padding with original MCQ to reach {N_PARAPHRASES}. Failed number: {stats['sample_fewer_cnt']}")
         while len(paras) < N_PARAPHRASES:
             paras.append(mcq_text.strip())
+    
     return paras
 
 def main():
@@ -160,8 +160,4 @@ def main():
     # Save result
     df.to_csv(OUTPUT_CSV, index=False)
     print(f"Saved paraphrases to {OUTPUT_CSV}")
-    
     print(f"Total larger counts: {stats['larger_cnt']}, fewer counts: {stats['fewer_cnt']}, sample fewer counts: {stats['sample_fewer_cnt']}")
-
-if __name__ == "__main__":
-    main()
