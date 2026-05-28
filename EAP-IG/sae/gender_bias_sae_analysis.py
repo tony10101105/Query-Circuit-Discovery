@@ -3,10 +3,7 @@ Gender Bias SAE Analysis
 Analyzes gender bias samples using GPT-2 Small with SAE feature extraction
 """
 
-import os as _os, sys as _sys
-_base = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_os.chdir(_base)
-_sys.path.insert(0, _base)
+import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 
 import os
 import json
@@ -20,7 +17,6 @@ from sae_lens import SAE
 
 # Import EAP-IG graph and evaluation utilities
 import sys
-sys.path.append('src')
 from eap.graph import Graph
 from eap.utils import tokenize_plus
 

@@ -1,7 +1,4 @@
-import os as _os, sys as _sys
-_base = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_os.chdir(_base)
-_sys.path.insert(0, _base)
+import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 
 from functools import partial
 
@@ -19,22 +16,19 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
-from src.eap.graph import Graph
-from src.eap.evaluate import evaluate_graph, evaluate_baseline
-from src.eap.attribute import attribute
-from src.eap.utils import topn_indices, set_seed
-from utils import get_logit_positions, logit_diff, PARAEAPDataset
-
-shots = "Which is the most possible answer?\n"
-
-
+from eap.graph import Graph
+from eap.evaluate import evaluate_graph, evaluate_baseline
+from eap.attribute import attribute
+from eap.utils import topn_indices, set_seed
+from eap.query_circuit_utils import get_logit_positions, logit_diff, PARAEAPDataset
 set_seed(2025)
+
+
 # topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 32000, 32491] # 32491 for gpt2-small, 386713 for llama
 topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000] # 386713 for llama
 category = 'challenge'
-metric_version = 4 # 1,2,3,4,5,6,7,8,9
 rephrase_type = 'only_stem'
-rephrase_model = 'gpt4o' # gpt4o-mini
+rephrase_model = 'gpt4o'
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
 steps = 20
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'

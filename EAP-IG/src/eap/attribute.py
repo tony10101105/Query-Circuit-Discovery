@@ -425,7 +425,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
               method: Literal['EAP', 'EAP-IG-inputs', 'clean-corrupted', 'EAP-IG-activations', 'information-flow-routes', 'exact'], 
               intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', aggregation='sum', 
               ig_steps: Optional[int]=None, intervention_dataloader: Optional[DataLoader]=None, quiet=False,
-              perturb_times: int=5, var: float=1, file_idx: int=None):
+              file_idx: int=None):
     assert model.cfg.use_attn_result, "Model must be configured to use attention result (model.cfg.use_attn_result)"
     assert model.cfg.use_split_qkv_input, "Model must be configured to use split qkv inputs (model.cfg.use_split_qkv_input)"
     assert model.cfg.use_hook_mlp_in, "Model must be configured to use hook MLP in (model.cfg.use_hook_mlp_in)"

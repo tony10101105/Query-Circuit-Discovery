@@ -1,7 +1,4 @@
-import os as _os, sys as _sys
-_base = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_os.chdir(_base)
-_sys.path.insert(0, _base)
+import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 
 from functools import partial
 
@@ -14,10 +11,10 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
-from src.eap.graph import Graph
-from src.eap.evaluate import evaluate_graph, evaluate_baseline
-from src.eap.attribute import attribute 
-from utils import get_logit_positions, logit_diff, EAPDataset
+from eap.graph import Graph
+from eap.evaluate import evaluate_graph, evaluate_baseline
+from eap.attribute import attribute 
+from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
 topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
 steps = 20

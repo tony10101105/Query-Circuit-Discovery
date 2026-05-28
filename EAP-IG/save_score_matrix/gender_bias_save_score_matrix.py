@@ -1,7 +1,4 @@
-import os as _os, sys as _sys
-_base = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_os.chdir(_base)
-_sys.path.insert(0, _base)
+import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 
 from functools import partial
 
@@ -17,20 +14,20 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
-from src.eap.graph import Graph
-from src.eap.evaluate import evaluate_graph, evaluate_baseline
-from src.eap.attribute import attribute
-from src.eap.utils import set_seed
-from utils import get_logit_positions, logit_diff, EAPDataset
-set_seed(2025) 
+from eap.graph import Graph
+from eap.evaluate import evaluate_graph, evaluate_baseline
+from eap.attribute import attribute
+from eap.utils import set_seed
+from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
+set_seed(2025)
+
+
 data_num = 1000
-# topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
 topns = [100]
-assert len(topns) == 1
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
 steps = 5
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'gpt2-small' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
+model_name = 'gpt2-small'
 model = HookedTransformer.from_pretrained(model_name, device='cuda')
 model.cfg.use_split_qkv_input = True
 model.cfg.use_attn_result = True

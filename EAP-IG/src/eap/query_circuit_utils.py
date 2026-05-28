@@ -1,5 +1,5 @@
 """
-Shared utilities for EAP-IG analysis scripts.
+Shared utilities developed for our query circuit scripts.
 
 Exports:
   get_logit_positions  -- extract last-token logits from a batch

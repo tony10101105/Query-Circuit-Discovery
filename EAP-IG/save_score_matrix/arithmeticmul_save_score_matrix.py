@@ -1,7 +1,4 @@
-import os as _os, sys as _sys
-_base = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-_os.chdir(_base)
-_sys.path.insert(0, _base)
+import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 
 from functools import partial
 
@@ -19,21 +16,20 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
-from src.eap.graph import Graph
-from src.eap.evaluate import evaluate_graph, evaluate_baseline
-from src.eap.attribute import attribute
-from src.eap.utils import topn_indices, set_seed
-from utils import get_logit_positions, logit_diff, PARAEAPDataset
-
-
+from eap.graph import Graph
+from eap.evaluate import evaluate_graph, evaluate_baseline
+from eap.attribute import attribute
+from eap.utils import topn_indices, set_seed
+from eap.query_circuit_utils import get_logit_positions, logit_diff, PARAEAPDataset
 set_seed(2025)
+
+
 data_num = 500
-topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000] # 32491 for gpt2-small, 386713 for llama
-# topns = [100, 250, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000] # 386713 for llama
+topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000]
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations # EAP
 steps = 20
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'meta-llama/Meta-Llama-3-8B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B-Instruct # meta-llama/Meta-Llama-3-8B-Instruct
+model_name = 'meta-llama/Meta-Llama-3-8B-Instruct'
 model = HookedTransformer.from_pretrained_no_processing(model_name, device='cuda', torch_dtype=torch.float16)
 model.cfg.use_split_qkv_input = True
 model.cfg.use_attn_result = True
