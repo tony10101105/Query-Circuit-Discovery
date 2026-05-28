@@ -444,10 +444,6 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs, but got {intervention}")
         scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, file_idx=file_idx)
-    elif method == 'EAP-IG-inputs-sg':
-        if intervention != 'patching':
-            raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs-sg, but got {intervention}")
-        scores = get_scores_eap_ig_sg(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, perturb_times=perturb_times, var=var)
     elif method == 'clean-corrupted':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for clean-corrupted, but got {intervention}")

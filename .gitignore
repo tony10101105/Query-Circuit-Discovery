@@ -6,10 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# Virtual environment
-venv/
-env/
-
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
@@ -30,6 +26,7 @@ dist/
 
 # Environment variables or secrets
 .env
+.venv/
 
 # Data directories
 EAP-IG/sae_data/*/
