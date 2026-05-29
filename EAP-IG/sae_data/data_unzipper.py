@@ -1,4 +1,5 @@
 import os
+import sys
 import gzip
 import shutil
 from pathlib import Path
@@ -73,8 +74,5 @@ def unzip_sae_data(base_dir: str):
 
 
 if __name__ == "__main__":
-    import sys
-    
     base_directory = "./gpt2-small/32k"
-    
     unzip_sae_data(base_directory)
