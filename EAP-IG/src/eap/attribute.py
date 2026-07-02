@@ -9,7 +9,7 @@ from transformer_lens import HookedTransformer
 import numpy as np
 from tqdm import tqdm
 
-from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations, no_tokenize_plus
+from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations
 from .evaluate import evaluate_graph, evaluate_baseline
 from .graph import Graph
 
@@ -100,7 +100,8 @@ def get_scores_eap(model: HookedTransformer, graph: Graph, dataloader:DataLoader
 
     return scores
 
-def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], steps=5, quiet=False, file_idx=None):
+def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLoader, 
+                      metric: Callable[[Tensor], Tensor], steps=5, quiet=False, score_matrix_save_dir=None, file_idx=None):
     """Gets edge attribution scores using EAP with integrated gradients.
 
     Args:
@@ -110,6 +111,7 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
         metric (Callable[[Tensor], Tensor]): metric to attribute with respect to
         steps (int, optional): number of IG steps. Defaults to 30.
         quiet (bool, optional): suppress tqdm output. Defaults to False.
+        file_idx (int, optional): index of the file to save the score matrix to. Defaults to None.
 
     Returns:
         Tensor: a [src_nodes, dst_nodes] tensor of scores for each edge
@@ -177,14 +179,13 @@ def get_scores_eap_ig(model: HookedTransformer, graph: Graph, dataloader: DataLo
                 print(f"Metric: {metric}")
                 print(f'Step: {step}')
                 raise ValueError("Metric value is NaN")
-            
-        ### to store intermediate score matrix
-        scores /= steps
-        x = scores.cpu().detach().numpy()
-        x[~graph.real_edge_mask] = -np.inf
-        np.save(f'score_data/arc_challenge/llama32-1b/{file_idx}_{para_idx}.npy', x)
-        scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
-    
+        
+        if score_matrix_save_dir is not None and file_idx is not None: # to store intermediate score matrix
+            x = scores.cpu().detach().numpy()
+            x[~graph.real_edge_mask] = -np.inf
+            np.save(f'{score_matrix_save_dir}/{file_idx}_{para_idx}.npy', x)
+            scores = torch.zeros((graph.n_forward, graph.n_backward), device='cuda', dtype=model.cfg.dtype)
+        
     scores /= total_items
     scores /= steps
     return scores
@@ -423,14 +424,14 @@ def get_scores_information_flow_routes(model: HookedTransformer, graph: Graph, d
 allowed_aggregations = {'sum', 'mean'}
 def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, metric: Callable[[Tensor], Tensor], 
               method: Literal['EAP', 'EAP-IG-inputs', 'clean-corrupted', 'EAP-IG-activations', 'information-flow-routes', 'exact'], 
-              intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', aggregation='sum', 
+              intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', aggregation='sum',
               ig_steps: Optional[int]=None, intervention_dataloader: Optional[DataLoader]=None, quiet=False,
-              file_idx: int=None):
+              score_matrix_save_dir: str=None, file_idx: int=None):
     assert model.cfg.use_attn_result, "Model must be configured to use attention result (model.cfg.use_attn_result)"
     assert model.cfg.use_split_qkv_input, "Model must be configured to use split qkv inputs (model.cfg.use_split_qkv_input)"
     assert model.cfg.use_hook_mlp_in, "Model must be configured to use hook MLP in (model.cfg.use_hook_mlp_in)"
     if model.cfg.n_key_value_heads is not None:
-        assert model.cfg.ungroup_grouped_query_attention, "Model must be configured to ungroup grouped attention (model.cfg.ungroup_grouped_attention)"
+        assert model.cfg.ungroup_grouped_query_attention, "Model must be configured to ungroup grouped attention (model.cfg.ungroup_grouped_query_attention)"
     
     if aggregation not in allowed_aggregations:
         raise ValueError(f'aggregation must be in {allowed_aggregations}, but got {aggregation}')
@@ -443,7 +444,7 @@ def attribute(model: HookedTransformer, graph: Graph, dataloader: DataLoader, me
     elif method == 'EAP-IG-inputs':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for EAP-IG-inputs, but got {intervention}")
-        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, file_idx=file_idx)
+        scores = get_scores_eap_ig(model, graph, dataloader, metric, steps=ig_steps, quiet=quiet, score_matrix_save_dir=score_matrix_save_dir, file_idx=file_idx)
     elif method == 'clean-corrupted':
         if intervention != 'patching':
             raise ValueError(f"intervention must be 'patching' for clean-corrupted, but got {intervention}")

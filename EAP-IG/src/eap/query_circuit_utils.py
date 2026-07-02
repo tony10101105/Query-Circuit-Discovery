@@ -5,12 +5,13 @@ Exports:
   get_logit_positions  -- extract last-token logits from a batch
   logit_diff           -- unified logit diff (mc=False: gather-based; mc=True: correct − mean wrong)
   collate_EAP          -- collate for EAP samples (tensor_labels=True/False)
-  collate_para         -- collate for PARA datasets (batch_size=1 paraphrase expansion)
+  collate_PARA         -- collate for PARA datasets (batch_size=1 paraphrase expansion)
   EAPDataset           -- unified flat-CSV dataset (mc=False/True controls label parsing)
   PARAEAPDataset       -- unified 10-paraphrase dataset (simple=False/True)
 """
 
 import ast
+import warnings
 from functools import partial
 import torch
 import pandas as pd
@@ -58,9 +59,6 @@ def logit_diff(
     return results
 
 
-
-
-
 def collate_EAP(xs, tensor_labels: bool = True):
     """Collate EAP samples.
 
@@ -71,7 +69,7 @@ def collate_EAP(xs, tensor_labels: bool = True):
     return list(clean), list(corrupted), torch.tensor(labels) if tensor_labels else list(labels)
 
 
-def collate_para(xs):
+def collate_PARA(xs):
     """Collate for PARA datasets with batch_size=1 paraphrase expansion."""
     clean, corrupted, labels = zip(*xs)
     return clean[0], corrupted[0], labels[0]
@@ -96,8 +94,7 @@ class EAPDataset(Dataset):
     def __init__(
         self,
         filepath,
-        data_num=None,
-        num_samples=None,
+        num_samples: int = -1,
         category=None,
         slice_start=None,
         slice_end=None,
@@ -115,9 +112,11 @@ class EAPDataset(Dataset):
         self.mc = mc
         if category:
             self.df = self.df[self.df["category"] == category]
-        effective_num = num_samples if num_samples is not None else data_num
-        if effective_num is not None and effective_num < len(self.df):
-            self.df = self.df.head(effective_num)
+        if num_samples != -1:
+            if num_samples > len(self.df):
+                warnings.warn(f"num_samples={num_samples} exceeds dataset length {len(self.df)}, falling back to full dataset.")
+            else:
+                self.df = self.df.head(num_samples)
         elif slice_start is not None or slice_end is not None:
             self.df = self.df.iloc[slice_start:slice_end]
 
@@ -140,18 +139,20 @@ class EAPDataset(Dataset):
 class PARAEAPDataset(Dataset):
     """Unified 10-paraphrase EAP dataset.
 
-    simple=False (default): MC labels — incorrect_idx parsed with ast.literal_eval; uses collate_para.
+    simple=False (default): MC labels — incorrect_idx parsed with ast.literal_eval; uses collate_PARA.
     simple=True: simple integer incorrect_idx; uses tensor_labels=False collate (arithmetic paraphrase files).
 
     Expects columns: clean, corrupted, paraphrase1..paraphrase9, correct_idx, incorrect_idx.
     """
 
-    def __init__(self, filepath, num_samples=None, data_num=None, simple=False):
+    def __init__(self, filepath, num_samples: int = -1, simple=False):
         self.df = pd.read_csv(filepath)
         self.simple = simple
-        n = num_samples if num_samples is not None else data_num
-        if n is not None:
-            self.df = self.df.head(n)
+        if num_samples != -1:
+            if num_samples > len(self.df):
+                warnings.warn(f"num_samples={num_samples} exceeds dataset length {len(self.df)}, falling back to full dataset.")
+            else:
+                self.df = self.df.head(num_samples)
 
     def __len__(self):
         return len(self.df)
@@ -169,6 +170,6 @@ class PARAEAPDataset(Dataset):
 
     def to_dataloader(self, batch_size=1):
         # simple=True (arithmetic): tensor_labels=False keeps outer list → callers use clean[0][j]
-        # simple=False (MC): collate_para strips outer list → callers use clean[j]
-        collate = partial(collate_EAP, tensor_labels=False) if self.simple else collate_para
+        # simple=False (MC): collate_PARA strips outer list → callers use clean[j]
+        collate = partial(collate_EAP, tensor_labels=False) if self.simple else collate_PARA
         return DataLoader(self, batch_size=batch_size, collate_fn=collate)

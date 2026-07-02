@@ -41,6 +41,13 @@ def set_seed(seed: int = 2025):
     generator.manual_seed(seed)
     return generator
 
+def pad_corrupted_to_clean(model: HookedTransformer, batch_slice_data: list) -> None:
+    """Prepend pad tokens to each corrupted string inside batch_slice_data so its token length matches the clean string.
+    """
+    for clean_list, corrupted_list, _ in batch_slice_data:
+        clean_tokens, _, input_lengths, _ = tokenize_plus(model, list(clean_list))
+        tokenize_plus(model, corrupted_list, manual_pad_to_length=input_lengths.cpu().tolist())
+
 def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optional[int] = None, manual_pad_to_length: Optional[list] = None, padding_side = 'right'):
     """
     Tokenizes the input strings using the provided model.
@@ -86,40 +93,6 @@ def tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optio
     if max_length is not None:
         model.cfg.n_ctx = old_n_ctx
     attention_mask = get_attention_mask(model.tokenizer, tokens, True)
-    input_lengths = attention_mask.sum(1)
-    n_pos = attention_mask.size(1)
-
-    return tokens, attention_mask, input_lengths, n_pos
-
-def no_tokenize_plus(model: HookedTransformer, inputs: List[str], max_length: Optional[int] = None):
-    """
-    Tokenizes the input strings using the provided model.
-
-    Args:
-        model (HookedTransformer): The model used for tokenization.
-        inputs (List[str]): The list of input strings to be tokenized.
-
-    Returns:
-        tuple: A tuple containing the following elements:
-            - tokens (torch.Tensor): The tokenized inputs.
-            - attention_mask (torch.Tensor): The attention mask for the tokenized inputs.
-            - input_lengths (torch.Tensor): The lengths of the tokenized inputs.
-            - n_pos (int): The maximum sequence length of the tokenized inputs.
-    """
-    if max_length is not None: # by default is None
-        old_n_ctx = model.cfg.n_ctx
-        model.cfg.n_ctx = max_length
-        
-    PAD_TOKEN_ID = 50256
-    inputs = [[PAD_TOKEN_ID] + lst for lst in inputs]
-
-    max_len = max(len(lst) for lst in inputs)
-    inputs = [lst + [PAD_TOKEN_ID] * (max_len - len(lst)) for lst in inputs]
-    tokens = torch.tensor(inputs, device=model.cfg.device, dtype=torch.int64)
-    if max_length is not None:
-        model.cfg.n_ctx = old_n_ctx
-
-    attention_mask = get_attention_mask(model.tokenizer, tokens, True) # TODO
     input_lengths = attention_mask.sum(1)
     n_pos = attention_mask.size(1)
 

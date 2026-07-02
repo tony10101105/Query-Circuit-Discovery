@@ -8,7 +8,7 @@ from transformer_lens import HookedTransformer
 from tqdm import tqdm
 from einops import einsum
 
-from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations, no_tokenize_plus
+from .utils import tokenize_plus, make_hooks_and_matrices, compute_mean_activations
 from .graph import Graph, AttentionNode
 
 
@@ -16,7 +16,7 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
                    metrics: Union[Callable[[Tensor],Tensor], List[Callable[[Tensor], Tensor]]], 
                    quiet=False, intervention: Literal['patching', 'zero', 'mean','mean-positional']='patching', 
                    intervention_dataloader: Optional[DataLoader]=None, skip_clean:bool=True, 
-                   hook_rep:bool=False, hook_layer:bool=False, hook_pattern:bool=False, induction=False) -> Union[torch.Tensor, List[torch.Tensor]]:
+                   hook_rep:bool=False, hook_layer:bool=False, hook_pattern:bool=False) -> Union[torch.Tensor, List[torch.Tensor]]:
     """Evaluate a circuit (i.e. a graph where only some nodes are false, probably created by calling graph.apply_threshold). You probably want to prune 
         beforehand to make sure your circuit is valid.
 
@@ -205,13 +205,10 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     for clean, corrupted, label in dataloader:
         # clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
         # corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
-        if not induction:
-            clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
-            corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
-        else: # when induction, the input is list of tokens, not string
-            clean_tokens, attention_mask, input_lengths, n_pos = no_tokenize_plus(model, clean)
-            corrupted_tokens, _, _, _ = no_tokenize_plus(model, corrupted)
+        clean_tokens, attention_mask, input_lengths, n_pos = tokenize_plus(model, clean)
+        corrupted_tokens, _, _, _ = tokenize_plus(model, corrupted)
         max_n_pos = max(max_n_pos, n_pos)
+        
         # fwd_hooks_corrupted adds in corrupted acts to activation_difference
         # fwd_hooks_clean subtracts out clean acts from activation_difference
         # activation difference is of size (batch, pos, src_nodes, hidden)
@@ -286,9 +283,9 @@ def evaluate_graph(model: HookedTransformer, graph: Graph, dataloader: DataLoade
     return results, all_node_rep, all_layer_rep, all_node_pattern
 
 
-def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: List[Callable[[Tensor], Tensor]], 
-                      run_corrupted=False, quiet=False, induction=False, manual_pad=False) -> Union[torch.Tensor, List[torch.Tensor]]:
-    """Evaluates the model on the given dataloader, without any intervention. This is useful for computing the baseline performance of the model.
+def evaluate_baseline(model: HookedTransformer, dataloader: DataLoader, metrics: List[Callable[[Tensor], Tensor]],
+                      run_corrupted=False, quiet=False) -> Union[torch.Tensor, List[torch.Tensor]]:
+    """Evaluates the model on the given dataloader without any intervention.
 
     Args:
         model (HookedTransformer): The model to evaluate
@@ -297,30 +294,26 @@ def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: 
         run_corrupted (bool, optional): Whether to evaluate on corrupted examples instead. Defaults to False.
 
     Returns:
-        Union[torch.Tensor, List[torch.Tensor]]: A tensor (or list thereof) of performance scores; if a list, each list entry corresponds to a metric in the input list
+        Union[torch.Tensor, List[torch.Tensor]]: A tensor (or list thereof) of performance scores
     """
     if not isinstance(metrics, list):
         metrics = [metrics]
-    
+
     results = [[] for _ in metrics]
     if not quiet:
         dataloader = tqdm(dataloader)
     for clean, corrupted, label in dataloader:
         clean_tokens, attention_mask, input_lengths, _ = tokenize_plus(model, clean)
-        if manual_pad:
-            corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted, manual_pad_to_length=input_lengths.cpu().tolist())
-            continue # only for padding corrupted input
-        else:
-            corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted)
+        corrupted_tokens, attention_mask_corrupted, input_lengths_corrupted, _ = tokenize_plus(model, corrupted)
 
         def input_perturbation_hook(var: float):
             def hook_fn(activations, hook):
                 noise = torch.randn_like(activations) * var
                 new_input = activations + noise
-                new_input.requires_grad = True 
+                new_input.requires_grad = True
                 return new_input
             return hook_fn
-            
+
         with torch.inference_mode():
             corrupted_logits = model(corrupted_tokens, attention_mask=attention_mask_corrupted)
             # with model.hooks(fwd_hooks=[('hook_embed', input_perturbation_hook(0.01))]): # 3.731813907623291 # 0.01 std is good
@@ -334,9 +327,7 @@ def evaluate_baseline(model: HookedTransformer, dataloader:DataLoader, metrics: 
                 r = r.unsqueeze(0)
             results[i].append(r)
 
-    if not manual_pad:
-        results = [torch.cat(rs) for rs in results]
-
+    results = [torch.cat(rs) for rs in results]
     if len(results) == 1:
         results = results[0]
     return results

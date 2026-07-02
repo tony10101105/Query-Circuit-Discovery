@@ -1,40 +1,36 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import os
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from functools import partial
 
-import os
-import random
-import numpy as np
 import json
+import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 from tqdm import tqdm
-import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
 from eap.graph import Graph
 from eap.evaluate import evaluate_graph, evaluate_baseline
 from eap.attribute import attribute
 from eap.utils import set_seed
-from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
+from eap.query_circuit_utils import logit_diff, EAPDataset
+from save_score_matrix.models import DatasetConfig, TargetModelConfig, DiscoveryAlgConfig
 set_seed(2025)
 
 
-data_num = 1000
-topns = [100]
-method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
-steps = 5
-intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'gpt2-small'
-model = HookedTransformer.from_pretrained(model_name, device='cuda')
-model.cfg.use_split_qkv_input = True
-model.cfg.use_attn_result = True
-model.cfg.use_hook_mlp_in = True
-model.cfg.ungroup_grouped_query_attention = True
+dataset_cfg = DatasetConfig()
+model_cfg = TargetModelConfig(model_name='gpt2-small')
+alg_cfg = DiscoveryAlgConfig(topns=[100], steps=5)
+score_matrix_save_dir = 'score_matrix/gender_bias/gpt2-small'
+os.makedirs(score_matrix_save_dir, exist_ok=True)
 
-ds = EAPDataset('probing_dataset/gender_bias_gpt2.csv', data_num=data_num,
+model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
+model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
+model.cfg.use_attn_result = model_cfg.use_attn_result
+model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
+model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
+
+ds = EAPDataset('probing_dataset/gender_bias_gpt2.csv',
                 correct_col='clean_answer_idx', incorrect_col='corrupted_answer_idx')
 dataloader = ds.to_dataloader(batch_size=1)
 
@@ -56,17 +52,17 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader)):
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
 
     # print('attributing for this single data...')
-    attribute(model, g, single_data, partial(logit_diff, loss=True, mean=True), method=method, ig_steps=steps, intervention=intervention, quiet=True)
+    attribute(model, g, single_data, partial(logit_diff, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, score_matrix_save_dir=score_matrix_save_dir, file_idx=i, quiet=True)
 
     # print('evaluating circuit of this single data...')
     circuit_results = []
     circuit_faithfulness = []
-    for topn in topns:
+    for topn in alg_cfg.topns:
         g.apply_topn(topn, True)
         g.prune()
         print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=True, hook_layer=True, hook_pattern=True, intervention=alg_cfg.intervention, quiet=True)
         exit(0)
         results = results.mean().item()
         circuit_results.append(results)
@@ -96,7 +92,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader)):
     all_results.append({
         'baseline': baseline,
         'corrupted_baseline': corrupted_baseline,
-        'topns': topns,
+        'topns': alg_cfg.topns,
         'circuit_results': circuit_results,
         'circuit_faithfulness': circuit_faithfulness
     })
@@ -108,7 +104,7 @@ one_sample_faithfulness = [d['circuit_faithfulness'] for d in all_results]
 one_sample_faithfulness = np.mean(one_sample_faithfulness, axis=0)
 one_sample_faithfulness = one_sample_faithfulness.tolist()
 
-plt.plot(topns, one_sample_faithfulness, label=f'{method}', marker='o')
+plt.plot(alg_cfg.topns, one_sample_faithfulness, label=f'{alg_cfg.method}', marker='o')
 
 plt.ylim(-0.1, 1.1)
 plt.xlabel('Number of Edges', fontsize=15)
