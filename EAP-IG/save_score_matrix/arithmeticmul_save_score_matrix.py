@@ -1,6 +1,10 @@
 import os
-os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
 
+import argparse
 from functools import partial
 
 import torch
@@ -16,12 +20,17 @@ from save_score_matrix.models import DatasetConfig, TargetModelConfig, Discovery
 set_seed(2025)
 
 
-dataset_cfg = DatasetConfig(num_samples=500)
-model_cfg = TargetModelConfig(model_name='meta-llama/Llama-3.2-1B-Instruct')
-alg_cfg = DiscoveryAlgConfig(
-    topns=[500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000],
-)
-score_matrix_save_dir = 'score_matrix/arithmetic_mul/llama32-1b'
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
+parser.add_argument('--num_samples', type=int, default=500)
+parser.add_argument('--score_matrix_save_dir', type=str, default='score_matrix/arithmetic_mul/llama32-1b')
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/arithmetic_mul_Llama-32-1B.csv')
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+score_matrix_save_dir = args.score_matrix_save_dir
 os.makedirs(score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained_no_processing(model_cfg.model_name, device=model_cfg.device, torch_dtype=torch.float16)
@@ -30,7 +39,7 @@ model.cfg.use_attn_result = model_cfg.use_attn_result
 model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
 model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
 
-ds = PARAEAPDataset('probing_dataset/arithmetic_mul_Llama-32-1B.csv', num_samples=dataset_cfg.num_samples, simple=True)
+ds = PARAEAPDataset(args.dataset_path, num_samples=dataset_cfg.num_samples, simple=True)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []

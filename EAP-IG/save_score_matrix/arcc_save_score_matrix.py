@@ -1,6 +1,10 @@
 import os
-os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
 
+import argparse
 from functools import partial
 
 from tqdm import tqdm
@@ -15,12 +19,18 @@ from save_score_matrix.models import DatasetConfig, TargetModelConfig, Discovery
 set_seed(2025)
 
 
-dataset_cfg = DatasetConfig(category='challenge')  # challenge, easy, intermediate, hard
-model_cfg = TargetModelConfig(model_name='meta-llama/Llama-3.2-1B-Instruct')  # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
-alg_cfg = DiscoveryAlgConfig(
-    topns=[500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000],  # 386713 for llama
-)
-score_matrix_save_dir = 'score_matrix/arc_challenge/llama32-1b'
+parser = argparse.ArgumentParser()
+parser.add_argument('--category', type=str, default='challenge')
+parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
+parser.add_argument('--num_samples', type=int, default=-1)
+parser.add_argument('--score_matrix_save_dir', type=str, default='score_matrix/arc_challenge/llama32-1b')
+parser.add_argument('--dataset_path', type=str, default=None)
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(category=args.category, num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+score_matrix_save_dir = args.score_matrix_save_dir
 os.makedirs(score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
@@ -29,7 +39,8 @@ model.cfg.use_attn_result = model_cfg.use_attn_result
 model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
 model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
 
-ds = PARAEAPDataset(f'probing_dataset/arc_{dataset_cfg.category}_Llama-32-1B_{dataset_cfg.rephrase_model}_paraphrases_{dataset_cfg.rephrase_type}.csv')
+dataset_path = args.dataset_path or f'probing_dataset/arc_{dataset_cfg.category}_Llama-32-1B_{dataset_cfg.rephrase_model}_paraphrases_{dataset_cfg.rephrase_type}.csv'
+ds = PARAEAPDataset(dataset_path)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []

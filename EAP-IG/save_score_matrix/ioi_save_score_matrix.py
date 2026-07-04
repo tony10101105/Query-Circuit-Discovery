@@ -1,6 +1,10 @@
 import os
-os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
 
+import argparse
 from functools import partial
 
 import numpy as np
@@ -16,12 +20,17 @@ from save_score_matrix.models import DatasetConfig, TargetModelConfig, Discovery
 set_seed(2025)
 
 
-dataset_cfg = DatasetConfig(num_samples=1000)
-model_cfg = TargetModelConfig(model_name='gpt2-small')
-alg_cfg = DiscoveryAlgConfig(
-    topns=[50, 100, 250, 500, 750, 1000, 1250, 1500, 1750, 2000],  # 32491
-)
-score_matrix_save_dir = f'score_matrix/ioi/{model_cfg.model_name}'
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_name', type=str, default='gpt2-small')
+parser.add_argument('--num_samples', type=int, default=1000)
+parser.add_argument('--score_matrix_save_dir', type=str, default=None)
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/ioi_gpt2.csv')
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+score_matrix_save_dir = args.score_matrix_save_dir or f'score_matrix/ioi/{model_cfg.model_name}'
 os.makedirs(score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
@@ -30,7 +39,7 @@ model.cfg.use_attn_result = model_cfg.use_attn_result
 model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
 model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
 
-ds = EAPDataset('probing_dataset/ioi_gpt2.csv', num_samples=dataset_cfg.num_samples)
+ds = EAPDataset(args.dataset_path, num_samples=dataset_cfg.num_samples)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []
@@ -38,14 +47,11 @@ for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(datalo
     single_data = [(clean, corrupted, label)]
     
     model.reset_hooks()
-    
     g = Graph.from_model(model)
 
-    print('evaluating baseline on this single data...')
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
 
-    print('attributing for this single data...')
     attribute(model, g, single_data, partial(logit_diff, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, quiet=True)
 
     x = g.scores.cpu().detach().numpy()

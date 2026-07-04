@@ -18,7 +18,7 @@ class TargetModelConfig(BaseModel):
 
 
 class DiscoveryAlgConfig(BaseModel):
-    topns: list[int]
+    topns: list[int] = []
     method: str = 'EAP-IG-inputs'
     steps: int = 20
 
