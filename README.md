@@ -9,25 +9,32 @@ cd Query-Circuit-Discovery/EAP-IG
 pip install .
 ```
 
-## Env Config
+## Environment Config
 ```
 cp env.template .env
 ```
 Then put in necessary environment variables, such as your OPENAI_API_KEY and HF_TOKEN, to .env
 
-## Data Download
+## Download Data
 
-### Download and Process Data for Circuit Discovery
+### Download and Process Dataset for Circuit Discovery
 Below we use mmlu as an example. You can run scripts of different datasets based on your need.
 ```
 cd probing_dataset
 python mmlu_data_download_and_format.py --category marketing
 ```
-The above transforms the MMLU marketing dataset into the format required for circuit analysis and generates mmlu_marketing_Llama-32-1B.py. We have already provided this file, so rerunning the script is unnecessary.
+The above transforms the MMLU marketing dataset into the format required for circuit analysis and generates `mmlu_marketing_Llama-32-1B.py`. We have already provided this file, so rerunning the script is unnecessary.
 ```
 python mmlu_rephrase_only_stem.py
 ```
-The above generates paraphrases for each query and produces mmlu_marketing_Llama-32-1B_gpt4o_paraphrases_only_stem.csv. The generated file is already provided, so this step does not need to be rerun.
+The above generates paraphrases for each query and produces `mmlu_marketing_Llama-32-1B_gpt4o_paraphrases_only_stem.csv`. The generated file is already provided, so you don't need to rerun this step.
+
+### Download and Process Score Matrix
+You need to generate score matrices before doing BoN or any other analyses. This can be done by running scripts under `save_score_matrix/`. For example, this generates score matrix:
+```
+cd save_score_matrix
+python arcc_save_score_matrix.py
+```
 
 We provide intermediate data (e.g., score matrix) in [HF data repo](https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset) useful for fast replication. Follow the following steps to download it:
 ```

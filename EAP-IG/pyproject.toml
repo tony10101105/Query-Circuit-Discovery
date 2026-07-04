@@ -10,7 +10,9 @@ requires-python = ">=3.10"
 dependencies = [
     "matplotlib>=3.10.1",
     "transformer-lens==2.15.0",
-    "torch>=2.7.0,<=2.11.0",
+    "torch==2.6.0+cu126",
+    "torchvision==0.21.0+cu126",
+    "transformers>=4.40.0,<5.0.0",
     "awscli==1.44.38",
     "dotenv==0.9.9",
     "python-dotenv==1.2.2",
