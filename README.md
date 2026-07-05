@@ -1,6 +1,8 @@
 # Query Circuits: Explaining How Language Models Answer User Prompts (ICML 2026)
 
-[Project Page](https://tony10101105.github.io/query-circuit/) | [Paper (arXiv)](https://arxiv.org/abs/2509.24808) | [OpenReview](https://openreview.net/forum?id=7F0sragazb)
+[![Project Page](https://img.shields.io/badge/🌐_Project-Page-blue)](https://tony10101105.github.io/query-circuit/)
+[![arXiv](https://img.shields.io/badge/arXiv-2509.24808-b31b1b)](https://arxiv.org/abs/2509.24808)
+[![OpenReview](https://img.shields.io/badge/OpenReview-Paper-8c1b13)](https://openreview.net/forum?id=7F0sragazb)
 
 ## Install
 ```
