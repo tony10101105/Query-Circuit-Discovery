@@ -36,7 +36,6 @@ args = parser.parse_args()
 dataset_cfg = DatasetConfig(category=args.category, num_samples=args.num_samples)
 model_cfg = TargetModelConfig(model_name=args.model_name)
 alg_cfg = DiscoveryAlgConfig()
-topns = args.topns
 faithfulness_fn = ndf if args.faithfulness_metric == 'NDF' else nfs
 
 score_matrix_dir = args.score_matrix_dir
@@ -72,8 +71,8 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
 
     pad_corrupted_to_clean(model, single_data)
 
-    best_results = [-1]*len(topns)
-    best_para_indices = [0]*len(topns) # keep track of the best paraphrase index for each topn
+    best_results = [-1]*len(args.topns)
+    best_para_indices = [0]*len(args.topns) # keep track of the best paraphrase index for each topn
 
     for j in tqdm(range(para_data.shape[0]), total=para_data.shape[0], desc="Processing paraphrases", position=1):
         model.reset_hooks()
@@ -83,7 +82,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         g.scores = torch.from_numpy(para_data[j])
 
         circuit_performance, circuit_faithfulness = [], []
-        for topn in topns:
+        for topn in args.topns:
             g.apply_topn(topn, True)
 
             results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
@@ -110,7 +109,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     g.scores = torch.from_numpy(para_data.mean(0))
 
     circuit_faithfulness = []
-    for topn in topns:
+    for topn in args.topns:
         g.apply_topn(topn, True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
@@ -124,7 +123,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     tier_mat  = np.full(para_data[j].shape, fill_value=np.iinfo(np.int32).max, dtype=np.int32)
     filled    = np.zeros_like(score_mat, dtype=bool)
 
-    for l, topn in enumerate(topns):           # l = 0 (highest priority), 1, ...
+    for l, topn in enumerate(args.topns):           # l = 0 (highest priority), 1, ...
         best_para_idx = best_para_indices[l]
         M = np.abs(para_data[best_para_idx])
         M = np.where(np.isfinite(M), M, -np.inf)
@@ -139,7 +138,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     g.scores = torch.from_numpy(score_mat)
 
     circuit_faithfulness = []
-    for topn in topns:
+    for topn in args.topns:
         g.apply_topn_by_tier(topn, tier_mat)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
@@ -149,7 +148,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     all_csm_results.append(circuit_faithfulness)
 
     # interpolated BoN (iBoN)
-    new_topns = [int((topns[k]+topns[k-1])/2) for k in range(1, len(topns))]
+    new_topns = [int((args.topns[k]+args.topns[k-1])/2) for k in range(1, len(args.topns))]
     circuit_faithfulness = []
     for k, topn in enumerate(new_topns):
         model.reset_hooks()
@@ -159,10 +158,10 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         tier_mat  = np.full(para_data[j].shape, fill_value=np.iinfo(np.int32).max, dtype=np.int32)
         filled    = np.zeros_like(score_mat, dtype=bool)
 
-        idx = bisect.bisect_left(topns, topn)
-        if topn not in topns:
-            prev_idx, previous_topn = idx - 1, topns[idx - 1]
-            next_idx, next_topn = idx, topns[idx]
+        idx = bisect.bisect_left(args.topns, topn)
+        if topn not in args.topns:
+            prev_idx, previous_topn = idx - 1, args.topns[idx - 1]
+            next_idx, next_topn = idx, args.topns[idx]
 
             for l, top in zip([prev_idx, next_idx], [previous_topn, next_topn]):
                 best_para_idx = best_para_indices[l]
@@ -193,7 +192,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     all_ibon_results.append(circuit_faithfulness)
 
 
-topns = [x / 1000 for x in topns]  # Convert to 'k'
+topns = [x / 1000 for x in args.topns]  # Convert to 'k'
 new_topns = [x / 1000 for x in new_topns]  # Convert to 'k'
 
 all_best_results = np.array(all_best_results).mean(0)

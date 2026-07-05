@@ -21,14 +21,11 @@ from eap.evaluate import evaluate_graph, evaluate_baseline
 from eap.attribute import attribute
 from eap.utils import topn_indices, set_seed
 from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
-
-shots = "Which is the most possible answer?\n"
-
-
 set_seed(2025)
+
+
 topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000] # 386713 for llama
 category = 'marketing'
-metric_version = 4 # 1,2,3,4,5,6,7,8,9
 method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations # EAP
 steps = 20
 intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
@@ -63,9 +60,6 @@ for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(datalo
     print(f"{i}-th sample. Original: {baseline}; corrupted: {corrupted_baseline}")
     # print('attributing for this single data...')
     attribute(model, g, single_data, partial(logit_diff, mc=True, loss=True, mean=True), method=method, ig_steps=steps, intervention=intervention, quiet=True)
-    # x = g.scores.cpu().detach().numpy()
-    # x[~g.real_edge_mask] = -np.inf
-    # np.save(f'Query-Circuit-Dataset/score_data/vanilla/mmlu_{category}_metric8_edge_scores_{i}.npy', x)
 
     # print('evaluating circuit of this single data...')
     circuit_results = []
@@ -108,4 +102,4 @@ plt.yticks(fontsize=15)
 plt.legend(fontsize=15)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/mmlu_marketing_metric{metric_version}_instability_11_44_49.pdf', bbox_inches='tight')
+plt.savefig(f'figures/mmlu_marketing_instability_11_44_49.pdf', bbox_inches='tight')

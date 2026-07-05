@@ -1,49 +1,52 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
-
-from functools import partial
-
 import os
 import sys
-import ast
-import json
-import bisect
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(_root)
+sys.path.insert(0, _root)
+
+import argparse
+from functools import partial
+
 import numpy as np
-from scipy.stats import spearmanr
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-import pandas as pd
-from copy import deepcopy
 import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
-from time import sleep
 
 from eap.graph import Graph
 from eap.evaluate import evaluate_graph, evaluate_baseline
-from eap.attribute import attribute
-from eap.utils import topn_indices, set_seed
-from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
-
-
+from eap.utils import set_seed, pad_corrupted_to_clean
+from eap.query_circuit_utils import logit_diff, EAPDataset, ndf, nfs
+from save_score_matrix.models import DatasetConfig, TargetModelConfig, DiscoveryAlgConfig
 set_seed(2025)
-topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000] # 386713 for llama
-category = 'astronomy' # marketing, professional_medicine, astronomy, college_biology, high_school_computer_science, logical_fallacies, nutrition, international_law, management
-method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
-perturb_times = 1
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--category', type=str, default='astronomy')
+parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
+parser.add_argument('--num_samples', type=int, default=-1)
+parser.add_argument('--topns', type=int, nargs='+', default=[500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000])
+parser.add_argument('--score_matrix_dir', type=str, default='probing_dataset/Query-Circuit-Dataset/score_matrix/mmlu_astronomy/llama32-1b')
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/mmlu_astronomy_Llama-32-1B.csv')
+parser.add_argument('--output_figure', type=str, default='figures/mmlu_astronomy_perturb.pdf')
+parser.add_argument('--faithfulness_metric', type=str, default='NDF', choices=['NDF', 'NFS'])
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(category=args.category, num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+faithfulness_fn = ndf if args.faithfulness_metric == 'NDF' else nfs
+
 var = [0.01, 0.001]
 replace_ratio = [0.1, 0.3]
-assert len(var) == len(replace_ratio)
-steps = 20
-intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'meta-llama/Llama-3.2-1B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
-model = HookedTransformer.from_pretrained(model_name, device='cuda')
-model.cfg.use_split_qkv_input = True
-model.cfg.use_attn_result = True
-model.cfg.use_hook_mlp_in = True
-model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset(f'probing_dataset/mmlu_{category}_Llama-32-1B.csv', num_samples=500, mc=True)
+model = HookedTransformer.from_pretrained_no_processing(model_cfg.model_name, device=model_cfg.device, torch_dtype=torch.float16)
+model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
+model.cfg.use_attn_result = model_cfg.use_attn_result
+model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
+model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
+
+ds = EAPDataset(args.dataset_path, num_samples=dataset_cfg.num_samples, mc=True)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_best_results = []
@@ -55,37 +58,31 @@ all_best_random_drop_all = []
 for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloader), desc="Processing samples", position=0)):
     para_data = []
     for k in range(10):
-        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/mmlu_{category}/metric4_{i+110}_{k}.npy"))
+        para_data.append(np.load(f"{args.score_matrix_dir}/{i}_{k}.npy"))
 
-    para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
-    
+    para_data = np.stack(para_data, axis=0)
+
     single_data = [(clean, corrupted, label)]
 
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), quiet=True).mean().item()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
-    # print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
-    # only for padding corrupted input
-    _ = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
+    pad_corrupted_to_clean(model, single_data)
 
-    best_results = [-1]*len(topns)
-    best_para_indices = [0]*len(topns) # keep track of the best paraphrase index for each topn
-    
+    best_results = [-1]*len(args.topns)
+
     for j in tqdm(range(para_data.shape[0]), total=para_data.shape[0], desc="Processing paraphrases", position=1, leave=False):
         model.reset_hooks()
         g = Graph.from_model(model)
         g.scores = torch.from_numpy(para_data[j])
 
-        circuit_faithfulness, circuit_complement_faithfulness = [], []
-        c = []
-        for topn in topns:
+        circuit_faithfulness = []
+        for topn in args.topns:
             g.apply_topn(topn, True)
-            
-            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+
+            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
             results = results.mean().item()
-            
-            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-            circuit_faithfulness.append(faithfulness)
+            circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
 
         if j == 0:
             all_vanilla_results.append(circuit_faithfulness)
@@ -93,58 +90,50 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         for idx in range(len(best_results)):
             if circuit_faithfulness[idx] > best_results[idx]:
                 best_results[idx] = circuit_faithfulness[idx]
-                best_para_indices[idx] = j
 
     all_best_results.append(best_results)
 
     # random scores
-    best_random = [-1]*len(topns)
-    best_rand_indices = [0]*len(topns)
+    best_random = [-1]*len(args.topns)
     for _ in range(10):
         model.reset_hooks()
         g = Graph.from_model(model)
         g.scores = torch.rand_like(torch.from_numpy(para_data[0]))
-        
+
         circuit_faithfulness = []
-        for topn in topns:
+        for topn in args.topns:
             g.apply_topn(topn, True)
 
-            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
             results = results.mean().item()
-            
-            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-            circuit_faithfulness.append(faithfulness)
+            circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
 
         for idx in range(len(best_random)):
             if circuit_faithfulness[idx] > best_random[idx]:
                 best_random[idx] = circuit_faithfulness[idx]
-                best_rand_indices[idx] = j
 
     all_best_random.append(best_random)
-    
+
     # perturb on circuit of original query
     base_score = para_data[0]
     all_best_perturb = []
     for v in range(len(var)):
-        best_perturb = [-1]*len(topns)
+        best_perturb = [-1]*len(args.topns)
         for p in range(10):
             model.reset_hooks()
             g = Graph.from_model(model)
             if p == 0:
                 g.scores = torch.from_numpy(base_score)
             else:
-                # attribute(model, g, single_data, partial(logit_diff, mc=True, loss=True, mean=True), method='EAP-IG-inputs-sg', ig_steps=steps, intervention=intervention, quiet=True, perturb_times=perturb_times, var=var[v])
                 g.scores = torch.from_numpy(base_score) + torch.randn_like(torch.from_numpy(base_score)) * var[v]
 
             circuit_faithfulness = []
-            for topn in topns:
+            for topn in args.topns:
                 g.apply_topn(topn, True)
 
-                results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+                results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
                 results = results.mean().item()
-
-                faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-                circuit_faithfulness.append(faithfulness)
+                circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
 
             for idx in range(len(best_perturb)):
                 if circuit_faithfulness[idx] > best_perturb[idx]:
@@ -156,24 +145,22 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     base_score = para_data[0]
     all_best_random_drop = []
     for v in range(len(var)):
-        best_random_drop = [-1]*len(topns)
+        best_random_drop = [-1]*len(args.topns)
         for p in range(10):
             model.reset_hooks()
             g = Graph.from_model(model)
-                                 
+
             g.scores = torch.from_numpy(base_score)
             circuit_faithfulness = []
-            for topn in topns:
+            for topn in args.topns:
                 if p == 0:
                     g.apply_topn(topn, True)
                 else:
                     g.apply_topn_and_rand(topn, True, replace_ratio=replace_ratio[v])
 
-                results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+                results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
                 results = results.mean().item()
-
-                faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-                circuit_faithfulness.append(faithfulness)
+                circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
 
             for idx in range(len(best_random_drop)):
                 if circuit_faithfulness[idx] > best_random_drop[idx]:
@@ -202,13 +189,16 @@ print('all_best_perturb_all_var1 (0.01): ', all_best_perturb_all_var1)
 print('all_best_perturb_all_var2 (0.001): ', all_best_perturb_all_var2)
 print('all_best_random_drop_all1 (0.1): ', all_best_random_drop_all1)
 print('all_best_random_drop_all2 (0.3): ', all_best_random_drop_all2)
+
+topns = [x / 1000 for x in args.topns]  # Convert to 'k'
+
 plt.plot(topns, all_vanilla_results, label='Single Query', marker='o')
 plt.plot(topns, all_best_results, label='BoN-Para.', marker='o')
 plt.plot(topns, all_best_random, label='BoN-Random', marker='o')
-plt.plot(topns, all_best_perturb_all_var1, label='BoN-SP (0.01)', marker='o')
-plt.plot(topns, all_best_perturb_all_var2, label='BoN-SP (0.001)', marker='o')
-plt.plot(topns, all_best_random_drop_all1, label='BoN-ER (0.1)', marker='o')
-plt.plot(topns, all_best_random_drop_all2, label='BoN-ER (0.3)', marker='o')
+plt.plot(topns, all_best_perturb_all_var1, label='BoN-GP ($\sigma$=0.01)', marker='o')
+plt.plot(topns, all_best_perturb_all_var2, label='BoN-GP ($\sigma$=0.001)', marker='o')
+plt.plot(topns, all_best_random_drop_all1, label='BoN-ER ($t$=0.1)', marker='o')
+plt.plot(topns, all_best_random_drop_all2, label='BoN-ER ($t$=0.3)', marker='o')
 plt.ylim(-0.1, 1.1)
 plt.xlabel('Number of Edges (k)', fontsize=15)
 plt.ylabel('Normalized Deviation Faithfulness (NDF)', fontsize=15)
@@ -217,4 +207,4 @@ plt.yticks(fontsize=15)
 plt.legend(loc='lower right', fontsize=10)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/mmlu_{category}_perturb_1.pdf')
+plt.savefig(args.output_figure)

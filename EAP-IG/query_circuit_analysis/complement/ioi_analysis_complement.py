@@ -28,7 +28,7 @@ parser.add_argument('--num_samples', type=int, default=1000)
 parser.add_argument('--topns', type=int, nargs='+', default=[50, 100, 250, 500, 750, 1000, 1250, 1500, 1750, 2000])
 parser.add_argument('--score_matrix_dir', type=str, default='probing_dataset/Query-Circuit-Dataset/score_matrix/ioi/gpt2-small')
 parser.add_argument('--dataset_path', type=str, default='probing_dataset/ioi_gpt2.csv')
-parser.add_argument('--output_figure', type=str, default='figures/ioi.pdf')
+parser.add_argument('--output_figure', type=str, default='figures/ioi_complement.pdf')
 parser.add_argument('--faithfulness_metric', type=str, default='NDF', choices=['NDF', 'NFS'])
 args = parser.parse_args()
 
@@ -36,8 +36,6 @@ dataset_cfg = DatasetConfig(num_samples=args.num_samples)
 model_cfg = TargetModelConfig(model_name=args.model_name)
 alg_cfg = DiscoveryAlgConfig()
 faithfulness_fn = ndf if args.faithfulness_metric == 'NDF' else nfs
-
-score_matrix_dir = args.score_matrix_dir
 
 model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
 model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
@@ -50,12 +48,14 @@ dataloader = ds.to_dataloader(batch_size=1)
 
 para_data = []
 for k in range(args.num_samples):
-    para_data.append(np.load(f"{score_matrix_dir}/{k}.npy"))
+    para_data.append(np.load(f"{args.score_matrix_dir}/{k}.npy"))
 
-para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
+para_data = np.stack(para_data, axis=0)   # shape: (num_samples, rows, cols)
 
 all_best_results = []
+all_best_complement_results = []
 all_vanilla_results = []
+all_vanilla_complement_results = []
 all_avg_results = []
 all_csm_results = []
 all_ibon_results = []
@@ -63,7 +63,6 @@ all_ibon_results = []
 for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloader), desc="Processing samples", position=0)):
     single_data = [(clean, corrupted, label)]
 
-    # print('evaluating baseline on this single data...')
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
     torch.cuda.synchronize()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
@@ -72,8 +71,9 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     pad_corrupted_to_clean(model, single_data)
     torch.cuda.synchronize()
 
+    best_complement_results = [-1]*len(args.topns)
     best_results = [-1]*len(args.topns)
-    best_para_indices = [0]*len(args.topns) # keep track of the best paraphrase index for each topn
+    best_para_indices = [0]*len(args.topns)
 
     all_indices = list(range(para_data.shape[0]))
     available_idxs = [para_idx for para_idx in all_indices if para_idx != i]
@@ -84,48 +84,49 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
         model.reset_hooks()
 
         g = Graph.from_model(model)
-
         g.scores = torch.from_numpy(para_data[j])
 
-        circuit_faithfulness = []
+        circuit_faithfulness, circuit_complement_faithfulness = [], []
         for topn in args.topns:
             g.apply_topn(topn, True)
-
-            # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
-
             results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
             torch.cuda.synchronize()
             results = results.mean().item()
             torch.cuda.synchronize()
-            faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
-            circuit_faithfulness.append(faithfulness)
+            circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
+
+            g.apply_topn(topn, True, complement=True)
+            complement_results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
+            torch.cuda.synchronize()
+            complement_results = complement_results.mean().item()
+            torch.cuda.synchronize()
+            circuit_complement_faithfulness.append(faithfulness_fn(complement_results, baseline, corrupted_baseline))
 
         if j == i:
             all_vanilla_results.append(circuit_faithfulness)
+            all_vanilla_complement_results.append(circuit_complement_faithfulness)
 
         for idx in range(len(best_results)):
             if circuit_faithfulness[idx] > best_results[idx]:
                 best_results[idx] = circuit_faithfulness[idx]
+                best_complement_results[idx] = circuit_complement_faithfulness[idx]
                 best_para_indices[idx] = j
 
     all_best_results.append(best_results)
-    # all_best_complement_results.append(best_complement_results)
+    all_best_complement_results.append(best_complement_results)
 
     # averaging
     model.reset_hooks()
     g = Graph.from_model(model)
-
     g.scores = torch.from_numpy(para_data[sampled].mean(0))
-    # g.scores = torch.from_numpy(para_data.mean(0))
 
     circuit_faithfulness = []
     for topn in args.topns:
-        g.apply_topn(topn, True)
+        g.apply_topn(topn, True, complement=True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         torch.cuda.synchronize()
         results = results.mean().item()
-        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
-        circuit_faithfulness.append(faithfulness)
+        circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
 
     all_avg_results.append(circuit_faithfulness)
 
@@ -134,7 +135,7 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     tier_mat  = np.full(para_data[j].shape, fill_value=np.iinfo(np.int32).max, dtype=np.int32)
     filled    = np.zeros_like(score_mat, dtype=bool)
 
-    for l, topn in enumerate(args.topns):           # l = 0 (highest priority), 1, ...
+    for l, topn in enumerate(args.topns):
         best_para_idx = best_para_indices[l]
         M = np.abs(para_data[best_para_idx])
         M = np.where(np.isfinite(M), M, -np.inf)
@@ -150,12 +151,11 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
 
     circuit_faithfulness = []
     for topn in args.topns:
-        g.apply_topn_by_tier(topn, tier_mat)
+        g.apply_topn_by_tier(topn, tier_mat, complement=True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         torch.cuda.synchronize()
         results = results.mean().item()
-        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
-        circuit_faithfulness.append(faithfulness)
+        circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
     all_csm_results.append(circuit_faithfulness)
 
     # interpolated BoN (iBoN)
@@ -182,30 +182,29 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
                     filled[a, b]    = True
 
         g.scores = torch.from_numpy(score_mat)
-        g.apply_topn_by_tier(topn, tier_mat)
+        g.apply_topn_by_tier(topn, tier_mat, complement=True)
         results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         torch.cuda.synchronize()
         results = results.mean().item()
-        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
-        circuit_faithfulness.append(faithfulness)
+        circuit_faithfulness.append(faithfulness_fn(results, baseline, corrupted_baseline))
     all_ibon_results.append(circuit_faithfulness)
 
 topns = [x / 1000 for x in args.topns]  # Convert to 'k'
 new_topns = [x / 1000 for x in new_topns]  # Convert to 'k'
 
-all_best_results = np.array(all_best_results).mean(0)
-all_vanilla_results = np.array(all_vanilla_results).mean(0)
+all_best_complement_results = np.array(all_best_complement_results).mean(0)
+all_vanilla_complement_results = np.array(all_vanilla_complement_results).mean(0)
 all_avg_results = np.array(all_avg_results).mean(0)
 all_csm_results = np.array(all_csm_results).mean(0)
 all_ibon_results = np.array(all_ibon_results).mean(0)
-print('all_best_results: ', all_best_results)
-print('all_vanilla_results: ', all_vanilla_results)
+print('all_vanilla_complement_results: ', all_vanilla_complement_results)
+print('all_best_complement_results: ', all_best_complement_results)
 print('all_avg_results: ', all_avg_results)
 print('all_csm_results: ', all_csm_results)
 print('all_ibon_results: ', all_ibon_results)
-plt.plot(topns, all_vanilla_results, label='Single Query', marker='o')
+plt.plot(topns, all_vanilla_complement_results, label='Single Query', marker='o')
 plt.plot(topns, all_avg_results, label='Averaging', marker='o')
-plt.plot(topns, all_best_results, label='BoN', marker='o')
+plt.plot(topns, all_best_complement_results, label='BoN', marker='o')
 plt.plot(topns, all_csm_results, label='BoN-CSM', marker='o')
 plt.plot(new_topns, all_ibon_results, label='iBoN', marker='o')
 plt.ylim(-0.1, 1.1)

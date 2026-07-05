@@ -45,6 +45,12 @@ git clone https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset
 ```
 The dataset occupies ~366GB. You can download a part of it if you don't have enough disk space.
 
+Now merge `arc_challenge_1/` and `arc_challenge_2/` into `arc_challenge/`:
+```
+cd Query-Circuit-Dataset
+bash merge_arc_challenge.sh
+```
+
 ### Download SAE data
 Download labeled SAE features if you want to apply SAEs on discovered circuits.
 ```
