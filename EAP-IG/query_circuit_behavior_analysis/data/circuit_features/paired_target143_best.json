@@ -1,0 +1,3670 @@
+{
+  "target_idx": 143,
+  "source_idx": 143,
+  "num_gender_features": 19,
+  "num_gender_features_mlp": 17,
+  "gender_features": {
+    "0-att": [],
+    "0-mlp": [],
+    "1-att": [],
+    "1-mlp": [],
+    "2-mlp": [],
+    "3-att": [],
+    "3-mlp": [
+      8435
+    ],
+    "4-att": [
+      24135
+    ],
+    "4-mlp": [
+      11706,
+      15551,
+      16550
+    ],
+    "5-mlp": [
+      1834,
+      28189
+    ],
+    "6-att": [],
+    "6-mlp": [
+      23276
+    ],
+    "7-att": [
+      12173
+    ],
+    "7-mlp": [
+      25392,
+      30615
+    ],
+    "8-att": [],
+    "8-mlp": [
+      11168
+    ],
+    "9-att": [],
+    "9-mlp": [
+      3867,
+      15809,
+      18960
+    ],
+    "10-att": [],
+    "10-mlp": [
+      6575,
+      16647
+    ],
+    "11-att": [],
+    "11-mlp": [
+      11669,
+      20341
+    ]
+  },
+  "circuit_features": {
+    "0-att": [
+      [
+        {
+          "feature_index": 7426,
+          "activation": 11.74873161315918,
+          "description": " self-referential statements or expressions of personal opinion"
+        },
+        {
+          "feature_index": 21004,
+          "activation": 10.145345687866211,
+          "description": "personal preferences or opinions"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 9.324507713317871,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 8525,
+          "activation": 7.871823787689209,
+          "description": " references to political party affiliations"
+        },
+        {
+          "feature_index": 16768,
+          "activation": 5.8849382400512695,
+          "description": " concepts related to gun ownership and laws"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.021232604980469,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 4.506330490112305,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 4.365416526794434,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 24711,
+          "activation": 4.300137042999268,
+          "description": " specific quantitative values and statistics related to costs and measurements"
+        },
+        {
+          "feature_index": 25844,
+          "activation": 3.0125679969787598,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.195311069488525,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 29468,
+          "activation": 5.262760639190674,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 4.198987007141113,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 21064,
+          "activation": 3.071491241455078,
+          "description": " references to nurses in various contexts"
+        },
+        {
+          "feature_index": 21004,
+          "activation": 2.784722328186035,
+          "description": "personal preferences or opinions"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.41115665435791,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 15988,
+          "activation": 6.390677452087402,
+          "description": " references to remaining in one place or continuing to exist in a situation"
+        },
+        {
+          "feature_index": 29468,
+          "activation": 5.2042388916015625,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.9369969367980957,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 1277,
+          "activation": 3.800835371017456,
+          "description": "actions that imply persistence or continuation over time"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 7.0647993087768555,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 29006,
+          "activation": 5.575443744659424,
+          "description": " instances of the word \"up\""
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.6142640113830566,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 10262,
+          "activation": 3.14482045173645,
+          "description": " instances of the word \"stay\" and its related forms"
+        },
+        {
+          "feature_index": 16552,
+          "activation": 2.82344126701355,
+          "description": " occurrences of the word \"up.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 7.177672386169434,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 16047,
+          "activation": 5.525150299072266,
+          "description": "the word \"because\""
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.1590723991394043,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 16846,
+          "activation": 2.145871877670288,
+          "description": "phrases indicating reasons or explanations"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 1.8722093105316162,
+          "description": " statements and expressions of personal preferences or assertions"
+        }
+      ]
+    ],
+    "0-mlp": [
+      [
+        {
+          "feature_index": 17058,
+          "activation": 6.952682018280029,
+          "description": null
+        },
+        {
+          "feature_index": 4811,
+          "activation": 6.40301513671875,
+          "description": null
+        },
+        {
+          "feature_index": 17516,
+          "activation": 6.092204570770264,
+          "description": "words related to significant gatherings or meetings"
+        },
+        {
+          "feature_index": 23427,
+          "activation": 6.0501580238342285,
+          "description": null
+        },
+        {
+          "feature_index": 13129,
+          "activation": 5.587483882904053,
+          "description": null
+        }
+      ],
+      [
+        {
+          "feature_index": 12249,
+          "activation": 14.654699325561523,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 21479,
+          "activation": 7.221618175506592,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "feature_index": 11551,
+          "activation": 7.195225238800049,
+          "description": "instances of the word \"the\" in various contexts"
+        },
+        {
+          "feature_index": 21626,
+          "activation": 6.859921455383301,
+          "description": " instances of the word \"the\" in various contexts"
+        },
+        {
+          "feature_index": 23830,
+          "activation": 6.829352378845215,
+          "description": " prepositions and conjunctions that indicate relationships or connections between ideas"
+        }
+      ],
+      [
+        {
+          "feature_index": 12588,
+          "activation": 13.390533447265625,
+          "description": " references to nurses or nursing professions"
+        },
+        {
+          "feature_index": 12249,
+          "activation": 11.336551666259766,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 24896,
+          "activation": 6.90735387802124,
+          "description": " references to police and law enforcement activities"
+        },
+        {
+          "feature_index": 21479,
+          "activation": 5.0941996574401855,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "feature_index": 4275,
+          "activation": 4.1104512214660645,
+          "description": " terms related to employment and healthcare professions"
+        }
+      ],
+      [
+        {
+          "feature_index": 27820,
+          "activation": 13.426108360290527,
+          "description": " occurrences of the word \"stay.\""
+        },
+        {
+          "feature_index": 12249,
+          "activation": 11.799968719482422,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 28850,
+          "activation": 7.03001594543457,
+          "description": " occurrences of the word \"stripped\" and its variations"
+        },
+        {
+          "feature_index": 14121,
+          "activation": 6.933038711547852,
+          "description": " the word \"maintain\" and its variations"
+        },
+        {
+          "feature_index": 31412,
+          "activation": 5.808370590209961,
+          "description": "references to a specific object or brand related to tents"
+        }
+      ],
+      [
+        {
+          "feature_index": 32348,
+          "activation": 17.85767364501953,
+          "description": " occurrences of the word \"up.\""
+        },
+        {
+          "feature_index": 12249,
+          "activation": 11.931770324707031,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 21479,
+          "activation": 3.9829115867614746,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "feature_index": 12492,
+          "activation": 3.4187960624694824,
+          "description": " contextually significant statements or claims regarding events or situations"
+        },
+        {
+          "feature_index": 24135,
+          "activation": 3.0252017974853516,
+          "description": "references to societal freedoms and regulations"
+        }
+      ],
+      [
+        {
+          "feature_index": 12249,
+          "activation": 11.897563934326172,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 32350,
+          "activation": 10.132665634155273,
+          "description": " the word \"because\" and its variations"
+        },
+        {
+          "feature_index": 17670,
+          "activation": 9.070311546325684,
+          "description": " the word \"because,\" indicating a search for causal explanations or reasoning"
+        },
+        {
+          "feature_index": 12492,
+          "activation": 5.009499549865723,
+          "description": " contextually significant statements or claims regarding events or situations"
+        },
+        {
+          "feature_index": 1256,
+          "activation": 3.9286630153656006,
+          "description": "instances of the word \"when\" indicating temporal contexts or conditions"
+        }
+      ]
+    ],
+    "1-att": [
+      [
+        {
+          "feature_index": 29159,
+          "activation": 11.722694396972656,
+          "description": "references to political parties"
+        },
+        {
+          "feature_index": 25181,
+          "activation": 7.72465705871582,
+          "description": " expressions of personal preference or identity"
+        },
+        {
+          "feature_index": 21580,
+          "activation": 6.3263020515441895,
+          "description": "the word \"Word\" and possibly its implications or contexts related to discourse or authority"
+        },
+        {
+          "feature_index": 12113,
+          "activation": 5.808757781982422,
+          "description": " names and references to notable individuals or characters in various contexts"
+        },
+        {
+          "feature_index": 9469,
+          "activation": 5.393336296081543,
+          "description": " references to established concepts or organizations in the context of healthcare"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 16.11015510559082,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 8.285137176513672,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 25284,
+          "activation": 6.458989143371582,
+          "description": "proper nouns and significant names"
+        },
+        {
+          "feature_index": 10570,
+          "activation": 4.960061073303223,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 31515,
+          "activation": 4.6147847175598145,
+          "description": " occurrences of the definite article \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 16.88239288330078,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 7.846447944641113,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 15223,
+          "activation": 6.085016250610352,
+          "description": " phrases that indicate potentiality or conditional scenarios"
+        },
+        {
+          "feature_index": 25284,
+          "activation": 5.079472064971924,
+          "description": "proper nouns and significant names"
+        },
+        {
+          "feature_index": 28458,
+          "activation": 4.909620761871338,
+          "description": " significant events or issues related to governance and policy"
+        }
+      ],
+      [
+        {
+          "feature_index": 10287,
+          "activation": 9.721435546875,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 20600,
+          "activation": 7.786863327026367,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 3071,
+          "activation": 7.37054443359375,
+          "description": " mentions of entities and related statistics or attributes"
+        },
+        {
+          "feature_index": 15223,
+          "activation": 6.151912689208984,
+          "description": " phrases that indicate potentiality or conditional scenarios"
+        },
+        {
+          "feature_index": 22109,
+          "activation": 5.623940467834473,
+          "description": " incidents involving individuals in distress or crisis situations"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 14.064382553100586,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 4556,
+          "activation": 10.70621395111084,
+          "description": " phrases indicating avoidance or staying away from certain situations"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 7.603544235229492,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 3071,
+          "activation": 6.743440628051758,
+          "description": " mentions of entities and related statistics or attributes"
+        },
+        {
+          "feature_index": 1331,
+          "activation": 5.890613555908203,
+          "description": " mentions of people or entities participating in activities related to business or service operations"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 16.31772804260254,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 7.023818016052246,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 15223,
+          "activation": 6.691247463226318,
+          "description": " phrases that indicate potentiality or conditional scenarios"
+        },
+        {
+          "feature_index": 3071,
+          "activation": 6.5626220703125,
+          "description": " mentions of entities and related statistics or attributes"
+        },
+        {
+          "feature_index": 1331,
+          "activation": 5.707928657531738,
+          "description": " mentions of people or entities participating in activities related to business or service operations"
+        }
+      ]
+    ],
+    "1-mlp": [
+      [
+        {
+          "feature_index": 24447,
+          "activation": 27.54916763305664,
+          "description": " references to local contexts and events"
+        },
+        {
+          "feature_index": 17714,
+          "activation": 2.864500045776367,
+          "description": " forms of the verb \"subsidize\" as well as related variations indicating financial support"
+        },
+        {
+          "feature_index": 21164,
+          "activation": 2.4547884464263916,
+          "description": " phrases indicating a lack or scarcity of something"
+        },
+        {
+          "feature_index": 1618,
+          "activation": 2.102823257446289,
+          "description": " keywords related to environmental issues and their consequences"
+        },
+        {
+          "feature_index": 21280,
+          "activation": 1.6771390438079834,
+          "description": " terms and concepts related to self-destructive behaviors and toxic substances"
+        }
+      ],
+      [
+        {
+          "feature_index": 31245,
+          "activation": 7.668725490570068,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "feature_index": 4035,
+          "activation": 5.754807949066162,
+          "description": " elements associated with news reporting and official statements"
+        },
+        {
+          "feature_index": 9515,
+          "activation": 5.723217010498047,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 5845,
+          "activation": 5.645638942718506,
+          "description": " occurrences of the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "feature_index": 4865,
+          "activation": 5.30180549621582,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 23047,
+          "activation": 10.516693115234375,
+          "description": " references to healthcare professionals, specifically nurses"
+        },
+        {
+          "feature_index": 14863,
+          "activation": 8.372762680053711,
+          "description": "references to positions of authority or membership within organizations"
+        },
+        {
+          "feature_index": 334,
+          "activation": 4.539974212646484,
+          "description": " terms related to organizational structures and operations"
+        },
+        {
+          "feature_index": 30809,
+          "activation": 4.295042037963867,
+          "description": " references to nursing and related professions"
+        },
+        {
+          "feature_index": 27704,
+          "activation": 3.295248031616211,
+          "description": " time-related data and identifiers for reports or documents"
+        }
+      ],
+      [
+        {
+          "feature_index": 1098,
+          "activation": 17.58893585205078,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "feature_index": 22149,
+          "activation": 13.4947509765625,
+          "description": " forms of the verb \"stay.\""
+        },
+        {
+          "feature_index": 17723,
+          "activation": 12.095085144042969,
+          "description": " instances of the word \"stayed\" in various contexts related to remaining in a location or situation"
+        },
+        {
+          "feature_index": 21052,
+          "activation": 4.705346584320068,
+          "description": " commands or prompts encouraging ongoing engagement or attention"
+        },
+        {
+          "feature_index": 8545,
+          "activation": 4.637726306915283,
+          "description": " instances of the substring \"xt\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 1098,
+          "activation": 20.651840209960938,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "feature_index": 25293,
+          "activation": 10.74014663696289,
+          "description": " occurrences of the word \"up.\""
+        },
+        {
+          "feature_index": 12145,
+          "activation": 6.3055739402771,
+          "description": " instances of the word \"up.\""
+        },
+        {
+          "feature_index": 24848,
+          "activation": 3.90971302986145,
+          "description": " references to family dynamics and relationships"
+        },
+        {
+          "feature_index": 31844,
+          "activation": 3.6176745891571045,
+          "description": " phrases related to the concept of \"setting up\" or initiating actions"
+        }
+      ],
+      [
+        {
+          "feature_index": 19499,
+          "activation": 15.620027542114258,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 1098,
+          "activation": 14.861371994018555,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "feature_index": 15111,
+          "activation": 6.586596965789795,
+          "description": " the word \"because\" indicating causal reasoning or explanations"
+        },
+        {
+          "feature_index": 5254,
+          "activation": 6.034285068511963,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 32194,
+          "activation": 5.803208351135254,
+          "description": " the word \"because\" in various contexts"
+        }
+      ]
+    ],
+    "2-mlp": [
+      [
+        {
+          "feature_index": 7487,
+          "activation": 22.30756950378418,
+          "description": " phrases related to legal and judicial matters"
+        },
+        {
+          "feature_index": 3422,
+          "activation": 5.525947093963623,
+          "description": " proper nouns and organizational names"
+        },
+        {
+          "feature_index": 10940,
+          "activation": 0.7014604806900024,
+          "description": " references to environmental resources and energy production methods"
+        },
+        {
+          "feature_index": 12555,
+          "activation": 0.5482852458953857,
+          "description": " references to time and temporal measures"
+        },
+        {
+          "feature_index": 1367,
+          "activation": 0.5186912417411804,
+          "description": " phrases and references to traditional or outdated concepts"
+        }
+      ],
+      [
+        {
+          "feature_index": 21867,
+          "activation": 7.221459865570068,
+          "description": "the definite article \"The\""
+        },
+        {
+          "feature_index": 24733,
+          "activation": 6.2333984375,
+          "description": " proper nouns and names"
+        },
+        {
+          "feature_index": 4481,
+          "activation": 5.89315128326416,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "feature_index": 8745,
+          "activation": 5.122254848480225,
+          "description": "the word \"the.\""
+        },
+        {
+          "feature_index": 25010,
+          "activation": 4.41412353515625,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 4039,
+          "activation": 9.664325714111328,
+          "description": " references to nursing and healthcare professionals"
+        },
+        {
+          "feature_index": 19810,
+          "activation": 5.542476177215576,
+          "description": "brands and names associated with popular culture and events"
+        },
+        {
+          "feature_index": 31123,
+          "activation": 4.18443489074707,
+          "description": " references to government and political structures"
+        },
+        {
+          "feature_index": 14002,
+          "activation": 4.136908531188965,
+          "description": " phrases related to health and medical concerns"
+        },
+        {
+          "feature_index": 22104,
+          "activation": 3.978987216949463,
+          "description": " references to notable professionals and their roles in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 14494,
+          "activation": 14.918601989746094,
+          "description": " the word 'stay' in various forms and contexts"
+        },
+        {
+          "feature_index": 25233,
+          "activation": 6.130773067474365,
+          "description": "the word \"stay.\""
+        },
+        {
+          "feature_index": 5403,
+          "activation": 6.036770820617676,
+          "description": " words that indicate a state of being or continuing existence"
+        },
+        {
+          "feature_index": 11633,
+          "activation": 4.667506694793701,
+          "description": " actions and states related to library or reading activities"
+        },
+        {
+          "feature_index": 1236,
+          "activation": 4.219982624053955,
+          "description": " the word \"remained\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 8552,
+          "activation": 11.73917007446289,
+          "description": " instances of the phrase \"keep up.\""
+        },
+        {
+          "feature_index": 14002,
+          "activation": 10.599939346313477,
+          "description": " phrases related to health and medical concerns"
+        },
+        {
+          "feature_index": 22377,
+          "activation": 6.058578014373779,
+          "description": " phrases indicating location or presence"
+        },
+        {
+          "feature_index": 30867,
+          "activation": 5.569317817687988,
+          "description": " instances of the phrase \"showed up\" and its variations"
+        },
+        {
+          "feature_index": 16698,
+          "activation": 5.3021721839904785,
+          "description": " occurrences of the phrase \"keep up\""
+        }
+      ],
+      [
+        {
+          "feature_index": 17479,
+          "activation": 9.904162406921387,
+          "description": " the word \"because\" in various contexts"
+        },
+        {
+          "feature_index": 15201,
+          "activation": 8.382379531860352,
+          "description": " instances of the word \"because\""
+        },
+        {
+          "feature_index": 6953,
+          "activation": 8.212791442871094,
+          "description": " instances of the word \"because\""
+        },
+        {
+          "feature_index": 26462,
+          "activation": 5.230542182922363,
+          "description": " occurrences of the word \"because\" indicating reasoning or causation"
+        },
+        {
+          "feature_index": 19423,
+          "activation": 4.986702919006348,
+          "description": " words and phrases suggesting substitution or motivation for actions"
+        }
+      ]
+    ],
+    "3-att": [
+      [
+        {
+          "feature_index": 14736,
+          "activation": 23.930133819580078,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 25389,
+          "activation": 13.557327270507812,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 12.127893447875977,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 25003,
+          "activation": 2.824861526489258,
+          "description": "common function words used in various contexts"
+        },
+        {
+          "feature_index": 10752,
+          "activation": 1.2594033479690552,
+          "description": " instances of potential and uncertainty in contexts related to decision-making or risk"
+        }
+      ],
+      [
+        {
+          "feature_index": 14736,
+          "activation": 24.51125717163086,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 25389,
+          "activation": 11.764569282531738,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 11.109987258911133,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 32080,
+          "activation": 2.336538791656494,
+          "description": " introductory phrases that indicate ongoing actions or transitional statements"
+        },
+        {
+          "feature_index": 27491,
+          "activation": 1.898261547088623,
+          "description": " references to specific TV shows, characters, or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 14736,
+          "activation": 17.905948638916016,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 13022,
+          "activation": 7.07456111907959,
+          "description": " references to organizations and governmental structures"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 6.801296234130859,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 16949,
+          "activation": 5.643955707550049,
+          "description": "words or phrases that indicate various titles and names, particularly in media and organizations"
+        },
+        {
+          "feature_index": 4700,
+          "activation": 4.628932476043701,
+          "description": " conversative statements or claims made by political figures"
+        }
+      ],
+      [
+        {
+          "feature_index": 15117,
+          "activation": 7.377083778381348,
+          "description": " references to key individuals and their roles or actions"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 5.5908660888671875,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 2312,
+          "activation": 4.722582817077637,
+          "description": " phrases related to incidents involving injuries or fatalities"
+        },
+        {
+          "feature_index": 25711,
+          "activation": 4.7191386222839355,
+          "description": " references to individuals and their actions or statuses"
+        },
+        {
+          "feature_index": 14736,
+          "activation": 4.266010761260986,
+          "description": " actions and implications related to governance and legal processes"
+        }
+      ],
+      [
+        {
+          "feature_index": 25878,
+          "activation": 8.758081436157227,
+          "description": " phrases indicating companionship or being together"
+        },
+        {
+          "feature_index": 23327,
+          "activation": 5.7704758644104,
+          "description": " expressions related to staying at home or remaining in a place"
+        },
+        {
+          "feature_index": 15705,
+          "activation": 5.568178176879883,
+          "description": " phrases related to financial transactions and personal relationships"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 5.4762282371521,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 17561,
+          "activation": 5.294601917266846,
+          "description": "terms related to immigration and residency status"
+        }
+      ],
+      [
+        {
+          "feature_index": 8971,
+          "activation": 8.736473083496094,
+          "description": " phrases related to monetary values and financial transactions"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 6.344991683959961,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 20463,
+          "activation": 5.118946552276611,
+          "description": " phrases related to continuity and persistence in various contexts"
+        },
+        {
+          "feature_index": 4961,
+          "activation": 5.0887603759765625,
+          "description": " instances of direct speech or dialogue"
+        },
+        {
+          "feature_index": 23327,
+          "activation": 4.293177604675293,
+          "description": " expressions related to staying at home or remaining in a place"
+        }
+      ]
+    ],
+    "3-mlp": [
+      [
+        {
+          "feature_index": 6335,
+          "activation": 23.421144485473633,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 31165,
+          "activation": 7.09089469909668,
+          "description": " references to media, particularly related to tragedies or significant events"
+        },
+        {
+          "feature_index": 24921,
+          "activation": 3.5742156505584717,
+          "description": "company names or entities related to technology and social issues"
+        },
+        {
+          "feature_index": 27906,
+          "activation": 0.9237953424453735,
+          "description": " words related to actions and activities, particularly focusing on verbs"
+        },
+        {
+          "feature_index": 15035,
+          "activation": 0.4052056074142456,
+          "description": " mentions of organizations and their roles in socio-political contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 19317,
+          "activation": 10.586609840393066,
+          "description": " proper nouns or significant references"
+        },
+        {
+          "feature_index": 17514,
+          "activation": 7.179681777954102,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "feature_index": 3655,
+          "activation": 6.440922260284424,
+          "description": " proper nouns and significant terms"
+        },
+        {
+          "feature_index": 2653,
+          "activation": 6.123483180999756,
+          "description": " occurrences of the word \"The\" at the beginning of sentences"
+        },
+        {
+          "feature_index": 17523,
+          "activation": 4.836448669433594,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 6335,
+          "activation": 9.631185531616211,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 27557,
+          "activation": 6.5973968505859375,
+          "description": " mentions of healthcare professionals, specifically nurses"
+        },
+        {
+          "feature_index": 14572,
+          "activation": 5.225341796875,
+          "description": "references to relationships and roles of individuals in various contexts like weddings and film"
+        },
+        {
+          "feature_index": 5602,
+          "activation": 4.3989033699035645,
+          "description": "titles or roles related to authority and professions"
+        },
+        {
+          "feature_index": 8435,
+          "activation": 4.001016616821289,
+          "description": " references to female characters and their interactions"
+        }
+      ],
+      [
+        {
+          "feature_index": 14879,
+          "activation": 12.385438919067383,
+          "description": " variations of the word \"stay\" in different grammatical forms"
+        },
+        {
+          "feature_index": 6335,
+          "activation": 9.002144813537598,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 11666,
+          "activation": 4.142365455627441,
+          "description": " instances of the word \"remained\" and phrases related to continuity or persistence"
+        },
+        {
+          "feature_index": 1106,
+          "activation": 3.398265838623047,
+          "description": " themes of abandonment and escape"
+        },
+        {
+          "feature_index": 4862,
+          "activation": 3.231381893157959,
+          "description": " phrases related to strong emotional reactions or controversial topics"
+        }
+      ],
+      [
+        {
+          "feature_index": 17175,
+          "activation": 8.843855857849121,
+          "description": " phrases that include the word \"up.\""
+        },
+        {
+          "feature_index": 964,
+          "activation": 7.17092227935791,
+          "description": " instances of the phrase \"stand up.\""
+        },
+        {
+          "feature_index": 20724,
+          "activation": 6.7018890380859375,
+          "description": " action and state descriptors related to awakening and alertness"
+        },
+        {
+          "feature_index": 17276,
+          "activation": 4.773453712463379,
+          "description": " occurrences of the word \"up\" related to various contexts"
+        },
+        {
+          "feature_index": 16164,
+          "activation": 4.235199451446533,
+          "description": " descriptors related to size and value"
+        }
+      ],
+      [
+        {
+          "feature_index": 26010,
+          "activation": 9.236318588256836,
+          "description": " instances of the word \"because\" indicating reasoning or causation"
+        },
+        {
+          "feature_index": 15275,
+          "activation": 8.805313110351562,
+          "description": " the word \"because.\""
+        },
+        {
+          "feature_index": 17213,
+          "activation": 6.568282604217529,
+          "description": " concepts related to sports statistics and player performance"
+        },
+        {
+          "feature_index": 20687,
+          "activation": 5.522049903869629,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 4862,
+          "activation": 4.836156368255615,
+          "description": " phrases related to strong emotional reactions or controversial topics"
+        }
+      ]
+    ],
+    "4-att": [
+      [
+        {
+          "feature_index": 13475,
+          "activation": 22.977815628051758,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 14.306167602539062,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 29966,
+          "activation": 1.8365917205810547,
+          "description": " expressions of personal perspective or ownership"
+        },
+        {
+          "feature_index": 29572,
+          "activation": 1.0223991870880127,
+          "description": " phrases that indicate relationships or possessive connections"
+        },
+        {
+          "feature_index": 6094,
+          "activation": 0.9571840167045593,
+          "description": "technical specifications and details of engineering or mechanical systems"
+        }
+      ],
+      [
+        {
+          "feature_index": 13475,
+          "activation": 17.755733489990234,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 16.93747901916504,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 10549,
+          "activation": 4.469693183898926,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 26610,
+          "activation": 4.4446516036987305,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "feature_index": 25774,
+          "activation": 4.339729309082031,
+          "description": " sentences that begin with the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 23103,
+          "activation": 7.906843185424805,
+          "description": "specific nouns or terms related to politics, society, or notable entities"
+        },
+        {
+          "feature_index": 32714,
+          "activation": 7.8655595779418945,
+          "description": " terms related to formal processes or structures in governance"
+        },
+        {
+          "feature_index": 29747,
+          "activation": 6.954429626464844,
+          "description": " instances of reported speech or dialogue in the text"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 5.942189693450928,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 24135,
+          "activation": 5.7449140548706055,
+          "description": "references to male individuals in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 29747,
+          "activation": 12.335199356079102,
+          "description": " instances of reported speech or dialogue in the text"
+        },
+        {
+          "feature_index": 26610,
+          "activation": 6.6762237548828125,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "feature_index": 10631,
+          "activation": 3.778033971786499,
+          "description": " key phrases related to criminal activities and law enforcement"
+        },
+        {
+          "feature_index": 3027,
+          "activation": 3.7611513137817383,
+          "description": " mathematical or scientific expressions related to exponential growth"
+        },
+        {
+          "feature_index": 5765,
+          "activation": 3.744455575942993,
+          "description": "references to medical professionals and issues surrounding their training and practices"
+        }
+      ],
+      [
+        {
+          "feature_index": 27689,
+          "activation": 11.764185905456543,
+          "description": " phrases related to maintaining a low profile or staying discreet"
+        },
+        {
+          "feature_index": 3511,
+          "activation": 9.437732696533203,
+          "description": "phrases and contexts related to staying or being in a particular state or place"
+        },
+        {
+          "feature_index": 1488,
+          "activation": 4.7457170486450195,
+          "description": " concepts relating to origins and existence"
+        },
+        {
+          "feature_index": 32241,
+          "activation": 4.604390621185303,
+          "description": " instances of the word \"up\" and related expressions that indicate movement or rising actions"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 4.561328887939453,
+          "description": " financial terms and references related to cost and expenses"
+        }
+      ],
+      [
+        {
+          "feature_index": 30078,
+          "activation": 6.773258209228516,
+          "description": " punctuation marks and related formatting elements"
+        },
+        {
+          "feature_index": 5541,
+          "activation": 6.395297050476074,
+          "description": " references to daily routines and physical activities"
+        },
+        {
+          "feature_index": 1488,
+          "activation": 5.999477386474609,
+          "description": " concepts relating to origins and existence"
+        },
+        {
+          "feature_index": 3027,
+          "activation": 4.306738376617432,
+          "description": " mathematical or scientific expressions related to exponential growth"
+        },
+        {
+          "feature_index": 11280,
+          "activation": 4.185613632202148,
+          "description": " phrases related to residency and staying in a location"
+        }
+      ]
+    ],
+    "4-mlp": [
+      [
+        {
+          "feature_index": 22732,
+          "activation": 22.08233642578125,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 1796,
+          "activation": 3.296942710876465,
+          "description": " references to significant events or entities related to personal or political development"
+        },
+        {
+          "feature_index": 5592,
+          "activation": 2.7546749114990234,
+          "description": " references to analytical research and discussions of sociopolitical issues"
+        },
+        {
+          "feature_index": 16081,
+          "activation": 2.11187744140625,
+          "description": " terms related to authority and legal proceedings"
+        },
+        {
+          "feature_index": 3219,
+          "activation": 1.4328153133392334,
+          "description": " instances of technical or quantitative terminology related to data analysis and team performance"
+        }
+      ],
+      [
+        {
+          "feature_index": 22732,
+          "activation": 14.97805118560791,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 14183,
+          "activation": 6.155099868774414,
+          "description": " references to news organizations and their reports"
+        },
+        {
+          "feature_index": 7626,
+          "activation": 5.643146514892578,
+          "description": "capitalized proper nouns or entities"
+        },
+        {
+          "feature_index": 5911,
+          "activation": 3.838468313217163,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "feature_index": 7522,
+          "activation": 3.548694610595703,
+          "description": " occurrences of the word \"The\" and its variations in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 22732,
+          "activation": 11.084653854370117,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 16550,
+          "activation": 9.445720672607422,
+          "description": "references to the male gender or mentions of men"
+        },
+        {
+          "feature_index": 11706,
+          "activation": 5.950483798980713,
+          "description": " occurrences of the word \"man.\""
+        },
+        {
+          "feature_index": 4303,
+          "activation": 3.604602813720703,
+          "description": " words and phrases related to social and public risks"
+        },
+        {
+          "feature_index": 15551,
+          "activation": 3.5873494148254395,
+          "description": " references to individuals, specifically their ages and gender, in context to incidents or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 30117,
+          "activation": 11.45016860961914,
+          "description": "instances of the word \"stay.\""
+        },
+        {
+          "feature_index": 12079,
+          "activation": 6.233739852905273,
+          "description": " references to maintaining promises or commitments"
+        },
+        {
+          "feature_index": 22732,
+          "activation": 4.577720642089844,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 9350,
+          "activation": 4.338472843170166,
+          "description": " expressions of action and past experiences"
+        },
+        {
+          "feature_index": 4100,
+          "activation": 3.2728123664855957,
+          "description": " references to gadgets and technology sales"
+        }
+      ],
+      [
+        {
+          "feature_index": 3760,
+          "activation": 8.261996269226074,
+          "description": "the phrase \"keep up\""
+        },
+        {
+          "feature_index": 4236,
+          "activation": 5.996469974517822,
+          "description": " phrases that convey meeting expectations or fulfilling commitments"
+        },
+        {
+          "feature_index": 21476,
+          "activation": 5.128635406494141,
+          "description": " frequent occurrences of the phrase \"stay in\" along with contextual references to locations or states"
+        },
+        {
+          "feature_index": 13899,
+          "activation": 4.413763999938965,
+          "description": " numerical values or variations and their associations"
+        },
+        {
+          "feature_index": 10010,
+          "activation": 4.186286926269531,
+          "description": " instances of the phrase \"stand up.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 22528,
+          "activation": 7.500946044921875,
+          "description": "phrases that indicate causation or justification"
+        },
+        {
+          "feature_index": 6608,
+          "activation": 7.402019500732422,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 21809,
+          "activation": 7.09869384765625,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 10377,
+          "activation": 4.433338165283203,
+          "description": " the word \"because.\""
+        },
+        {
+          "feature_index": 11033,
+          "activation": 4.388009071350098,
+          "description": " references to specific celebrities or public figures"
+        }
+      ]
+    ],
+    "5-mlp": [
+      [
+        {
+          "feature_index": 13903,
+          "activation": 22.058027267456055,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 2349,
+          "activation": 6.352740287780762,
+          "description": " words and phrases related to discussion, opinions, and verb forms indicating actions or states"
+        },
+        {
+          "feature_index": 28189,
+          "activation": 3.8064866065979004,
+          "description": " concepts related to sexuality and gender identity"
+        },
+        {
+          "feature_index": 31564,
+          "activation": 0.8844165802001953,
+          "description": "references to computational systems and their components"
+        },
+        {
+          "feature_index": 112,
+          "activation": 0.7678793668746948,
+          "description": "terms related to healthcare and political contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 13903,
+          "activation": 12.466814041137695,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 1962,
+          "activation": 4.840167999267578,
+          "description": "phrases related to warnings and alerts"
+        },
+        {
+          "feature_index": 24471,
+          "activation": 4.005834102630615,
+          "description": " instances of the word \"The\""
+        },
+        {
+          "feature_index": 31748,
+          "activation": 3.975388765335083,
+          "description": " occurrences of the word \"A\" and \"You\" at the beginning of sentences or clauses"
+        },
+        {
+          "feature_index": 9867,
+          "activation": 3.8952066898345947,
+          "description": " occurrences of the word \"The\" in varying contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 13903,
+          "activation": 14.567581176757812,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 1834,
+          "activation": 6.850442409515381,
+          "description": " proper nouns, particularly names of women"
+        },
+        {
+          "feature_index": 31922,
+          "activation": 3.6950998306274414,
+          "description": " references to criminal activity and investigations"
+        },
+        {
+          "feature_index": 2094,
+          "activation": 2.795321226119995,
+          "description": " terms and phrases related to food and nutrition"
+        },
+        {
+          "feature_index": 9717,
+          "activation": 2.585447311401367,
+          "description": "titles or professions related to authority figures or professionals"
+        }
+      ],
+      [
+        {
+          "feature_index": 22321,
+          "activation": 11.724540710449219,
+          "description": " phrases related to the concept of persistence or remaining in a particular state"
+        },
+        {
+          "feature_index": 13903,
+          "activation": 4.694330215454102,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 12767,
+          "activation": 4.666224002838135,
+          "description": " words related to persistence or continuity of actions"
+        },
+        {
+          "feature_index": 13467,
+          "activation": 3.677666425704956,
+          "description": " details related to contracts and agreements"
+        },
+        {
+          "feature_index": 5892,
+          "activation": 3.607191324234009,
+          "description": " negative contractions related to refusal or lack of action"
+        }
+      ],
+      [
+        {
+          "feature_index": 10838,
+          "activation": 10.039154052734375,
+          "description": " the phrase \"keep up\" as it relates to maintaining pace or competition"
+        },
+        {
+          "feature_index": 7372,
+          "activation": 3.8526926040649414,
+          "description": " information related to heart health and conditions affecting heart function"
+        },
+        {
+          "feature_index": 19698,
+          "activation": 3.818537712097168,
+          "description": "phrases indicating presence or duration in a specific location"
+        },
+        {
+          "feature_index": 28512,
+          "activation": 3.7865490913391113,
+          "description": " occurrences of the word \"up.\""
+        },
+        {
+          "feature_index": 5231,
+          "activation": 3.5905799865722656,
+          "description": " phrases related to standing up or taking a stand for something"
+        }
+      ],
+      [
+        {
+          "feature_index": 13477,
+          "activation": 8.044628143310547,
+          "description": "instances of the word \"because\" indicating causal reasoning"
+        },
+        {
+          "feature_index": 7745,
+          "activation": 6.042167663574219,
+          "description": " phrases indicating duration or frequency of actions and experiences"
+        },
+        {
+          "feature_index": 11066,
+          "activation": 5.10112190246582,
+          "description": " the word \"because.\""
+        },
+        {
+          "feature_index": 13989,
+          "activation": 4.788045883178711,
+          "description": " the word \"because\" signaling reasoning or justifications"
+        },
+        {
+          "feature_index": 26287,
+          "activation": 3.565284252166748,
+          "description": " references to medical teams and their operations"
+        }
+      ]
+    ],
+    "6-att": [
+      [
+        {
+          "feature_index": 26714,
+          "activation": 24.417213439941406,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 6007,
+          "activation": 6.4337263107299805,
+          "description": "words related to opinions, personal preferences, and social contexts"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 5.355619430541992,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 8139,
+          "activation": 1.6483116149902344,
+          "description": "specific names or terms, potentially related to people or entities"
+        },
+        {
+          "feature_index": 21296,
+          "activation": 1.1463133096694946,
+          "description": " token representations and specific linguistic patterns"
+        }
+      ],
+      [
+        {
+          "feature_index": 26714,
+          "activation": 21.351001739501953,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 8.065570831298828,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 25546,
+          "activation": 5.305935382843018,
+          "description": " key identifiers or section headings in a document"
+        },
+        {
+          "feature_index": 886,
+          "activation": 4.205079078674316,
+          "description": "sentences that start with the word \"The\" or \"the.\""
+        },
+        {
+          "feature_index": 30368,
+          "activation": 3.032681941986084,
+          "description": " references to places, organizations, or supported entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 26714,
+          "activation": 8.368843078613281,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 7.922298908233643,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 3637,
+          "activation": 5.119548797607422,
+          "description": " terms related to technical specifications and performance analyses"
+        },
+        {
+          "feature_index": 31145,
+          "activation": 5.089229583740234,
+          "description": "certain numerical and demographic data related to social statistics and conditions"
+        },
+        {
+          "feature_index": 3439,
+          "activation": 3.5671443939208984,
+          "description": "content related to criminal incidents and law enforcement activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 30606,
+          "activation": 8.06787109375,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 24496,
+          "activation": 5.583525657653809,
+          "description": " descriptions of interpersonal interactions and comparisons"
+        },
+        {
+          "feature_index": 31166,
+          "activation": 5.242579460144043,
+          "description": " proper nouns and names, particularly in the context of recommendations or notable mentions"
+        },
+        {
+          "feature_index": 3439,
+          "activation": 3.838487386703491,
+          "description": "content related to criminal incidents and law enforcement activities"
+        },
+        {
+          "feature_index": 19792,
+          "activation": 2.572549343109131,
+          "description": "mentions of individuals involved in incidents or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 5741,
+          "activation": 7.857088088989258,
+          "description": " references to staying or residing in specific places or situations"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 7.5722527503967285,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 31166,
+          "activation": 3.6307921409606934,
+          "description": " proper nouns and names, particularly in the context of recommendations or notable mentions"
+        },
+        {
+          "feature_index": 20296,
+          "activation": 3.3987860679626465,
+          "description": " phrases that emphasize maintaining security and preserving integrity"
+        },
+        {
+          "feature_index": 5489,
+          "activation": 3.386240243911743,
+          "description": "elements of emotional experiences and interpersonal interactions"
+        }
+      ],
+      [
+        {
+          "feature_index": 30606,
+          "activation": 6.840100288391113,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 21799,
+          "activation": 4.913786888122559,
+          "description": "phrases related to fear and its implications"
+        },
+        {
+          "feature_index": 24496,
+          "activation": 4.164650917053223,
+          "description": " descriptions of interpersonal interactions and comparisons"
+        },
+        {
+          "feature_index": 5741,
+          "activation": 3.89217209815979,
+          "description": " references to staying or residing in specific places or situations"
+        },
+        {
+          "feature_index": 16321,
+          "activation": 3.6700005531311035,
+          "description": " technical terminology related to energy systems and management"
+        }
+      ]
+    ],
+    "6-mlp": [
+      [
+        {
+          "feature_index": 18484,
+          "activation": 16.133625030517578,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 4755,
+          "activation": 10.919886589050293,
+          "description": " terms related to non-traditional or unconventional ideas"
+        },
+        {
+          "feature_index": 23155,
+          "activation": 7.9424333572387695,
+          "description": " significant military and historical terms related to the Korean War"
+        },
+        {
+          "feature_index": 21825,
+          "activation": 1.3498200178146362,
+          "description": "references to statistical or numerical data"
+        },
+        {
+          "feature_index": 25176,
+          "activation": 1.205251693725586,
+          "description": " phrases related to school or educational environments"
+        }
+      ],
+      [
+        {
+          "feature_index": 18484,
+          "activation": 12.40933609008789,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 26821,
+          "activation": 6.960137367248535,
+          "description": " terms related to social constructs and their implications"
+        },
+        {
+          "feature_index": 22402,
+          "activation": 4.689004421234131,
+          "description": "the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "feature_index": 24644,
+          "activation": 3.679356098175049,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 6285,
+          "activation": 3.1676864624023438,
+          "description": " locations and places within an urban context"
+        }
+      ],
+      [
+        {
+          "feature_index": 18484,
+          "activation": 11.113617897033691,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 24591,
+          "activation": 4.702398777008057,
+          "description": "details related to accidents and incidents involving vehicles"
+        },
+        {
+          "feature_index": 23276,
+          "activation": 3.4990904331207275,
+          "description": " references to male characters or subjects"
+        },
+        {
+          "feature_index": 25854,
+          "activation": 3.0888118743896484,
+          "description": "references to art, culture, and the impact of societal complexities"
+        },
+        {
+          "feature_index": 26821,
+          "activation": 3.0404586791992188,
+          "description": " terms related to social constructs and their implications"
+        }
+      ],
+      [
+        {
+          "feature_index": 15217,
+          "activation": 11.43934440612793,
+          "description": " words related to remaining in a place or situation for an extended period"
+        },
+        {
+          "feature_index": 9745,
+          "activation": 4.727556228637695,
+          "description": " references to brick structures and home security features"
+        },
+        {
+          "feature_index": 10516,
+          "activation": 3.713582992553711,
+          "description": " terms related to cultivation and environmental conditions"
+        },
+        {
+          "feature_index": 9327,
+          "activation": 3.2514781951904297,
+          "description": " phrases related to sports performance and competition"
+        },
+        {
+          "feature_index": 20638,
+          "activation": 3.2313060760498047,
+          "description": " phrases involving reported speech or statements"
+        }
+      ],
+      [
+        {
+          "feature_index": 1502,
+          "activation": 7.38739538192749,
+          "description": " the phrase \"keep up.\""
+        },
+        {
+          "feature_index": 31372,
+          "activation": 5.455988883972168,
+          "description": " the word \"up\" or variations of its usage in different contexts"
+        },
+        {
+          "feature_index": 1975,
+          "activation": 5.109952449798584,
+          "description": " the word \"up\" in various contexts"
+        },
+        {
+          "feature_index": 10516,
+          "activation": 3.3297510147094727,
+          "description": " terms related to cultivation and environmental conditions"
+        },
+        {
+          "feature_index": 7711,
+          "activation": 3.189828872680664,
+          "description": " occurrences of the phrase \"stay in.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 18484,
+          "activation": 7.875727653503418,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 30296,
+          "activation": 7.031228065490723,
+          "description": " the word \"because\" in various contexts"
+        },
+        {
+          "feature_index": 31994,
+          "activation": 5.1567583084106445,
+          "description": " the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 18875,
+          "activation": 4.28214693069458,
+          "description": " occurrences of the word \"because.\""
+        },
+        {
+          "feature_index": 7502,
+          "activation": 4.107541084289551,
+          "description": " references to religious beliefs and the legal implications surrounding them"
+        }
+      ]
+    ],
+    "7-att": [
+      [
+        {
+          "feature_index": 24064,
+          "activation": 23.43819808959961,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 11.245950698852539,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 10035,
+          "activation": 3.87835431098938,
+          "description": " a variety of conjunctions and transitional phrases that connect ideas"
+        },
+        {
+          "feature_index": 26901,
+          "activation": 1.9057430028915405,
+          "description": " elements related to identification and attribution in articles"
+        },
+        {
+          "feature_index": 26011,
+          "activation": 0.8131972551345825,
+          "description": " phrases related to financial transactions or commercial activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24064,
+          "activation": 23.052387237548828,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 9.940305709838867,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 10035,
+          "activation": 2.526087760925293,
+          "description": " a variety of conjunctions and transitional phrases that connect ideas"
+        },
+        {
+          "feature_index": 26901,
+          "activation": 1.6964527368545532,
+          "description": " elements related to identification and attribution in articles"
+        },
+        {
+          "feature_index": 26011,
+          "activation": 1.1466917991638184,
+          "description": " phrases related to financial transactions or commercial activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24064,
+          "activation": 11.691205978393555,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 6.833540916442871,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 21403,
+          "activation": 4.222046852111816,
+          "description": "elements related to entertainment genres, specifically in the context of film and television"
+        },
+        {
+          "feature_index": 12173,
+          "activation": 3.3410253524780273,
+          "description": " words related to individuals, particularly men, in various contexts and situations"
+        },
+        {
+          "feature_index": 22461,
+          "activation": 3.3311591148376465,
+          "description": " characters involved in criminal or suspicious activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24064,
+          "activation": 11.472907066345215,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 8.141139030456543,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 8252,
+          "activation": 4.816596984863281,
+          "description": " phrases related to staying or residence"
+        },
+        {
+          "feature_index": 28016,
+          "activation": 4.045994281768799,
+          "description": " references to individuals involved in incidents or events"
+        },
+        {
+          "feature_index": 6174,
+          "activation": 3.1991193294525146,
+          "description": " instances of waiting and delays"
+        }
+      ],
+      [
+        {
+          "feature_index": 4373,
+          "activation": 9.654962539672852,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 8252,
+          "activation": 8.844612121582031,
+          "description": " phrases related to staying or residence"
+        },
+        {
+          "feature_index": 24064,
+          "activation": 5.5538153648376465,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 91,
+          "activation": 3.853229522705078,
+          "description": " location-related details and timeframes for future events"
+        },
+        {
+          "feature_index": 6174,
+          "activation": 3.315481424331665,
+          "description": " instances of waiting and delays"
+        }
+      ],
+      [
+        {
+          "feature_index": 4373,
+          "activation": 6.590329647064209,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 17017,
+          "activation": 5.043202877044678,
+          "description": " phrases that convey a sense of involvement or engagement"
+        },
+        {
+          "feature_index": 8252,
+          "activation": 4.433346271514893,
+          "description": " phrases related to staying or residence"
+        },
+        {
+          "feature_index": 31015,
+          "activation": 3.3552989959716797,
+          "description": " phrases related to the concept of staying or remaining in a location or situation"
+        },
+        {
+          "feature_index": 4030,
+          "activation": 3.089414596557617,
+          "description": " events and actions related to legal and official circumstances"
+        }
+      ]
+    ],
+    "7-mlp": [
+      [
+        {
+          "feature_index": 3177,
+          "activation": 11.327536582946777,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 20522,
+          "activation": 10.25881290435791,
+          "description": " references to dimensions of reality or transitions between different states"
+        },
+        {
+          "feature_index": 6668,
+          "activation": 8.157835006713867,
+          "description": " references to technology and media companies, particularly focusing on business dynamics and relationships"
+        },
+        {
+          "feature_index": 9460,
+          "activation": 2.98537015914917,
+          "description": "instances of the word \"the\" and its occurrences in phrases or sentences"
+        },
+        {
+          "feature_index": 6856,
+          "activation": 2.2203383445739746,
+          "description": "sports statistics and performance metrics"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 15.522845268249512,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 15557,
+          "activation": 3.0142130851745605,
+          "description": "the definite article \"the.\""
+        },
+        {
+          "feature_index": 30824,
+          "activation": 2.8465001583099365,
+          "description": "repeated occurrences of the word \"The\" in context to titles and albums"
+        },
+        {
+          "feature_index": 27522,
+          "activation": 2.4680416584014893,
+          "description": " elements related to research and analysis"
+        },
+        {
+          "feature_index": 21835,
+          "activation": 2.282223701477051,
+          "description": " instances of the definite article \"the\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 9.728592872619629,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 30615,
+          "activation": 7.747336387634277,
+          "description": " references to female individuals and their actions or roles in the context presented"
+        },
+        {
+          "feature_index": 25392,
+          "activation": 4.328441619873047,
+          "description": " references to a specific individual or concept related to \"man.\""
+        },
+        {
+          "feature_index": 6392,
+          "activation": 3.698153018951416,
+          "description": "references to employment, job changes, and workplace dynamics"
+        },
+        {
+          "feature_index": 26476,
+          "activation": 3.323484420776367,
+          "description": " legal terms and references related to criminal sentencing"
+        }
+      ],
+      [
+        {
+          "feature_index": 20172,
+          "activation": 7.87824010848999,
+          "description": " forms of the verb \"stay\""
+        },
+        {
+          "feature_index": 9082,
+          "activation": 6.79937744140625,
+          "description": "instances of the word \"stay\" and its variations"
+        },
+        {
+          "feature_index": 3177,
+          "activation": 6.410617351531982,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 16894,
+          "activation": 6.081453323364258,
+          "description": " phrases related to duration or time spent"
+        },
+        {
+          "feature_index": 15308,
+          "activation": 5.105682849884033,
+          "description": " the word \"remain\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 28136,
+          "activation": 7.040151596069336,
+          "description": " instances of the word \"up.\""
+        },
+        {
+          "feature_index": 12237,
+          "activation": 4.749680519104004,
+          "description": " the phrase \"keep up\" or variations of it"
+        },
+        {
+          "feature_index": 12562,
+          "activation": 4.559494972229004,
+          "description": " instances of the phrase \"get up.\""
+        },
+        {
+          "feature_index": 30752,
+          "activation": 3.822798252105713,
+          "description": " instances of the word \"up.\""
+        },
+        {
+          "feature_index": 14307,
+          "activation": 3.4694838523864746,
+          "description": " words related to food and dietary components"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 10.447770118713379,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 23068,
+          "activation": 8.09674072265625,
+          "description": " instances of the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 8272,
+          "activation": 4.844055652618408,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 12757,
+          "activation": 3.6699185371398926,
+          "description": " expressions of belief or conviction"
+        },
+        {
+          "feature_index": 11227,
+          "activation": 2.9943439960479736,
+          "description": " the word \"because\" and its variations, indicating reasoning or justification"
+        }
+      ]
+    ],
+    "8-att": [
+      [
+        {
+          "feature_index": 5990,
+          "activation": 18.51492691040039,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 4.394191265106201,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 27616,
+          "activation": 3.6976490020751953,
+          "description": " key phrases that indicate assessments or judgments"
+        },
+        {
+          "feature_index": 9863,
+          "activation": 1.5691452026367188,
+          "description": " specific names and identifiers, likely related to people or organizations"
+        },
+        {
+          "feature_index": 9570,
+          "activation": 1.2380777597427368,
+          "description": "proper nouns, particularly names and titles related to individuals or entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 5990,
+          "activation": 13.445198059082031,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 7.938807487487793,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 15089,
+          "activation": 3.1560122966766357,
+          "description": "mentions of significant reports or announcements"
+        },
+        {
+          "feature_index": 22081,
+          "activation": 1.693207025527954,
+          "description": "phrases and terms related to timelines and predictions"
+        },
+        {
+          "feature_index": 11941,
+          "activation": 1.6480578184127808,
+          "description": "definite articles and phrases indicating specific subjects or entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 5990,
+          "activation": 10.959920883178711,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 7.107512950897217,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 32002,
+          "activation": 2.4383139610290527,
+          "description": "specific technical terms and data related to internet security and performance"
+        },
+        {
+          "feature_index": 19405,
+          "activation": 2.0636496543884277,
+          "description": "brand names or company references"
+        },
+        {
+          "feature_index": 6315,
+          "activation": 1.8910527229309082,
+          "description": " specific references to time, age, and organizational roles or structures"
+        }
+      ],
+      [
+        {
+          "feature_index": 120,
+          "activation": 7.7678046226501465,
+          "description": " references to personal experiences and actions involving individuals"
+        },
+        {
+          "feature_index": 5990,
+          "activation": 6.786043167114258,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 15033,
+          "activation": 4.01460075378418,
+          "description": " references to the concept of \"staying\" in various contexts"
+        },
+        {
+          "feature_index": 31622,
+          "activation": 3.826476573944092,
+          "description": " references to incidents involving injuries or fatalities"
+        },
+        {
+          "feature_index": 25964,
+          "activation": 3.7784156799316406,
+          "description": " instances of conflict or trouble in narratives"
+        }
+      ],
+      [
+        {
+          "feature_index": 21119,
+          "activation": 7.6228837966918945,
+          "description": " phrases related to commuting and daily routines"
+        },
+        {
+          "feature_index": 11694,
+          "activation": 7.214673042297363,
+          "description": " references to survey results and polling data"
+        },
+        {
+          "feature_index": 120,
+          "activation": 6.17684268951416,
+          "description": " references to personal experiences and actions involving individuals"
+        },
+        {
+          "feature_index": 15033,
+          "activation": 5.690201759338379,
+          "description": " references to the concept of \"staying\" in various contexts"
+        },
+        {
+          "feature_index": 4652,
+          "activation": 4.767864227294922,
+          "description": " instances of the word \"up\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 11694,
+          "activation": 12.582350730895996,
+          "description": " references to survey results and polling data"
+        },
+        {
+          "feature_index": 21119,
+          "activation": 7.427375793457031,
+          "description": " phrases related to commuting and daily routines"
+        },
+        {
+          "feature_index": 21377,
+          "activation": 4.82964563369751,
+          "description": " causal phrases indicating reason or justification"
+        },
+        {
+          "feature_index": 4652,
+          "activation": 4.794573783874512,
+          "description": " instances of the word \"up\" in various contexts"
+        },
+        {
+          "feature_index": 7462,
+          "activation": 4.211513042449951,
+          "description": "references to climbing or ascending concepts"
+        }
+      ]
+    ],
+    "8-mlp": [
+      [
+        {
+          "feature_index": 7607,
+          "activation": 11.965636253356934,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 12472,
+          "activation": 10.130983352661133,
+          "description": "specific nouns that refer to species or technologies"
+        },
+        {
+          "feature_index": 6928,
+          "activation": 4.132699966430664,
+          "description": "references to specific types of fish and their health implications, as well as other contextual identifiers"
+        },
+        {
+          "feature_index": 27461,
+          "activation": 3.9290428161621094,
+          "description": " mentions of organizations and significant entities within the text"
+        },
+        {
+          "feature_index": 4485,
+          "activation": 2.508226156234741,
+          "description": "references to stem cell research and related organizations"
+        }
+      ],
+      [
+        {
+          "feature_index": 7607,
+          "activation": 12.434789657592773,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 4885,
+          "activation": 4.833813667297363,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "feature_index": 23733,
+          "activation": 3.551784038543701,
+          "description": " phrases related to project evaluations and comparisons"
+        },
+        {
+          "feature_index": 31073,
+          "activation": 2.704038143157959,
+          "description": " instances of the word \"The\" in the text"
+        },
+        {
+          "feature_index": 18194,
+          "activation": 2.1487834453582764,
+          "description": " instances of the word \"The\" and related articles"
+        }
+      ],
+      [
+        {
+          "feature_index": 7607,
+          "activation": 10.10427188873291,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 11168,
+          "activation": 5.209077835083008,
+          "description": "references to human subjects, particularly males"
+        },
+        {
+          "feature_index": 31361,
+          "activation": 3.1919713020324707,
+          "description": " terms related to regulatory or operational contexts"
+        },
+        {
+          "feature_index": 31852,
+          "activation": 3.0073025226593018,
+          "description": "references to individuals and their opinions or statements"
+        },
+        {
+          "feature_index": 22439,
+          "activation": 2.9686808586120605,
+          "description": " concepts related to societal issues and ideologies"
+        }
+      ],
+      [
+        {
+          "feature_index": 23041,
+          "activation": 12.104486465454102,
+          "description": " phrases related to maintaining control or regulation over a situation"
+        },
+        {
+          "feature_index": 22465,
+          "activation": 9.890180587768555,
+          "description": "mentions of the word \"stay\" in various contexts"
+        },
+        {
+          "feature_index": 7607,
+          "activation": 4.407528877258301,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 22460,
+          "activation": 2.9675614833831787,
+          "description": " instances of the word \"remain\" and its variations"
+        },
+        {
+          "feature_index": 22314,
+          "activation": 2.9164748191833496,
+          "description": " instances of people sitting or standing"
+        }
+      ],
+      [
+        {
+          "feature_index": 7607,
+          "activation": 5.201943397521973,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 17228,
+          "activation": 5.11973762512207,
+          "description": " the word \"up\" in various contexts"
+        },
+        {
+          "feature_index": 23041,
+          "activation": 4.900824546813965,
+          "description": " phrases related to maintaining control or regulation over a situation"
+        },
+        {
+          "feature_index": 22601,
+          "activation": 4.340188503265381,
+          "description": " phrases related to time and frequency"
+        },
+        {
+          "feature_index": 5114,
+          "activation": 4.1778082847595215,
+          "description": " key events and discussions related to political and corporate contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 12602,
+          "activation": 9.53795337677002,
+          "description": "causal phrases indicating reasons or justifications"
+        },
+        {
+          "feature_index": 22519,
+          "activation": 5.013370513916016,
+          "description": " causal relationships and the word \"because.\""
+        },
+        {
+          "feature_index": 7607,
+          "activation": 4.678974628448486,
+          "description": " mentions of political events or discussions related to governance and policy-making"
+        },
+        {
+          "feature_index": 20327,
+          "activation": 4.571435928344727,
+          "description": " the word \"because\" and its variations, indicating causal relationships or explanations"
+        },
+        {
+          "feature_index": 17839,
+          "activation": 3.461519956588745,
+          "description": " references to political actions and figures, particularly in a critical context"
+        }
+      ]
+    ],
+    "9-att": [
+      [
+        {
+          "feature_index": 20348,
+          "activation": 23.010848999023438,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 22323,
+          "activation": 3.608090877532959,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "feature_index": 4435,
+          "activation": 2.6864960193634033,
+          "description": " entities associated with authors and publication details"
+        },
+        {
+          "feature_index": 11642,
+          "activation": 1.8406059741973877,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "feature_index": 29579,
+          "activation": 0.575731635093689,
+          "description": " mentions of individuals or significant figures in contexts related to authority or expertise"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 20.82181739807129,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 22323,
+          "activation": 2.302969455718994,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "feature_index": 11642,
+          "activation": 1.5535190105438232,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "feature_index": 20396,
+          "activation": 1.3907191753387451,
+          "description": " the word \"The\" in various contexts"
+        },
+        {
+          "feature_index": 12914,
+          "activation": 0.8989304304122925,
+          "description": " details related to numerical data and statistics"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 11.870704650878906,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 26885,
+          "activation": 5.211315155029297,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        },
+        {
+          "feature_index": 11954,
+          "activation": 4.7479777336120605,
+          "description": " nouns related to societal roles and norms"
+        },
+        {
+          "feature_index": 20269,
+          "activation": 2.90797758102417,
+          "description": " instances of death or serious injury"
+        },
+        {
+          "feature_index": 31937,
+          "activation": 1.8513972759246826,
+          "description": " phrases related to medical journals and publications"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 7.334855556488037,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 31937,
+          "activation": 5.141659736633301,
+          "description": " phrases related to medical journals and publications"
+        },
+        {
+          "feature_index": 20269,
+          "activation": 4.167910575866699,
+          "description": " instances of death or serious injury"
+        },
+        {
+          "feature_index": 18469,
+          "activation": 3.17873215675354,
+          "description": " terms related to economic stability and governance"
+        },
+        {
+          "feature_index": 26885,
+          "activation": 2.944082736968994,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 9.123035430908203,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 18469,
+          "activation": 8.961814880371094,
+          "description": " terms related to economic stability and governance"
+        },
+        {
+          "feature_index": 32071,
+          "activation": 3.905102252960205,
+          "description": " expressions related to staying in a location or situation"
+        },
+        {
+          "feature_index": 20484,
+          "activation": 3.107609987258911,
+          "description": " phrases indicating duration and time periods"
+        },
+        {
+          "feature_index": 32732,
+          "activation": 2.990941286087036,
+          "description": " scenes of daily life and personal experiences"
+        }
+      ],
+      [
+        {
+          "feature_index": 26885,
+          "activation": 18.81800079345703,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        },
+        {
+          "feature_index": 4435,
+          "activation": 11.596349716186523,
+          "description": " entities associated with authors and publication details"
+        },
+        {
+          "feature_index": 20348,
+          "activation": 5.637003421783447,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 32732,
+          "activation": 2.792680263519287,
+          "description": " scenes of daily life and personal experiences"
+        },
+        {
+          "feature_index": 18242,
+          "activation": 2.6225059032440186,
+          "description": " conditional phrases and implications"
+        }
+      ]
+    ],
+    "9-mlp": [
+      [
+        {
+          "feature_index": 31738,
+          "activation": 11.9869384765625,
+          "description": " references to notable political figures"
+        },
+        {
+          "feature_index": 4963,
+          "activation": 6.847686767578125,
+          "description": " words and symbols related to visual aesthetics or descriptors in art"
+        },
+        {
+          "feature_index": 21957,
+          "activation": 6.790665626525879,
+          "description": " phrases related to ease and simplicity"
+        },
+        {
+          "feature_index": 1344,
+          "activation": 5.624309539794922,
+          "description": "specific terms related to technical jargon or components in various contexts"
+        },
+        {
+          "feature_index": 4526,
+          "activation": 4.545204162597656,
+          "description": "notable nouns and certain structural elements in a narrative"
+        }
+      ],
+      [
+        {
+          "feature_index": 7072,
+          "activation": 12.037788391113281,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 21,
+          "activation": 3.74206805229187,
+          "description": " complex relationships and criticisms in discourse"
+        },
+        {
+          "feature_index": 28796,
+          "activation": 3.44897198677063,
+          "description": " occurrences of the definite article \"the.\""
+        },
+        {
+          "feature_index": 26305,
+          "activation": 2.6314454078674316,
+          "description": " the article \"The\" at the beginning of sentences"
+        },
+        {
+          "feature_index": 14997,
+          "activation": 2.0272185802459717,
+          "description": " topics related to political issues and debates"
+        }
+      ],
+      [
+        {
+          "feature_index": 18960,
+          "activation": 6.247178554534912,
+          "description": " references to a specific character or person labeled as \"man.\""
+        },
+        {
+          "feature_index": 7653,
+          "activation": 5.551749229431152,
+          "description": "references to incidents or events involving terrorism and violence"
+        },
+        {
+          "feature_index": 20602,
+          "activation": 4.579475402832031,
+          "description": " terms related to performance and production in various contexts"
+        },
+        {
+          "feature_index": 3867,
+          "activation": 4.491621971130371,
+          "description": " references to \"man\" or masculine identity"
+        },
+        {
+          "feature_index": 15809,
+          "activation": 4.420498847961426,
+          "description": "references to male individuals and their ages"
+        }
+      ],
+      [
+        {
+          "feature_index": 15952,
+          "activation": 9.707771301269531,
+          "description": " the word \"stay\" and its variations, indicating concepts related to remaining in a place or situation"
+        },
+        {
+          "feature_index": 7987,
+          "activation": 6.161104202270508,
+          "description": " instances of the word \"stay\" and its related forms"
+        },
+        {
+          "feature_index": 8940,
+          "activation": 6.107233047485352,
+          "description": " phrases related to ongoing states or activities"
+        },
+        {
+          "feature_index": 7072,
+          "activation": 4.187990188598633,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 22987,
+          "activation": 3.4132485389709473,
+          "description": " words related to personal experiences and reflections"
+        }
+      ],
+      [
+        {
+          "feature_index": 8940,
+          "activation": 9.299368858337402,
+          "description": " phrases related to ongoing states or activities"
+        },
+        {
+          "feature_index": 19576,
+          "activation": 8.581459045410156,
+          "description": " instances of the phrase \"up\" indicating increase or elevation"
+        },
+        {
+          "feature_index": 20944,
+          "activation": 5.0379638671875,
+          "description": " significant dates and time periods"
+        },
+        {
+          "feature_index": 21246,
+          "activation": 3.6098711490631104,
+          "description": " references to statistics or data presentations related to a specific topic"
+        },
+        {
+          "feature_index": 26635,
+          "activation": 3.2889387607574463,
+          "description": " numerical values and associated data pertaining to sports teams and events"
+        }
+      ],
+      [
+        {
+          "feature_index": 7072,
+          "activation": 6.245806694030762,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 8052,
+          "activation": 5.856379508972168,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 32759,
+          "activation": 4.536299705505371,
+          "description": "the word \"because\" and its context, highlighting reasons or justifications in statements"
+        },
+        {
+          "feature_index": 4063,
+          "activation": 3.4055025577545166,
+          "description": "the word \"because\" to indicate reasoning or justification"
+        },
+        {
+          "feature_index": 15881,
+          "activation": 2.6657791137695312,
+          "description": " references to characters and their relationships in a narrative context"
+        }
+      ]
+    ],
+    "10-att": [
+      [
+        {
+          "feature_index": 7685,
+          "activation": 15.987239837646484,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 28178,
+          "activation": 2.743058443069458,
+          "description": " negations and their informal variations"
+        },
+        {
+          "feature_index": 14239,
+          "activation": 1.7468607425689697,
+          "description": "proper names and titles of individuals or organizations"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 0.8471689224243164,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 27781,
+          "activation": 0.5396350026130676,
+          "description": " words related to comparisons or comparative analysis"
+        }
+      ],
+      [
+        {
+          "feature_index": 7685,
+          "activation": 9.20150089263916,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 5.21077299118042,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 5012,
+          "activation": 1.968209147453308,
+          "description": "proper nouns and significant numerical data"
+        },
+        {
+          "feature_index": 24802,
+          "activation": 1.4996356964111328,
+          "description": " financial impacts and political responses to decisions"
+        },
+        {
+          "feature_index": 21395,
+          "activation": 1.230918288230896,
+          "description": " definite articles, particularly \"The\""
+        }
+      ],
+      [
+        {
+          "feature_index": 7685,
+          "activation": 8.136161804199219,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 3.6595640182495117,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 28269,
+          "activation": 1.7953605651855469,
+          "description": "references to public figures and their affiliations or actions"
+        },
+        {
+          "feature_index": 9066,
+          "activation": 1.637298345565796,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "feature_index": 28284,
+          "activation": 1.531417965888977,
+          "description": "references to organizations and figures involved in humanitarian relief efforts"
+        }
+      ],
+      [
+        {
+          "feature_index": 7685,
+          "activation": 5.696322917938232,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 17250,
+          "activation": 5.407255172729492,
+          "description": " words related to temporary living situations or accommodations"
+        },
+        {
+          "feature_index": 9066,
+          "activation": 4.182788848876953,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "feature_index": 28445,
+          "activation": 2.476612091064453,
+          "description": "instances of violent crime and related legal consequences"
+        },
+        {
+          "feature_index": 8266,
+          "activation": 2.361541748046875,
+          "description": " expressions related to continuity and persistence over time"
+        }
+      ],
+      [
+        {
+          "feature_index": 23855,
+          "activation": 8.917762756347656,
+          "description": " content referencing specific time frames or schedules"
+        },
+        {
+          "feature_index": 20667,
+          "activation": 8.411832809448242,
+          "description": "references to historical timelines and significant events"
+        },
+        {
+          "feature_index": 1346,
+          "activation": 6.784677505493164,
+          "description": " activities related to waking up and morning routines"
+        },
+        {
+          "feature_index": 1877,
+          "activation": 6.052220344543457,
+          "description": " mentions of sleep and its impact on health"
+        },
+        {
+          "feature_index": 8266,
+          "activation": 3.9250025749206543,
+          "description": " expressions related to continuity and persistence over time"
+        }
+      ],
+      [
+        {
+          "feature_index": 9066,
+          "activation": 15.101181030273438,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "feature_index": 22980,
+          "activation": 2.8647990226745605,
+          "description": " phrases related to significant political events or actions"
+        },
+        {
+          "feature_index": 23855,
+          "activation": 2.814197063446045,
+          "description": " content referencing specific time frames or schedules"
+        },
+        {
+          "feature_index": 1346,
+          "activation": 2.3331024646759033,
+          "description": " activities related to waking up and morning routines"
+        },
+        {
+          "feature_index": 1877,
+          "activation": 1.9480819702148438,
+          "description": " mentions of sleep and its impact on health"
+        }
+      ]
+    ],
+    "10-mlp": [
+      [
+        {
+          "feature_index": 32053,
+          "activation": 7.073321342468262,
+          "description": " expressions of annoyance or frustration"
+        },
+        {
+          "feature_index": 11916,
+          "activation": 5.859248161315918,
+          "description": " mentions of interference or manipulation in political contexts"
+        },
+        {
+          "feature_index": 21350,
+          "activation": 5.439944267272949,
+          "description": " references to personal pronouns and the letter \"u\" in various contexts"
+        },
+        {
+          "feature_index": 11806,
+          "activation": 4.666949272155762,
+          "description": " phrases related to subscription and promotional content"
+        },
+        {
+          "feature_index": 897,
+          "activation": 4.542171001434326,
+          "description": " references to clothing items or apparel"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 11.982853889465332,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 11562,
+          "activation": 2.0106494426727295,
+          "description": " cultural references and noteworthy historical context related to music and legislation"
+        },
+        {
+          "feature_index": 9134,
+          "activation": 1.3987658023834229,
+          "description": " the presence of the word \"The\" in various contexts"
+        },
+        {
+          "feature_index": 4693,
+          "activation": 1.0167880058288574,
+          "description": " instances of the word \"the.\""
+        },
+        {
+          "feature_index": 10464,
+          "activation": 0.9884957075119019,
+          "description": " references to specific characters or entities in a narrative context"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 9.631071090698242,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 6575,
+          "activation": 3.6989450454711914,
+          "description": " mentions of \"man\" in various contexts"
+        },
+        {
+          "feature_index": 29922,
+          "activation": 2.900989055633545,
+          "description": "mentions of individuals or characters in various contexts"
+        },
+        {
+          "feature_index": 2341,
+          "activation": 2.1211013793945312,
+          "description": "references to individuals involved in incidents or actions"
+        },
+        {
+          "feature_index": 16647,
+          "activation": 1.5211129188537598,
+          "description": "references to individuals, particularly women and men, within a narrative context"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 7.560921669006348,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 28653,
+          "activation": 5.428250312805176,
+          "description": " the concept of remaining or continuing in a particular situation or location"
+        },
+        {
+          "feature_index": 13459,
+          "activation": 2.0800423622131348,
+          "description": " instances of being held in custody or detention"
+        },
+        {
+          "feature_index": 25775,
+          "activation": 1.8536871671676636,
+          "description": " references to location and community structures"
+        },
+        {
+          "feature_index": 32633,
+          "activation": 1.7560200691223145,
+          "description": " words related to the concept of anonymity or remaining unnoticed"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 5.957858085632324,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 11753,
+          "activation": 3.825737953186035,
+          "description": " expressions of opinions and questions about political figures and events"
+        },
+        {
+          "feature_index": 26302,
+          "activation": 3.4378631114959717,
+          "description": " the word \"up\" in various contexts"
+        },
+        {
+          "feature_index": 30185,
+          "activation": 2.7073426246643066,
+          "description": " components and connections in technical or electronic contexts"
+        },
+        {
+          "feature_index": 17285,
+          "activation": 2.4787914752960205,
+          "description": "references to medical facilities and locations"
+        }
+      ],
+      [
+        {
+          "feature_index": 540,
+          "activation": 3.7257492542266846,
+          "description": "references to complex situations or phenomena"
+        },
+        {
+          "feature_index": 32452,
+          "activation": 2.9150278568267822,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 16287,
+          "activation": 2.8878397941589355,
+          "description": " instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy"
+        },
+        {
+          "feature_index": 10531,
+          "activation": 2.778472423553467,
+          "description": " instances of the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 27747,
+          "activation": 1.6438170671463013,
+          "description": " questions that express confusion or disbelief"
+        }
+      ]
+    ],
+    "11-att": [
+      [
+        {
+          "feature_index": 16155,
+          "activation": 26.573692321777344,
+          "description": "references to donations and fundraising efforts"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 18.39118766784668,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 27499,
+          "activation": 12.124275207519531,
+          "description": " phrases related to product functionality and specifications"
+        },
+        {
+          "feature_index": 32538,
+          "activation": 10.56457233428955,
+          "description": "references to social media content and online interactions"
+        },
+        {
+          "feature_index": 15619,
+          "activation": 4.399709701538086,
+          "description": " references to social media and newsletter subscriptions"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 3.9084699153900146,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 3.0856833457946777,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 1.7184045314788818,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 1.5065827369689941,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16880,
+          "activation": 0.4047996401786804,
+          "description": " symbols and elements of formatting related to digital communication"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 3.7650527954101562,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 1.9628204107284546,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 1.7459743022918701,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 0.9200847148895264,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 6222,
+          "activation": 0.3781612515449524,
+          "description": " proper nouns and names related to political figures and events"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 2.8651366233825684,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 1.858858585357666,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 1.015293002128601,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 14169,
+          "activation": 0.38315117359161377,
+          "description": " phrases related to staying or remaining in a certain state or condition"
+        },
+        {
+          "feature_index": 6222,
+          "activation": 0.38288024067878723,
+          "description": " proper nouns and names related to political figures and events"
+        }
+      ],
+      [
+        {
+          "feature_index": 29326,
+          "activation": 3.333014488220215,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 23340,
+          "activation": 2.1479458808898926,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 2.13472580909729,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 24643,
+          "activation": 0.4518754780292511,
+          "description": "calls to action related to content engagement and subscriptions"
+        },
+        {
+          "feature_index": 9201,
+          "activation": 0.2686997652053833,
+          "description": " phrases related to societal norms and personal autonomy"
+        }
+      ],
+      [
+        {
+          "feature_index": 29326,
+          "activation": 2.934947967529297,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 2.761141777038574,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 23340,
+          "activation": 0.8437896966934204,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 16092,
+          "activation": 0.5199940800666809,
+          "description": " keywords related to events or occurrences involving Russia or Russian entities"
+        },
+        {
+          "feature_index": 9201,
+          "activation": 0.3253205418586731,
+          "description": " phrases related to societal norms and personal autonomy"
+        }
+      ]
+    ],
+    "11-mlp": [
+      [
+        {
+          "feature_index": 23389,
+          "activation": 23.219181060791016,
+          "description": " instances of conflict or confrontation"
+        },
+        {
+          "feature_index": 6677,
+          "activation": 13.109432220458984,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "feature_index": 9628,
+          "activation": 9.051456451416016,
+          "description": " references to product availability and pricing"
+        },
+        {
+          "feature_index": 17897,
+          "activation": 5.198482036590576,
+          "description": " numerical references or statistics in the text"
+        },
+        {
+          "feature_index": 19349,
+          "activation": 4.52614688873291,
+          "description": " mentions of significant events or relationships involving external entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 6677,
+          "activation": 14.147043228149414,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "feature_index": 2978,
+          "activation": 10.370560646057129,
+          "description": "references to significant historical events or figures"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 5.774084091186523,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 10161,
+          "activation": 4.7248430252075195,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 32456,
+          "activation": 3.067979574203491,
+          "description": " the use of the word \"The\" in various contexts within the document"
+        }
+      ],
+      [
+        {
+          "feature_index": 11673,
+          "activation": 10.248287200927734,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "feature_index": 11669,
+          "activation": 6.2213921546936035,
+          "description": " references to male individuals"
+        },
+        {
+          "feature_index": 13287,
+          "activation": 5.269153594970703,
+          "description": " phrases related to political and military actions"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 5.064486503601074,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 20341,
+          "activation": 4.515300750732422,
+          "description": "references to male individuals or characters"
+        }
+      ],
+      [
+        {
+          "feature_index": 10161,
+          "activation": 11.995888710021973,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 11673,
+          "activation": 7.585147857666016,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "feature_index": 15517,
+          "activation": 7.279006481170654,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "feature_index": 16150,
+          "activation": 6.897977828979492,
+          "description": " occurrences of the word \"stay\" and its variations"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 5.671779155731201,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        }
+      ],
+      [
+        {
+          "feature_index": 6208,
+          "activation": 12.623838424682617,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 11673,
+          "activation": 5.894580841064453,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "feature_index": 11139,
+          "activation": 5.153206825256348,
+          "description": " references to teamwork and collaboration"
+        },
+        {
+          "feature_index": 14540,
+          "activation": 4.453883647918701,
+          "description": " references to institutions and expressions of admiration or criticism related to them"
+        },
+        {
+          "feature_index": 21052,
+          "activation": 4.17938232421875,
+          "description": " instances of the word \"up\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 10161,
+          "activation": 9.393105506896973,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 9.121878623962402,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 15517,
+          "activation": 7.427777290344238,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "feature_index": 8545,
+          "activation": 3.9410223960876465,
+          "description": " the word \"because\" in various contexts indicating reasoning or justification"
+        },
+        {
+          "feature_index": 6677,
+          "activation": 3.3648250102996826,
+          "description": " references to American legal or governmental matters"
+        }
+      ]
+    ]
+  }
+}
