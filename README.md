@@ -43,7 +43,7 @@ apt-get install git-lfs
 git lfs install
 git clone https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset
 ```
-The dataset occupies ~346GB.
+The dataset occupies ~310GB.
 
 Then merge `arc_challenge_1/` and `arc_challenge_2/` into `arc_challenge/`:
 ```
