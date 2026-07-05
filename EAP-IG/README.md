@@ -1,4 +1,6 @@
 # EAP-IG
+> This is the README of the original EAP-IG codebase
+
 This library contains various resources for finding circuits in autoregressive transformer LMs. At a high level, a circuit is the part of your model responsible for performing a given task; all nodes / edges outside the circuit can be corrupted without harming model performance. For more on circuits, see [this paper](https://arxiv.org/abs/2403.17806 ) or [this paper](https://arxiv.org/abs/2403.19647). For a demo of this library's features, check out `greater_than.ipynb`; for a demo using larger models (Llama-3 8B), check out `ioi.ipynb`.
 
 This library has tools that will let you do a variety of things:

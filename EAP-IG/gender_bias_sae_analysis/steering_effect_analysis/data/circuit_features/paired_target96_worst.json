@@ -1,0 +1,2936 @@
+{
+  "target_idx": 96,
+  "source_idx": 363,
+  "num_gender_features": 16,
+  "num_gender_features_mlp": 12,
+  "gender_features": {
+    "0-att": [],
+    "0-mlp": [],
+    "1-att": [],
+    "1-mlp": [],
+    "2-mlp": [],
+    "3-att": [],
+    "3-mlp": [
+      8435
+    ],
+    "4-att": [
+      24135
+    ],
+    "4-mlp": [
+      16550
+    ],
+    "5-mlp": [
+      8158,
+      28189
+    ],
+    "6-att": [
+      16600
+    ],
+    "6-mlp": [
+      7492
+    ],
+    "7-att": [
+      12173
+    ],
+    "7-mlp": [
+      25392
+    ],
+    "8-att": [
+      29973
+    ],
+    "9-att": [],
+    "9-mlp": [
+      3867,
+      18960
+    ],
+    "10-att": [],
+    "10-mlp": [
+      6575,
+      16647
+    ],
+    "11-att": [],
+    "11-mlp": [
+      11669,
+      20341
+    ]
+  },
+  "circuit_features": {
+    "0-att": [
+      [
+        {
+          "feature_index": 7426,
+          "activation": 11.748733520507812,
+          "description": " self-referential statements or expressions of personal opinion"
+        },
+        {
+          "feature_index": 21004,
+          "activation": 10.145352363586426,
+          "description": "personal preferences or opinions"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 9.324506759643555,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 8525,
+          "activation": 7.871823787689209,
+          "description": " references to political party affiliations"
+        },
+        {
+          "feature_index": 16768,
+          "activation": 5.884937286376953,
+          "description": " concepts related to gun ownership and laws"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.021233558654785,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 4.506331920623779,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 4.365413665771484,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 24711,
+          "activation": 4.300137519836426,
+          "description": " specific quantitative values and statistics related to costs and measurements"
+        },
+        {
+          "feature_index": 25844,
+          "activation": 3.0125699043273926,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.072558403015137,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 29468,
+          "activation": 5.88145637512207,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.9163143634796143,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 3.695058822631836,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 21004,
+          "activation": 2.882761001586914,
+          "description": "personal preferences or opinions"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 6.7301459312438965,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 29468,
+          "activation": 5.491723537445068,
+          "description": "instances of communities or groups facing socio-economic hardships"
+        },
+        {
+          "feature_index": 16355,
+          "activation": 5.471181869506836,
+          "description": " references to sleep and sleeping conditions"
+        },
+        {
+          "feature_index": 1090,
+          "activation": 4.728888511657715,
+          "description": " references to waking up or sleeping"
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.7255570888519287,
+          "description": "terms related to spirituality and religious themes"
+        }
+      ],
+      [
+        {
+          "feature_index": 25960,
+          "activation": 7.209211349487305,
+          "description": "instances of personal experiences or reflections"
+        },
+        {
+          "feature_index": 16047,
+          "activation": 5.367760181427002,
+          "description": "the word \"because\""
+        },
+        {
+          "feature_index": 4182,
+          "activation": 3.6256425380706787,
+          "description": "terms related to spirituality and religious themes"
+        },
+        {
+          "feature_index": 8192,
+          "activation": 2.3083577156066895,
+          "description": " statements and expressions of personal preferences or assertions"
+        },
+        {
+          "feature_index": 4891,
+          "activation": 1.8104785680770874,
+          "description": " negative connotations associated with conspiracies or attacks on public figures"
+        }
+      ]
+    ],
+    "0-mlp": [
+      [
+        {
+          "feature_index": 17058,
+          "activation": 6.9526848793029785,
+          "description": null
+        },
+        {
+          "feature_index": 4811,
+          "activation": 6.403015613555908,
+          "description": null
+        },
+        {
+          "feature_index": 17516,
+          "activation": 6.092201232910156,
+          "description": "words related to significant gatherings or meetings"
+        },
+        {
+          "feature_index": 23427,
+          "activation": 6.0501604080200195,
+          "description": null
+        },
+        {
+          "feature_index": 13129,
+          "activation": 5.587482452392578,
+          "description": null
+        }
+      ],
+      [
+        {
+          "feature_index": 12249,
+          "activation": 14.654702186584473,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 21479,
+          "activation": 7.221619606018066,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "feature_index": 11551,
+          "activation": 7.19522762298584,
+          "description": "instances of the word \"the\" in various contexts"
+        },
+        {
+          "feature_index": 21626,
+          "activation": 6.859922409057617,
+          "description": " instances of the word \"the\" in various contexts"
+        },
+        {
+          "feature_index": 23830,
+          "activation": 6.829351425170898,
+          "description": " prepositions and conjunctions that indicate relationships or connections between ideas"
+        }
+      ],
+      [
+        {
+          "feature_index": 12249,
+          "activation": 9.605161666870117,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 21479,
+          "activation": 5.2422776222229,
+          "description": " terms related to risk assessment in environmental contexts"
+        },
+        {
+          "feature_index": 23085,
+          "activation": 5.082986831665039,
+          "description": " the word \"lu\" in various contexts"
+        },
+        {
+          "feature_index": 24875,
+          "activation": 5.017336845397949,
+          "description": "references to extremist groups and their ideologies"
+        },
+        {
+          "feature_index": 12852,
+          "activation": 4.408030033111572,
+          "description": " references to religious practices and institutions"
+        }
+      ],
+      [
+        {
+          "feature_index": 21154,
+          "activation": 14.640726089477539,
+          "description": "references to the act of sleeping or being asleep"
+        },
+        {
+          "feature_index": 12249,
+          "activation": 10.278037071228027,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 24891,
+          "activation": 9.860376358032227,
+          "description": " references to the act of sleeping and related concepts"
+        },
+        {
+          "feature_index": 16396,
+          "activation": 6.717036724090576,
+          "description": " instances of the word \"spotted.\""
+        },
+        {
+          "feature_index": 5650,
+          "activation": 5.267481327056885,
+          "description": "references to specific cultural or historical figures and locations"
+        }
+      ],
+      [
+        {
+          "feature_index": 12249,
+          "activation": 12.101662635803223,
+          "description": " geographic locations and related quantitative data"
+        },
+        {
+          "feature_index": 32350,
+          "activation": 9.64095687866211,
+          "description": " the word \"because\" and its variations"
+        },
+        {
+          "feature_index": 17670,
+          "activation": 8.920211791992188,
+          "description": " the word \"because,\" indicating a search for causal explanations or reasoning"
+        },
+        {
+          "feature_index": 12492,
+          "activation": 4.70957612991333,
+          "description": " contextually significant statements or claims regarding events or situations"
+        },
+        {
+          "feature_index": 1256,
+          "activation": 3.8942184448242188,
+          "description": "instances of the word \"when\" indicating temporal contexts or conditions"
+        }
+      ]
+    ],
+    "1-att": [
+      [
+        {
+          "feature_index": 29159,
+          "activation": 11.722699165344238,
+          "description": "references to political parties"
+        },
+        {
+          "feature_index": 25181,
+          "activation": 7.7246599197387695,
+          "description": " expressions of personal preference or identity"
+        },
+        {
+          "feature_index": 21580,
+          "activation": 6.326300621032715,
+          "description": "the word \"Word\" and possibly its implications or contexts related to discourse or authority"
+        },
+        {
+          "feature_index": 12113,
+          "activation": 5.808760643005371,
+          "description": " names and references to notable individuals or characters in various contexts"
+        },
+        {
+          "feature_index": 9469,
+          "activation": 5.393332481384277,
+          "description": " references to established concepts or organizations in the context of healthcare"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 16.110158920288086,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 8.285139083862305,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 25284,
+          "activation": 6.458987236022949,
+          "description": "proper nouns and significant names"
+        },
+        {
+          "feature_index": 10570,
+          "activation": 4.960061550140381,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 31515,
+          "activation": 4.614785194396973,
+          "description": " occurrences of the definite article \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 16.712135314941406,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 7.910656929016113,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 15223,
+          "activation": 6.042017936706543,
+          "description": " phrases that indicate potentiality or conditional scenarios"
+        },
+        {
+          "feature_index": 25284,
+          "activation": 5.172781944274902,
+          "description": "proper nouns and significant names"
+        },
+        {
+          "feature_index": 28458,
+          "activation": 4.79980993270874,
+          "description": " significant events or issues related to governance and policy"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 12.762136459350586,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 8.62297248840332,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 3071,
+          "activation": 7.678586483001709,
+          "description": " mentions of entities and related statistics or attributes"
+        },
+        {
+          "feature_index": 22109,
+          "activation": 5.998728275299072,
+          "description": " incidents involving individuals in distress or crisis situations"
+        },
+        {
+          "feature_index": 25284,
+          "activation": 5.010712146759033,
+          "description": "proper nouns and significant names"
+        }
+      ],
+      [
+        {
+          "feature_index": 20600,
+          "activation": 13.890101432800293,
+          "description": " themes related to fraternity and collaboration"
+        },
+        {
+          "feature_index": 15223,
+          "activation": 9.431559562683105,
+          "description": " phrases that indicate potentiality or conditional scenarios"
+        },
+        {
+          "feature_index": 10287,
+          "activation": 7.383925437927246,
+          "description": "names of individuals and their associated roles or positions"
+        },
+        {
+          "feature_index": 3071,
+          "activation": 6.45250940322876,
+          "description": " mentions of entities and related statistics or attributes"
+        },
+        {
+          "feature_index": 29286,
+          "activation": 5.214677810668945,
+          "description": " the word \"because\" and variations of it, indicating reasoning or justification"
+        }
+      ]
+    ],
+    "1-mlp": [
+      [
+        {
+          "feature_index": 24447,
+          "activation": 27.549171447753906,
+          "description": " references to local contexts and events"
+        },
+        {
+          "feature_index": 17714,
+          "activation": 2.864499092102051,
+          "description": " forms of the verb \"subsidize\" as well as related variations indicating financial support"
+        },
+        {
+          "feature_index": 21164,
+          "activation": 2.454787492752075,
+          "description": " phrases indicating a lack or scarcity of something"
+        },
+        {
+          "feature_index": 1618,
+          "activation": 2.102822780609131,
+          "description": " keywords related to environmental issues and their consequences"
+        },
+        {
+          "feature_index": 21280,
+          "activation": 1.6771388053894043,
+          "description": " terms and concepts related to self-destructive behaviors and toxic substances"
+        }
+      ],
+      [
+        {
+          "feature_index": 31245,
+          "activation": 7.66872501373291,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "feature_index": 4035,
+          "activation": 5.7548089027404785,
+          "description": " elements associated with news reporting and official statements"
+        },
+        {
+          "feature_index": 9515,
+          "activation": 5.723217010498047,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 5845,
+          "activation": 5.6456403732299805,
+          "description": " occurrences of the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "feature_index": 4865,
+          "activation": 5.30180549621582,
+          "description": " occurrences of the word \"the\""
+        }
+      ],
+      [
+        {
+          "feature_index": 14863,
+          "activation": 6.879611015319824,
+          "description": "references to positions of authority or membership within organizations"
+        },
+        {
+          "feature_index": 20820,
+          "activation": 3.55570650100708,
+          "description": "references to groups of individuals or mentions of people"
+        },
+        {
+          "feature_index": 3579,
+          "activation": 3.2546544075012207,
+          "description": " keywords related to environmental issues, policies, and specific entities or subjects in various contexts"
+        },
+        {
+          "feature_index": 27488,
+          "activation": 2.9819955825805664,
+          "description": "instances of the name \"Ny\""
+        },
+        {
+          "feature_index": 334,
+          "activation": 2.962129592895508,
+          "description": " terms related to organizational structures and operations"
+        }
+      ],
+      [
+        {
+          "feature_index": 31853,
+          "activation": 11.923809051513672,
+          "description": "words related to sleeping or slumber"
+        },
+        {
+          "feature_index": 25854,
+          "activation": 11.24395751953125,
+          "description": " references to sleep and its associated states"
+        },
+        {
+          "feature_index": 11087,
+          "activation": 10.397077560424805,
+          "description": " references to specific locations and the concept of sleep"
+        },
+        {
+          "feature_index": 1098,
+          "activation": 10.280545234680176,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "feature_index": 7309,
+          "activation": 4.457813739776611,
+          "description": " references to sleep and sleeping"
+        }
+      ],
+      [
+        {
+          "feature_index": 1098,
+          "activation": 17.68646240234375,
+          "description": "phrases that describe emotional responses and social actions"
+        },
+        {
+          "feature_index": 19499,
+          "activation": 14.525432586669922,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 15111,
+          "activation": 6.77099609375,
+          "description": " the word \"because\" indicating causal reasoning or explanations"
+        },
+        {
+          "feature_index": 5254,
+          "activation": 6.444228172302246,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 32194,
+          "activation": 4.265459060668945,
+          "description": " the word \"because\" in various contexts"
+        }
+      ]
+    ],
+    "2-mlp": [
+      [
+        {
+          "feature_index": 7487,
+          "activation": 22.30758285522461,
+          "description": " phrases related to legal and judicial matters"
+        },
+        {
+          "feature_index": 3422,
+          "activation": 5.525945663452148,
+          "description": " proper nouns and organizational names"
+        },
+        {
+          "feature_index": 10940,
+          "activation": 0.7014609575271606,
+          "description": " references to environmental resources and energy production methods"
+        },
+        {
+          "feature_index": 12555,
+          "activation": 0.5482848882675171,
+          "description": " references to time and temporal measures"
+        },
+        {
+          "feature_index": 1367,
+          "activation": 0.5186920762062073,
+          "description": " phrases and references to traditional or outdated concepts"
+        }
+      ],
+      [
+        {
+          "feature_index": 21867,
+          "activation": 7.22145938873291,
+          "description": "the definite article \"The\""
+        },
+        {
+          "feature_index": 24733,
+          "activation": 6.233397483825684,
+          "description": " proper nouns and names"
+        },
+        {
+          "feature_index": 4481,
+          "activation": 5.893150806427002,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "feature_index": 8745,
+          "activation": 5.122255325317383,
+          "description": "the word \"the.\""
+        },
+        {
+          "feature_index": 25010,
+          "activation": 4.414124488830566,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 19810,
+          "activation": 7.065976142883301,
+          "description": "brands and names associated with popular culture and events"
+        },
+        {
+          "feature_index": 7487,
+          "activation": 6.5899434089660645,
+          "description": " phrases related to legal and judicial matters"
+        },
+        {
+          "feature_index": 30999,
+          "activation": 5.028312683105469,
+          "description": " terms related to social justice and community advocacy"
+        },
+        {
+          "feature_index": 15853,
+          "activation": 3.7193851470947266,
+          "description": "references to Christian institutions and figures"
+        },
+        {
+          "feature_index": 22039,
+          "activation": 3.0913615226745605,
+          "description": " terms related to humanitarian aid and non-profit organizations"
+        }
+      ],
+      [
+        {
+          "feature_index": 24649,
+          "activation": 13.566217422485352,
+          "description": " references to the act of sleeping"
+        },
+        {
+          "feature_index": 32218,
+          "activation": 5.157954216003418,
+          "description": " references to sleep and sleep deprivation"
+        },
+        {
+          "feature_index": 19810,
+          "activation": 4.767185688018799,
+          "description": "brands and names associated with popular culture and events"
+        },
+        {
+          "feature_index": 11633,
+          "activation": 4.558650016784668,
+          "description": " actions and states related to library or reading activities"
+        },
+        {
+          "feature_index": 12138,
+          "activation": 3.5645675659179688,
+          "description": " actions related to the initiation or performance of trials and experiments"
+        }
+      ],
+      [
+        {
+          "feature_index": 15201,
+          "activation": 9.502074241638184,
+          "description": " instances of the word \"because\""
+        },
+        {
+          "feature_index": 17479,
+          "activation": 9.013924598693848,
+          "description": " the word \"because\" in various contexts"
+        },
+        {
+          "feature_index": 6953,
+          "activation": 6.97476863861084,
+          "description": " instances of the word \"because\""
+        },
+        {
+          "feature_index": 19423,
+          "activation": 5.913156509399414,
+          "description": " words and phrases suggesting substitution or motivation for actions"
+        },
+        {
+          "feature_index": 26462,
+          "activation": 4.867580890655518,
+          "description": " occurrences of the word \"because\" indicating reasoning or causation"
+        }
+      ]
+    ],
+    "3-att": [
+      [
+        {
+          "feature_index": 14736,
+          "activation": 23.930118560791016,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 25389,
+          "activation": 13.557328224182129,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 12.12789535522461,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 25003,
+          "activation": 2.8248610496520996,
+          "description": "common function words used in various contexts"
+        },
+        {
+          "feature_index": 10752,
+          "activation": 1.2594032287597656,
+          "description": " instances of potential and uncertainty in contexts related to decision-making or risk"
+        }
+      ],
+      [
+        {
+          "feature_index": 14736,
+          "activation": 24.511255264282227,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 25389,
+          "activation": 11.764567375183105,
+          "description": " unique or unusual characters or words"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 11.109987258911133,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 32080,
+          "activation": 2.336538076400757,
+          "description": " introductory phrases that indicate ongoing actions or transitional statements"
+        },
+        {
+          "feature_index": 27491,
+          "activation": 1.8982634544372559,
+          "description": " references to specific TV shows, characters, or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 14736,
+          "activation": 17.86910057067871,
+          "description": " actions and implications related to governance and legal processes"
+        },
+        {
+          "feature_index": 13022,
+          "activation": 6.9519524574279785,
+          "description": " references to organizations and governmental structures"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 6.7923784255981445,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 16949,
+          "activation": 5.6510443687438965,
+          "description": "words or phrases that indicate various titles and names, particularly in media and organizations"
+        },
+        {
+          "feature_index": 4700,
+          "activation": 4.587817192077637,
+          "description": " conversative statements or claims made by political figures"
+        }
+      ],
+      [
+        {
+          "feature_index": 15117,
+          "activation": 6.692506790161133,
+          "description": " references to key individuals and their roles or actions"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 4.897857189178467,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 2312,
+          "activation": 4.182680130004883,
+          "description": " phrases related to incidents involving injuries or fatalities"
+        },
+        {
+          "feature_index": 25711,
+          "activation": 3.565335273742676,
+          "description": " references to individuals and their actions or statuses"
+        },
+        {
+          "feature_index": 27491,
+          "activation": 3.4172310829162598,
+          "description": " references to specific TV shows, characters, or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 16232,
+          "activation": 9.245288848876953,
+          "description": "references to sleep issues and their associated problems"
+        },
+        {
+          "feature_index": 22132,
+          "activation": 6.810091972351074,
+          "description": " references to sleeping arrangements and locations"
+        },
+        {
+          "feature_index": 10921,
+          "activation": 6.580272674560547,
+          "description": "elements related to community infrastructure and urban development"
+        },
+        {
+          "feature_index": 20856,
+          "activation": 5.221570014953613,
+          "description": " concepts related to governance and control within systems"
+        },
+        {
+          "feature_index": 16457,
+          "activation": 4.657506942749023,
+          "description": "discussions about intelligence, measurement, and societal values"
+        }
+      ]
+    ],
+    "3-mlp": [
+      [
+        {
+          "feature_index": 6335,
+          "activation": 23.421144485473633,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 31165,
+          "activation": 7.090892791748047,
+          "description": " references to media, particularly related to tragedies or significant events"
+        },
+        {
+          "feature_index": 24921,
+          "activation": 3.5742177963256836,
+          "description": "company names or entities related to technology and social issues"
+        },
+        {
+          "feature_index": 27906,
+          "activation": 0.9237960577011108,
+          "description": " words related to actions and activities, particularly focusing on verbs"
+        },
+        {
+          "feature_index": 15035,
+          "activation": 0.40520501136779785,
+          "description": " mentions of organizations and their roles in socio-political contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 19317,
+          "activation": 10.586610794067383,
+          "description": " proper nouns or significant references"
+        },
+        {
+          "feature_index": 17514,
+          "activation": 7.179683208465576,
+          "description": " instances of the word \"The.\""
+        },
+        {
+          "feature_index": 3655,
+          "activation": 6.440920829772949,
+          "description": " proper nouns and significant terms"
+        },
+        {
+          "feature_index": 2653,
+          "activation": 6.123482704162598,
+          "description": " occurrences of the word \"The\" at the beginning of sentences"
+        },
+        {
+          "feature_index": 17523,
+          "activation": 4.836446762084961,
+          "description": " occurrences of the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 6335,
+          "activation": 5.843844413757324,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 8435,
+          "activation": 5.570784091949463,
+          "description": " references to female characters and their interactions"
+        },
+        {
+          "feature_index": 12848,
+          "activation": 4.410192489624023,
+          "description": " proper nouns and terms related to specific locations, entities, and technological components"
+        },
+        {
+          "feature_index": 14572,
+          "activation": 3.880253553390503,
+          "description": "references to relationships and roles of individuals in various contexts like weddings and film"
+        },
+        {
+          "feature_index": 2271,
+          "activation": 3.2541823387145996,
+          "description": " references to organizational structures and frameworks"
+        }
+      ],
+      [
+        {
+          "feature_index": 21084,
+          "activation": 11.185409545898438,
+          "description": "references to sleep-related actions and states"
+        },
+        {
+          "feature_index": 6335,
+          "activation": 10.490642547607422,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 22283,
+          "activation": 6.865940093994141,
+          "description": " terms related to housing and residential services"
+        },
+        {
+          "feature_index": 4862,
+          "activation": 4.1172614097595215,
+          "description": " phrases related to strong emotional reactions or controversial topics"
+        },
+        {
+          "feature_index": 21211,
+          "activation": 3.597444772720337,
+          "description": " words related to employment and the act of hiring or electing individuals"
+        }
+      ],
+      [
+        {
+          "feature_index": 26010,
+          "activation": 10.581957817077637,
+          "description": " instances of the word \"because\" indicating reasoning or causation"
+        },
+        {
+          "feature_index": 15275,
+          "activation": 9.060319900512695,
+          "description": " the word \"because.\""
+        },
+        {
+          "feature_index": 4862,
+          "activation": 5.477361679077148,
+          "description": " phrases related to strong emotional reactions or controversial topics"
+        },
+        {
+          "feature_index": 6335,
+          "activation": 5.2670578956604,
+          "description": " elements related to technical or mechanical processes"
+        },
+        {
+          "feature_index": 11090,
+          "activation": 3.82175612449646,
+          "description": " the word \"because.\""
+        }
+      ]
+    ],
+    "4-att": [
+      [
+        {
+          "feature_index": 13475,
+          "activation": 22.977819442749023,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 14.306173324584961,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 29966,
+          "activation": 1.8365918397903442,
+          "description": " expressions of personal perspective or ownership"
+        },
+        {
+          "feature_index": 29572,
+          "activation": 1.0223982334136963,
+          "description": " phrases that indicate relationships or possessive connections"
+        },
+        {
+          "feature_index": 6094,
+          "activation": 0.9571842551231384,
+          "description": "technical specifications and details of engineering or mechanical systems"
+        }
+      ],
+      [
+        {
+          "feature_index": 13475,
+          "activation": 17.7557373046875,
+          "description": " content related to locations or specific settings within a narrative"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 16.937480926513672,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 10549,
+          "activation": 4.469693183898926,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 26610,
+          "activation": 4.444650650024414,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "feature_index": 25774,
+          "activation": 4.339729309082031,
+          "description": " sentences that begin with the word \"The.\""
+        }
+      ],
+      [
+        {
+          "feature_index": 23103,
+          "activation": 8.377426147460938,
+          "description": "specific nouns or terms related to politics, society, or notable entities"
+        },
+        {
+          "feature_index": 32714,
+          "activation": 8.143271446228027,
+          "description": " terms related to formal processes or structures in governance"
+        },
+        {
+          "feature_index": 24135,
+          "activation": 5.958155632019043,
+          "description": "references to male individuals in various contexts"
+        },
+        {
+          "feature_index": 31406,
+          "activation": 4.635565280914307,
+          "description": " financial terms and references related to cost and expenses"
+        },
+        {
+          "feature_index": 10367,
+          "activation": 4.6327290534973145,
+          "description": "key concepts, significant nouns, and high-impact terms related to discussions or events"
+        }
+      ],
+      [
+        {
+          "feature_index": 26610,
+          "activation": 7.012558937072754,
+          "description": "references to cultural and commercial products or concepts in society"
+        },
+        {
+          "feature_index": 3027,
+          "activation": 6.939657211303711,
+          "description": " mathematical or scientific expressions related to exponential growth"
+        },
+        {
+          "feature_index": 29747,
+          "activation": 5.460862159729004,
+          "description": " instances of reported speech or dialogue in the text"
+        },
+        {
+          "feature_index": 8320,
+          "activation": 4.531896591186523,
+          "description": " topics related to healthcare and societal issues"
+        },
+        {
+          "feature_index": 11361,
+          "activation": 3.777716636657715,
+          "description": " references to specific individuals or characters in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 1488,
+          "activation": 8.522930145263672,
+          "description": " concepts relating to origins and existence"
+        },
+        {
+          "feature_index": 18936,
+          "activation": 7.753720283508301,
+          "description": " references to sleeping arrangements and conditions"
+        },
+        {
+          "feature_index": 3027,
+          "activation": 7.350533962249756,
+          "description": " mathematical or scientific expressions related to exponential growth"
+        },
+        {
+          "feature_index": 1982,
+          "activation": 5.751216411590576,
+          "description": "narratives featuring unconventional lifestyles and personal struggles"
+        },
+        {
+          "feature_index": 17514,
+          "activation": 2.8381805419921875,
+          "description": " information related to cloud computing and technological advancements"
+        }
+      ]
+    ],
+    "4-mlp": [
+      [
+        {
+          "feature_index": 22732,
+          "activation": 22.082338333129883,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 1796,
+          "activation": 3.2969424724578857,
+          "description": " references to significant events or entities related to personal or political development"
+        },
+        {
+          "feature_index": 5592,
+          "activation": 2.7546751499176025,
+          "description": " references to analytical research and discussions of sociopolitical issues"
+        },
+        {
+          "feature_index": 16081,
+          "activation": 2.1118757724761963,
+          "description": " terms related to authority and legal proceedings"
+        },
+        {
+          "feature_index": 3219,
+          "activation": 1.4328160285949707,
+          "description": " instances of technical or quantitative terminology related to data analysis and team performance"
+        }
+      ],
+      [
+        {
+          "feature_index": 22732,
+          "activation": 14.97805404663086,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 14183,
+          "activation": 6.155100345611572,
+          "description": " references to news organizations and their reports"
+        },
+        {
+          "feature_index": 7626,
+          "activation": 5.6431474685668945,
+          "description": "capitalized proper nouns or entities"
+        },
+        {
+          "feature_index": 5911,
+          "activation": 3.838468074798584,
+          "description": "the definite article \"The.\""
+        },
+        {
+          "feature_index": 7522,
+          "activation": 3.548694133758545,
+          "description": " occurrences of the word \"The\" and its variations in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 22732,
+          "activation": 15.852865219116211,
+          "description": "financial terms and statistics related to monetary transactions"
+        },
+        {
+          "feature_index": 18387,
+          "activation": 3.701303005218506,
+          "description": " references to police violence and misconduct"
+        },
+        {
+          "feature_index": 17407,
+          "activation": 3.0222461223602295,
+          "description": " topics related to religious and societal structures"
+        },
+        {
+          "feature_index": 4303,
+          "activation": 2.408881664276123,
+          "description": " words and phrases related to social and public risks"
+        },
+        {
+          "feature_index": 16550,
+          "activation": 2.366334915161133,
+          "description": "references to the male gender or mentions of men"
+        }
+      ],
+      [
+        {
+          "feature_index": 19264,
+          "activation": 13.046708106994629,
+          "description": " terms related to sleep or sleeping activities"
+        },
+        {
+          "feature_index": 31745,
+          "activation": 5.229303359985352,
+          "description": " references to healing and recovery processes"
+        },
+        {
+          "feature_index": 4100,
+          "activation": 3.7462563514709473,
+          "description": " references to gadgets and technology sales"
+        },
+        {
+          "feature_index": 10320,
+          "activation": 3.564696788787842,
+          "description": " references to uncertainties and confirmations regarding events or conditions"
+        },
+        {
+          "feature_index": 23018,
+          "activation": 3.2922744750976562,
+          "description": " actions or processes related to release and retrieval"
+        }
+      ],
+      [
+        {
+          "feature_index": 6608,
+          "activation": 8.640843391418457,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 21809,
+          "activation": 6.2426347732543945,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 11033,
+          "activation": 6.034294128417969,
+          "description": " references to specific celebrities or public figures"
+        },
+        {
+          "feature_index": 31039,
+          "activation": 4.587918758392334,
+          "description": "instances of the word \"because.\""
+        },
+        {
+          "feature_index": 22528,
+          "activation": 4.02092981338501,
+          "description": "phrases that indicate causation or justification"
+        }
+      ]
+    ],
+    "5-mlp": [
+      [
+        {
+          "feature_index": 13903,
+          "activation": 22.058027267456055,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 2349,
+          "activation": 6.352738380432129,
+          "description": " words and phrases related to discussion, opinions, and verb forms indicating actions or states"
+        },
+        {
+          "feature_index": 28189,
+          "activation": 3.806489944458008,
+          "description": " concepts related to sexuality and gender identity"
+        },
+        {
+          "feature_index": 31564,
+          "activation": 0.8844177722930908,
+          "description": "references to computational systems and their components"
+        },
+        {
+          "feature_index": 112,
+          "activation": 0.7678801417350769,
+          "description": "terms related to healthcare and political contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 13903,
+          "activation": 12.466819763183594,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 1962,
+          "activation": 4.840167045593262,
+          "description": "phrases related to warnings and alerts"
+        },
+        {
+          "feature_index": 24471,
+          "activation": 4.005834102630615,
+          "description": " instances of the word \"The\""
+        },
+        {
+          "feature_index": 31748,
+          "activation": 3.975389003753662,
+          "description": " occurrences of the word \"A\" and \"You\" at the beginning of sentences or clauses"
+        },
+        {
+          "feature_index": 9867,
+          "activation": 3.8952064514160156,
+          "description": " occurrences of the word \"The\" in varying contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 13903,
+          "activation": 13.42560863494873,
+          "description": " topics related to space exploration and technology"
+        },
+        {
+          "feature_index": 8158,
+          "activation": 3.6600844860076904,
+          "description": "references to male individuals"
+        },
+        {
+          "feature_index": 1398,
+          "activation": 3.621347427368164,
+          "description": " mentions of locations or nationalities"
+        },
+        {
+          "feature_index": 31922,
+          "activation": 3.4436898231506348,
+          "description": " references to criminal activity and investigations"
+        },
+        {
+          "feature_index": 13670,
+          "activation": 2.662230968475342,
+          "description": " references to stories or narratives, particularly those involving articles or films"
+        }
+      ],
+      [
+        {
+          "feature_index": 13578,
+          "activation": 11.001172065734863,
+          "description": "references to sleep and resting"
+        },
+        {
+          "feature_index": 257,
+          "activation": 4.7330827713012695,
+          "description": " terms and phrases related to sleep and sleep disorders"
+        },
+        {
+          "feature_index": 22320,
+          "activation": 3.8841426372528076,
+          "description": "descriptive elements related to weather and environmental conditions"
+        },
+        {
+          "feature_index": 5892,
+          "activation": 2.933994770050049,
+          "description": " negative contractions related to refusal or lack of action"
+        },
+        {
+          "feature_index": 13913,
+          "activation": 2.6846487522125244,
+          "description": " verbs related to actions or events involving force or impact"
+        }
+      ],
+      [
+        {
+          "feature_index": 13477,
+          "activation": 8.171024322509766,
+          "description": "instances of the word \"because\" indicating causal reasoning"
+        },
+        {
+          "feature_index": 5026,
+          "activation": 6.518295764923096,
+          "description": " the word \"because\" and its various contexts in the text"
+        },
+        {
+          "feature_index": 7745,
+          "activation": 5.252596855163574,
+          "description": " phrases indicating duration or frequency of actions and experiences"
+        },
+        {
+          "feature_index": 11066,
+          "activation": 4.609514236450195,
+          "description": " the word \"because.\""
+        },
+        {
+          "feature_index": 13989,
+          "activation": 4.477355003356934,
+          "description": " the word \"because\" signaling reasoning or justifications"
+        }
+      ]
+    ],
+    "6-att": [
+      [
+        {
+          "feature_index": 26714,
+          "activation": 24.41720962524414,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 6007,
+          "activation": 6.433725833892822,
+          "description": "words related to opinions, personal preferences, and social contexts"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 5.35561990737915,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 8139,
+          "activation": 1.6483123302459717,
+          "description": "specific names or terms, potentially related to people or entities"
+        },
+        {
+          "feature_index": 21296,
+          "activation": 1.1463130712509155,
+          "description": " token representations and specific linguistic patterns"
+        }
+      ],
+      [
+        {
+          "feature_index": 26714,
+          "activation": 21.350997924804688,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 8.065571784973145,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 25546,
+          "activation": 5.30593729019165,
+          "description": " key identifiers or section headings in a document"
+        },
+        {
+          "feature_index": 886,
+          "activation": 4.205079078674316,
+          "description": "sentences that start with the word \"The\" or \"the.\""
+        },
+        {
+          "feature_index": 30368,
+          "activation": 3.032681465148926,
+          "description": " references to places, organizations, or supported entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 26714,
+          "activation": 8.19978141784668,
+          "description": " key terms related to scientific research and environmental issues"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 7.530780792236328,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 3637,
+          "activation": 5.058591842651367,
+          "description": " terms related to technical specifications and performance analyses"
+        },
+        {
+          "feature_index": 31145,
+          "activation": 4.931393146514893,
+          "description": "certain numerical and demographic data related to social statistics and conditions"
+        },
+        {
+          "feature_index": 3439,
+          "activation": 3.5788068771362305,
+          "description": "content related to criminal incidents and law enforcement activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24496,
+          "activation": 4.40657377243042,
+          "description": " descriptions of interpersonal interactions and comparisons"
+        },
+        {
+          "feature_index": 30606,
+          "activation": 3.4706037044525146,
+          "description": " technical details about scientific instruments and their functions"
+        },
+        {
+          "feature_index": 16600,
+          "activation": 3.2104814052581787,
+          "description": " topics related to gender identity and societal perceptions of masculinity and femininity"
+        },
+        {
+          "feature_index": 14133,
+          "activation": 3.056056261062622,
+          "description": " references to events or situations involving sports or public interest matters"
+        },
+        {
+          "feature_index": 32624,
+          "activation": 2.829288959503174,
+          "description": " topics related to societal values and political critiques"
+        }
+      ],
+      [
+        {
+          "feature_index": 5679,
+          "activation": 6.091607093811035,
+          "description": "instances of sleep or rest"
+        },
+        {
+          "feature_index": 32624,
+          "activation": 4.61285400390625,
+          "description": " topics related to societal values and political critiques"
+        },
+        {
+          "feature_index": 21799,
+          "activation": 4.490213394165039,
+          "description": "phrases related to fear and its implications"
+        },
+        {
+          "feature_index": 11011,
+          "activation": 3.0188088417053223,
+          "description": " descriptions of severe medical conditions and incidents"
+        },
+        {
+          "feature_index": 24682,
+          "activation": 2.8896374702453613,
+          "description": "instances of cooperation or negotiation in contexts involving submissions or proposals"
+        }
+      ]
+    ],
+    "6-mlp": [
+      [
+        {
+          "feature_index": 18484,
+          "activation": 16.133623123168945,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 4755,
+          "activation": 10.919883728027344,
+          "description": " terms related to non-traditional or unconventional ideas"
+        },
+        {
+          "feature_index": 23155,
+          "activation": 7.942433834075928,
+          "description": " significant military and historical terms related to the Korean War"
+        },
+        {
+          "feature_index": 21825,
+          "activation": 1.3498210906982422,
+          "description": "references to statistical or numerical data"
+        },
+        {
+          "feature_index": 25176,
+          "activation": 1.2052528858184814,
+          "description": " phrases related to school or educational environments"
+        }
+      ],
+      [
+        {
+          "feature_index": 18484,
+          "activation": 12.409340858459473,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 26821,
+          "activation": 6.960137367248535,
+          "description": " terms related to social constructs and their implications"
+        },
+        {
+          "feature_index": 22402,
+          "activation": 4.689002990722656,
+          "description": "the word \"The\" at the beginning of sentences or phrases"
+        },
+        {
+          "feature_index": 24644,
+          "activation": 3.6793556213378906,
+          "description": " occurrences of the word \"the.\""
+        },
+        {
+          "feature_index": 6285,
+          "activation": 3.1676864624023438,
+          "description": " locations and places within an urban context"
+        }
+      ],
+      [
+        {
+          "feature_index": 18484,
+          "activation": 9.294787406921387,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 7492,
+          "activation": 5.838958740234375,
+          "description": " references to women and female pronouns"
+        },
+        {
+          "feature_index": 14219,
+          "activation": 4.8109893798828125,
+          "description": " references to advanced technology and significant events"
+        },
+        {
+          "feature_index": 25854,
+          "activation": 3.9744973182678223,
+          "description": "references to art, culture, and the impact of societal complexities"
+        },
+        {
+          "feature_index": 12553,
+          "activation": 2.394987106323242,
+          "description": " terms related to subatomic particles and their characteristics"
+        }
+      ],
+      [
+        {
+          "feature_index": 24935,
+          "activation": 14.47298812866211,
+          "description": " instances of the concept of sleep or sleeping"
+        },
+        {
+          "feature_index": 10516,
+          "activation": 5.549559593200684,
+          "description": " terms related to cultivation and environmental conditions"
+        },
+        {
+          "feature_index": 29047,
+          "activation": 2.481935977935791,
+          "description": " past tense verbs and related expressions"
+        },
+        {
+          "feature_index": 237,
+          "activation": 2.298625946044922,
+          "description": " concepts related to personal reflection and aspirations"
+        },
+        {
+          "feature_index": 4452,
+          "activation": 2.181668281555176,
+          "description": " references to government policies and regulations"
+        }
+      ],
+      [
+        {
+          "feature_index": 31994,
+          "activation": 7.2736101150512695,
+          "description": " the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 18484,
+          "activation": 5.787526607513428,
+          "description": " themes related to health, lifestyle, and community events"
+        },
+        {
+          "feature_index": 18875,
+          "activation": 4.8232316970825195,
+          "description": " occurrences of the word \"because.\""
+        },
+        {
+          "feature_index": 30296,
+          "activation": 4.52999210357666,
+          "description": " the word \"because\" in various contexts"
+        },
+        {
+          "feature_index": 7502,
+          "activation": 4.035316467285156,
+          "description": " references to religious beliefs and the legal implications surrounding them"
+        }
+      ]
+    ],
+    "7-att": [
+      [
+        {
+          "feature_index": 24064,
+          "activation": 23.438194274902344,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 11.245951652526855,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 10035,
+          "activation": 3.8783557415008545,
+          "description": " a variety of conjunctions and transitional phrases that connect ideas"
+        },
+        {
+          "feature_index": 26901,
+          "activation": 1.905743956565857,
+          "description": " elements related to identification and attribution in articles"
+        },
+        {
+          "feature_index": 26011,
+          "activation": 0.8131948113441467,
+          "description": " phrases related to financial transactions or commercial activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24064,
+          "activation": 23.05238151550293,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 9.9403076171875,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 10035,
+          "activation": 2.526089668273926,
+          "description": " a variety of conjunctions and transitional phrases that connect ideas"
+        },
+        {
+          "feature_index": 26901,
+          "activation": 1.696453332901001,
+          "description": " elements related to identification and attribution in articles"
+        },
+        {
+          "feature_index": 26011,
+          "activation": 1.1466941833496094,
+          "description": " phrases related to financial transactions or commercial activities"
+        }
+      ],
+      [
+        {
+          "feature_index": 24064,
+          "activation": 11.425151824951172,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 7.589625835418701,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 21403,
+          "activation": 4.514870643615723,
+          "description": "elements related to entertainment genres, specifically in the context of film and television"
+        },
+        {
+          "feature_index": 22461,
+          "activation": 3.3603036403656006,
+          "description": " characters involved in criminal or suspicious activities"
+        },
+        {
+          "feature_index": 12173,
+          "activation": 3.0842690467834473,
+          "description": " words related to individuals, particularly men, in various contexts and situations"
+        }
+      ],
+      [
+        {
+          "feature_index": 4373,
+          "activation": 14.871604919433594,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 24064,
+          "activation": 9.097223281860352,
+          "description": " references to climate change and its implications on urban development or planning"
+        },
+        {
+          "feature_index": 22461,
+          "activation": 5.223361015319824,
+          "description": " characters involved in criminal or suspicious activities"
+        },
+        {
+          "feature_index": 17681,
+          "activation": 4.216551780700684,
+          "description": " references to interpersonal relationships and social dynamics"
+        },
+        {
+          "feature_index": 25313,
+          "activation": 3.6824214458465576,
+          "description": "phrases indicating existence or negation in a context"
+        }
+      ],
+      [
+        {
+          "feature_index": 15260,
+          "activation": 9.845966339111328,
+          "description": " references to sleep and sleeping conditions"
+        },
+        {
+          "feature_index": 4373,
+          "activation": 4.2792134284973145,
+          "description": " content related to policy-making and governance"
+        },
+        {
+          "feature_index": 4030,
+          "activation": 3.7612924575805664,
+          "description": " events and actions related to legal and official circumstances"
+        },
+        {
+          "feature_index": 25313,
+          "activation": 3.6609833240509033,
+          "description": "phrases indicating existence or negation in a context"
+        },
+        {
+          "feature_index": 21872,
+          "activation": 3.1368532180786133,
+          "description": " contexts related to justification and reasoning in discussions"
+        }
+      ]
+    ],
+    "7-mlp": [
+      [
+        {
+          "feature_index": 3177,
+          "activation": 11.327537536621094,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 20522,
+          "activation": 10.25881290435791,
+          "description": " references to dimensions of reality or transitions between different states"
+        },
+        {
+          "feature_index": 6668,
+          "activation": 8.1578369140625,
+          "description": " references to technology and media companies, particularly focusing on business dynamics and relationships"
+        },
+        {
+          "feature_index": 9460,
+          "activation": 2.985372543334961,
+          "description": "instances of the word \"the\" and its occurrences in phrases or sentences"
+        },
+        {
+          "feature_index": 6856,
+          "activation": 2.2203376293182373,
+          "description": "sports statistics and performance metrics"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 15.522844314575195,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 15557,
+          "activation": 3.014211654663086,
+          "description": "the definite article \"the.\""
+        },
+        {
+          "feature_index": 30824,
+          "activation": 2.8464999198913574,
+          "description": "repeated occurrences of the word \"The\" in context to titles and albums"
+        },
+        {
+          "feature_index": 27522,
+          "activation": 2.468040704727173,
+          "description": " elements related to research and analysis"
+        },
+        {
+          "feature_index": 21835,
+          "activation": 2.2822232246398926,
+          "description": " instances of the definite article \"the\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 12.587693214416504,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 25392,
+          "activation": 4.453500747680664,
+          "description": " references to a specific individual or concept related to \"man.\""
+        },
+        {
+          "feature_index": 1468,
+          "activation": 3.2283670902252197,
+          "description": " specific articles or formal references in a document"
+        },
+        {
+          "feature_index": 26476,
+          "activation": 3.1056690216064453,
+          "description": " legal terms and references related to criminal sentencing"
+        },
+        {
+          "feature_index": 6392,
+          "activation": 2.4468374252319336,
+          "description": "references to employment, job changes, and workplace dynamics"
+        }
+      ],
+      [
+        {
+          "feature_index": 9808,
+          "activation": 14.245433807373047,
+          "description": " references to sleeping or related states of rest"
+        },
+        {
+          "feature_index": 3177,
+          "activation": 7.983349800109863,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 9489,
+          "activation": 3.6475532054901123,
+          "description": " references to incarceration and the justice system"
+        },
+        {
+          "feature_index": 11254,
+          "activation": 2.8822999000549316,
+          "description": " actions related to visiting, teaching, and religious or spiritual practices"
+        },
+        {
+          "feature_index": 25005,
+          "activation": 2.3647022247314453,
+          "description": "words and phrases related to dependency or reliance on something"
+        }
+      ],
+      [
+        {
+          "feature_index": 3177,
+          "activation": 11.111257553100586,
+          "description": " references to sports teams and their performance"
+        },
+        {
+          "feature_index": 8272,
+          "activation": 6.334494590759277,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 23068,
+          "activation": 5.41774845123291,
+          "description": " instances of the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 13094,
+          "activation": 2.9780266284942627,
+          "description": "the word \"because\" and its context in explaining reasons or causes"
+        },
+        {
+          "feature_index": 9481,
+          "activation": 2.5449490547180176,
+          "description": " references to procrastination and completion of tasks"
+        }
+      ]
+    ],
+    "8-att": [
+      [
+        {
+          "feature_index": 5990,
+          "activation": 18.514923095703125,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 4.394191741943359,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 27616,
+          "activation": 3.6976499557495117,
+          "description": " key phrases that indicate assessments or judgments"
+        },
+        {
+          "feature_index": 9863,
+          "activation": 1.569145679473877,
+          "description": " specific names and identifiers, likely related to people or organizations"
+        },
+        {
+          "feature_index": 9570,
+          "activation": 1.2380778789520264,
+          "description": "proper nouns, particularly names and titles related to individuals or entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 5990,
+          "activation": 13.445198059082031,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 7.938810348510742,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 15089,
+          "activation": 3.1560115814208984,
+          "description": "mentions of significant reports or announcements"
+        },
+        {
+          "feature_index": 22081,
+          "activation": 1.6932075023651123,
+          "description": "phrases and terms related to timelines and predictions"
+        },
+        {
+          "feature_index": 11941,
+          "activation": 1.6480578184127808,
+          "description": "definite articles and phrases indicating specific subjects or entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 5990,
+          "activation": 11.062519073486328,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 14659,
+          "activation": 7.039154529571533,
+          "description": "terms related to political or ideological entities and their influence"
+        },
+        {
+          "feature_index": 32002,
+          "activation": 2.4421496391296387,
+          "description": "specific technical terms and data related to internet security and performance"
+        },
+        {
+          "feature_index": 19405,
+          "activation": 2.0435378551483154,
+          "description": "brand names or company references"
+        },
+        {
+          "feature_index": 6315,
+          "activation": 1.947704792022705,
+          "description": " specific references to time, age, and organizational roles or structures"
+        }
+      ],
+      [
+        {
+          "feature_index": 5990,
+          "activation": 7.1026458740234375,
+          "description": "specific numerical data or statistics related to events or conditions"
+        },
+        {
+          "feature_index": 19715,
+          "activation": 5.717372417449951,
+          "description": " concepts related to sleep and its effects on health"
+        },
+        {
+          "feature_index": 120,
+          "activation": 4.958257675170898,
+          "description": " references to personal experiences and actions involving individuals"
+        },
+        {
+          "feature_index": 8324,
+          "activation": 3.644108772277832,
+          "description": "questions or inquiries about knowledge or information"
+        },
+        {
+          "feature_index": 29973,
+          "activation": 3.108931541442871,
+          "description": " discussions surrounding gender identities and women's autonomy"
+        }
+      ],
+      [
+        {
+          "feature_index": 11694,
+          "activation": 8.521660804748535,
+          "description": " references to survey results and polling data"
+        },
+        {
+          "feature_index": 19715,
+          "activation": 7.053990840911865,
+          "description": " concepts related to sleep and its effects on health"
+        },
+        {
+          "feature_index": 21377,
+          "activation": 5.702270030975342,
+          "description": " causal phrases indicating reason or justification"
+        },
+        {
+          "feature_index": 13465,
+          "activation": 3.600022554397583,
+          "description": "expressions of affection or appreciation towards individuals"
+        },
+        {
+          "feature_index": 29973,
+          "activation": 3.3073348999023438,
+          "description": " discussions surrounding gender identities and women's autonomy"
+        }
+      ]
+    ],
+    "9-att": [
+      [
+        {
+          "feature_index": 20348,
+          "activation": 23.010848999023438,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 22323,
+          "activation": 3.608090877532959,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "feature_index": 4435,
+          "activation": 2.6864962577819824,
+          "description": " entities associated with authors and publication details"
+        },
+        {
+          "feature_index": 11642,
+          "activation": 1.8406054973602295,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "feature_index": 29579,
+          "activation": 0.575732409954071,
+          "description": " mentions of individuals or significant figures in contexts related to authority or expertise"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 20.821815490722656,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 22323,
+          "activation": 2.302968978881836,
+          "description": " articles and demonstrative pronouns"
+        },
+        {
+          "feature_index": 11642,
+          "activation": 1.5535187721252441,
+          "description": " terms related to measurements and evaluations of social or economic aspects"
+        },
+        {
+          "feature_index": 20396,
+          "activation": 1.3907190561294556,
+          "description": " the word \"The\" in various contexts"
+        },
+        {
+          "feature_index": 12914,
+          "activation": 0.8989301919937134,
+          "description": " details related to numerical data and statistics"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 12.352605819702148,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 11954,
+          "activation": 4.800528526306152,
+          "description": " nouns related to societal roles and norms"
+        },
+        {
+          "feature_index": 20269,
+          "activation": 3.960346221923828,
+          "description": " instances of death or serious injury"
+        },
+        {
+          "feature_index": 26885,
+          "activation": 3.1849849224090576,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        },
+        {
+          "feature_index": 20396,
+          "activation": 1.695857286453247,
+          "description": " the word \"The\" in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 20348,
+          "activation": 9.983686447143555,
+          "description": " punctuation marks and specific character sequences that suggest informal text or coding errors"
+        },
+        {
+          "feature_index": 25103,
+          "activation": 6.623666763305664,
+          "description": "references to sleep and its effects on health"
+        },
+        {
+          "feature_index": 3868,
+          "activation": 4.7272515296936035,
+          "description": "references to sleep and sleeping arrangements"
+        },
+        {
+          "feature_index": 26885,
+          "activation": 3.834969997406006,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        },
+        {
+          "feature_index": 8280,
+          "activation": 2.1465113162994385,
+          "description": " elements indicating social dynamics and interactions"
+        }
+      ],
+      [
+        {
+          "feature_index": 26885,
+          "activation": 10.793212890625,
+          "description": "mentions of life changes or transitions related to personal circumstances"
+        },
+        {
+          "feature_index": 4435,
+          "activation": 7.735471725463867,
+          "description": " entities associated with authors and publication details"
+        },
+        {
+          "feature_index": 10035,
+          "activation": 5.552046775817871,
+          "description": " phrases related to sleep disturbances and their consequences"
+        },
+        {
+          "feature_index": 26592,
+          "activation": 4.94523811340332,
+          "description": " language related to socioeconomic disparities and systemic issues"
+        },
+        {
+          "feature_index": 2741,
+          "activation": 4.790729522705078,
+          "description": " words associated with complex interactions or issues in relationships"
+        }
+      ]
+    ],
+    "9-mlp": [
+      [
+        {
+          "feature_index": 31738,
+          "activation": 11.986940383911133,
+          "description": " references to notable political figures"
+        },
+        {
+          "feature_index": 4963,
+          "activation": 6.847685813903809,
+          "description": " words and symbols related to visual aesthetics or descriptors in art"
+        },
+        {
+          "feature_index": 21957,
+          "activation": 6.7906646728515625,
+          "description": " phrases related to ease and simplicity"
+        },
+        {
+          "feature_index": 1344,
+          "activation": 5.624309062957764,
+          "description": "specific terms related to technical jargon or components in various contexts"
+        },
+        {
+          "feature_index": 4526,
+          "activation": 4.545206069946289,
+          "description": "notable nouns and certain structural elements in a narrative"
+        }
+      ],
+      [
+        {
+          "feature_index": 7072,
+          "activation": 12.037785530090332,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 21,
+          "activation": 3.7420694828033447,
+          "description": " complex relationships and criticisms in discourse"
+        },
+        {
+          "feature_index": 28796,
+          "activation": 3.448972225189209,
+          "description": " occurrences of the definite article \"the.\""
+        },
+        {
+          "feature_index": 26305,
+          "activation": 2.6314444541931152,
+          "description": " the article \"The\" at the beginning of sentences"
+        },
+        {
+          "feature_index": 14997,
+          "activation": 2.027219295501709,
+          "description": " topics related to political issues and debates"
+        }
+      ],
+      [
+        {
+          "feature_index": 18960,
+          "activation": 6.295743942260742,
+          "description": " references to a specific character or person labeled as \"man.\""
+        },
+        {
+          "feature_index": 7072,
+          "activation": 5.7328972816467285,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 7653,
+          "activation": 5.264643669128418,
+          "description": "references to incidents or events involving terrorism and violence"
+        },
+        {
+          "feature_index": 3867,
+          "activation": 4.410621643066406,
+          "description": " references to \"man\" or masculine identity"
+        },
+        {
+          "feature_index": 20602,
+          "activation": 4.29148530960083,
+          "description": " terms related to performance and production in various contexts"
+        }
+      ],
+      [
+        {
+          "feature_index": 6226,
+          "activation": 10.008036613464355,
+          "description": " references to sleep and resting"
+        },
+        {
+          "feature_index": 27546,
+          "activation": 5.997114658355713,
+          "description": " references to sleep or sleeping activity"
+        },
+        {
+          "feature_index": 8940,
+          "activation": 5.795624256134033,
+          "description": " phrases related to ongoing states or activities"
+        },
+        {
+          "feature_index": 7072,
+          "activation": 5.000499725341797,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 19953,
+          "activation": 2.612902879714966,
+          "description": "technical terms and attributes related to programming and system specifications"
+        }
+      ],
+      [
+        {
+          "feature_index": 4063,
+          "activation": 5.354422569274902,
+          "description": "the word \"because\" to indicate reasoning or justification"
+        },
+        {
+          "feature_index": 7072,
+          "activation": 5.30588436126709,
+          "description": " numerical data related to environmental or economic statistics"
+        },
+        {
+          "feature_index": 8052,
+          "activation": 4.593949317932129,
+          "description": " instances of the word \"because.\""
+        },
+        {
+          "feature_index": 21,
+          "activation": 3.9718680381774902,
+          "description": " complex relationships and criticisms in discourse"
+        },
+        {
+          "feature_index": 32759,
+          "activation": 3.301684856414795,
+          "description": "the word \"because\" and its context, highlighting reasons or justifications in statements"
+        }
+      ]
+    ],
+    "10-att": [
+      [
+        {
+          "feature_index": 7685,
+          "activation": 15.987245559692383,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 28178,
+          "activation": 2.743058681488037,
+          "description": " negations and their informal variations"
+        },
+        {
+          "feature_index": 14239,
+          "activation": 1.7468607425689697,
+          "description": "proper names and titles of individuals or organizations"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 0.8471695780754089,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 27781,
+          "activation": 0.5396350622177124,
+          "description": " words related to comparisons or comparative analysis"
+        }
+      ],
+      [
+        {
+          "feature_index": 7685,
+          "activation": 9.201501846313477,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 5.21077299118042,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 5012,
+          "activation": 1.9682097434997559,
+          "description": "proper nouns and significant numerical data"
+        },
+        {
+          "feature_index": 24802,
+          "activation": 1.4996360540390015,
+          "description": " financial impacts and political responses to decisions"
+        },
+        {
+          "feature_index": 21395,
+          "activation": 1.230918049812317,
+          "description": " definite articles, particularly \"The\""
+        }
+      ],
+      [
+        {
+          "feature_index": 7685,
+          "activation": 8.247383117675781,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 3.617356777191162,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 28269,
+          "activation": 1.7978919744491577,
+          "description": "references to public figures and their affiliations or actions"
+        },
+        {
+          "feature_index": 28284,
+          "activation": 1.5685327053070068,
+          "description": "references to organizations and figures involved in humanitarian relief efforts"
+        },
+        {
+          "feature_index": 28445,
+          "activation": 1.3044629096984863,
+          "description": "instances of violent crime and related legal consequences"
+        }
+      ],
+      [
+        {
+          "feature_index": 29996,
+          "activation": 9.887845039367676,
+          "description": " concepts related to sleep and difficulties associated with it"
+        },
+        {
+          "feature_index": 7685,
+          "activation": 7.179679870605469,
+          "description": "mentions of political figures and their activities"
+        },
+        {
+          "feature_index": 20667,
+          "activation": 4.162350177764893,
+          "description": "references to historical timelines and significant events"
+        },
+        {
+          "feature_index": 1877,
+          "activation": 3.9538395404815674,
+          "description": " mentions of sleep and its impact on health"
+        },
+        {
+          "feature_index": 25268,
+          "activation": 2.2828962802886963,
+          "description": " connections between environmental issues and human impact"
+        }
+      ],
+      [
+        {
+          "feature_index": 9066,
+          "activation": 7.63905668258667,
+          "description": "phrases that express emotions or sentiments related to individuals' experiences and legacies"
+        },
+        {
+          "feature_index": 1877,
+          "activation": 5.818148136138916,
+          "description": " mentions of sleep and its impact on health"
+        },
+        {
+          "feature_index": 22980,
+          "activation": 4.138729095458984,
+          "description": " phrases related to significant political events or actions"
+        },
+        {
+          "feature_index": 20581,
+          "activation": 3.1606059074401855,
+          "description": "discussions around economic and political complexities"
+        },
+        {
+          "feature_index": 9390,
+          "activation": 2.650998592376709,
+          "description": "descriptive adjectives and adverbs that convey nuanced qualities"
+        }
+      ]
+    ],
+    "10-mlp": [
+      [
+        {
+          "feature_index": 32053,
+          "activation": 7.073322296142578,
+          "description": " expressions of annoyance or frustration"
+        },
+        {
+          "feature_index": 11916,
+          "activation": 5.85924768447876,
+          "description": " mentions of interference or manipulation in political contexts"
+        },
+        {
+          "feature_index": 21350,
+          "activation": 5.439945220947266,
+          "description": " references to personal pronouns and the letter \"u\" in various contexts"
+        },
+        {
+          "feature_index": 11806,
+          "activation": 4.6669487953186035,
+          "description": " phrases related to subscription and promotional content"
+        },
+        {
+          "feature_index": 897,
+          "activation": 4.542171955108643,
+          "description": " references to clothing items or apparel"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 11.98285961151123,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 11562,
+          "activation": 2.0106494426727295,
+          "description": " cultural references and noteworthy historical context related to music and legislation"
+        },
+        {
+          "feature_index": 9134,
+          "activation": 1.3987658023834229,
+          "description": " the presence of the word \"The\" in various contexts"
+        },
+        {
+          "feature_index": 4693,
+          "activation": 1.016788125038147,
+          "description": " instances of the word \"the.\""
+        },
+        {
+          "feature_index": 10464,
+          "activation": 0.9884956479072571,
+          "description": " references to specific characters or entities in a narrative context"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 9.74268627166748,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 6575,
+          "activation": 3.7123446464538574,
+          "description": " mentions of \"man\" in various contexts"
+        },
+        {
+          "feature_index": 29922,
+          "activation": 2.895582914352417,
+          "description": "mentions of individuals or characters in various contexts"
+        },
+        {
+          "feature_index": 2341,
+          "activation": 2.1101479530334473,
+          "description": "references to individuals involved in incidents or actions"
+        },
+        {
+          "feature_index": 16647,
+          "activation": 1.4850387573242188,
+          "description": "references to individuals, particularly women and men, within a narrative context"
+        }
+      ],
+      [
+        {
+          "feature_index": 371,
+          "activation": 7.618087291717529,
+          "description": " references to sleep and resting states"
+        },
+        {
+          "feature_index": 32452,
+          "activation": 4.593226909637451,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 11739,
+          "activation": 2.24589467048645,
+          "description": " phrases related to competition and growth metrics"
+        },
+        {
+          "feature_index": 8838,
+          "activation": 1.732491135597229,
+          "description": " phrases related to living or existence"
+        },
+        {
+          "feature_index": 23269,
+          "activation": 1.7166969776153564,
+          "description": " references to people in authoritative or spokesperson roles"
+        }
+      ],
+      [
+        {
+          "feature_index": 32452,
+          "activation": 7.717085361480713,
+          "description": " discussions related to public health concerns and social issues"
+        },
+        {
+          "feature_index": 540,
+          "activation": 5.276196479797363,
+          "description": "references to complex situations or phenomena"
+        },
+        {
+          "feature_index": 10531,
+          "activation": 3.1590380668640137,
+          "description": " instances of the word \"because\" indicating reasoning or justification"
+        },
+        {
+          "feature_index": 16287,
+          "activation": 2.2111196517944336,
+          "description": " instances of claims or statements about individuals or events, particularly relating to issues of importance or controversy"
+        },
+        {
+          "feature_index": 1245,
+          "activation": 1.5758848190307617,
+          "description": "references to events involving violence or legal cases"
+        }
+      ]
+    ],
+    "11-att": [
+      [
+        {
+          "feature_index": 16155,
+          "activation": 26.57368278503418,
+          "description": "references to donations and fundraising efforts"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 18.39116859436035,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 27499,
+          "activation": 12.124272346496582,
+          "description": " phrases related to product functionality and specifications"
+        },
+        {
+          "feature_index": 32538,
+          "activation": 10.56457233428955,
+          "description": "references to social media content and online interactions"
+        },
+        {
+          "feature_index": 15619,
+          "activation": 4.399703502655029,
+          "description": " references to social media and newsletter subscriptions"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 3.9084692001342773,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 3.085683822631836,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 1.7184040546417236,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 1.5065830945968628,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16880,
+          "activation": 0.4047996401786804,
+          "description": " symbols and elements of formatting related to digital communication"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 3.800990581512451,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 22921,
+          "activation": 1.913596272468567,
+          "description": "phrases containing personal pronouns and possessive forms"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 1.6098272800445557,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 0.5963168740272522,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 6222,
+          "activation": 0.3607473075389862,
+          "description": " proper nouns and names related to political figures and events"
+        }
+      ],
+      [
+        {
+          "feature_index": 23340,
+          "activation": 3.3427066802978516,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 29326,
+          "activation": 2.176947832107544,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 9201,
+          "activation": 0.5660748481750488,
+          "description": " phrases related to societal norms and personal autonomy"
+        },
+        {
+          "feature_index": 24643,
+          "activation": 0.3492130935192108,
+          "description": "calls to action related to content engagement and subscriptions"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 0.26362523436546326,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        }
+      ],
+      [
+        {
+          "feature_index": 29326,
+          "activation": 2.750351667404175,
+          "description": "phrases related to food choices or dietary preferences"
+        },
+        {
+          "feature_index": 16802,
+          "activation": 2.0720527172088623,
+          "description": "numerical data related to statistics, particularly in sports and demographics"
+        },
+        {
+          "feature_index": 23340,
+          "activation": 1.6958359479904175,
+          "description": "references to significant statistical data or numerical claims"
+        },
+        {
+          "feature_index": 9201,
+          "activation": 0.47249335050582886,
+          "description": " phrases related to societal norms and personal autonomy"
+        },
+        {
+          "feature_index": 9282,
+          "activation": 0.39024433493614197,
+          "description": "connections between sleep issues and health outcomes"
+        }
+      ]
+    ],
+    "11-mlp": [
+      [
+        {
+          "feature_index": 23389,
+          "activation": 23.21918296813965,
+          "description": " instances of conflict or confrontation"
+        },
+        {
+          "feature_index": 6677,
+          "activation": 13.109428405761719,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "feature_index": 9628,
+          "activation": 9.051451683044434,
+          "description": " references to product availability and pricing"
+        },
+        {
+          "feature_index": 17897,
+          "activation": 5.198479652404785,
+          "description": " numerical references or statistics in the text"
+        },
+        {
+          "feature_index": 19349,
+          "activation": 4.526144981384277,
+          "description": " mentions of significant events or relationships involving external entities"
+        }
+      ],
+      [
+        {
+          "feature_index": 6677,
+          "activation": 14.147051811218262,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "feature_index": 2978,
+          "activation": 10.370561599731445,
+          "description": "references to significant historical events or figures"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 5.774084568023682,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 10161,
+          "activation": 4.724843502044678,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 32456,
+          "activation": 3.0679798126220703,
+          "description": " the use of the word \"The\" in various contexts within the document"
+        }
+      ],
+      [
+        {
+          "feature_index": 11673,
+          "activation": 10.600163459777832,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "feature_index": 11669,
+          "activation": 6.100563049316406,
+          "description": " references to male individuals"
+        },
+        {
+          "feature_index": 6208,
+          "activation": 5.833187580108643,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 13287,
+          "activation": 5.077554702758789,
+          "description": " phrases related to political and military actions"
+        },
+        {
+          "feature_index": 20341,
+          "activation": 4.428873062133789,
+          "description": "references to male individuals or characters"
+        }
+      ],
+      [
+        {
+          "feature_index": 24017,
+          "activation": 8.477912902832031,
+          "description": " terms related to sleep and sleeping patterns"
+        },
+        {
+          "feature_index": 10161,
+          "activation": 7.5487871170043945,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 11673,
+          "activation": 6.350459575653076,
+          "description": "references to influential individuals or commentary on societal issues"
+        },
+        {
+          "feature_index": 5576,
+          "activation": 6.246057510375977,
+          "description": " references to significant events or actions"
+        },
+        {
+          "feature_index": 15517,
+          "activation": 4.985309600830078,
+          "description": " discussions related to social issues and trends"
+        }
+      ],
+      [
+        {
+          "feature_index": 6208,
+          "activation": 12.66427230834961,
+          "description": " numerical scores or ratings, particularly related to health or mental health"
+        },
+        {
+          "feature_index": 15517,
+          "activation": 7.618096828460693,
+          "description": " discussions related to social issues and trends"
+        },
+        {
+          "feature_index": 10161,
+          "activation": 7.092253684997559,
+          "description": " mentions of trends or changes in popularity over time"
+        },
+        {
+          "feature_index": 6677,
+          "activation": 3.605039596557617,
+          "description": " references to American legal or governmental matters"
+        },
+        {
+          "feature_index": 1101,
+          "activation": 3.473507881164551,
+          "description": " instances of the word \"because.\""
+        }
+      ]
+    ]
+  }
+}

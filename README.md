@@ -1,6 +1,6 @@
 # Query Circuits: Explaining How Language Models Answer User Prompts
 
-Also refer to [Project Page](https://tony10101105.github.io/query-circuit/)
+[Project Page](https://tony10101105.github.io/query-circuit/) | [Paper (arXiv)](https://arxiv.org/abs/2509.24808) | [OpenReview](https://openreview.net/forum?id=7F0sragazb)
 
 ## Install
 ```
@@ -106,9 +106,9 @@ which will create a `sae_analysis_data` folder.
 Now, you can manually inspect feature connections or use coding agent/print script to help summarize insights, e.g., `gender_bias_sae_circuit_print.py`.
 
 ### Circuit Steerability Analysis
-Reproduce the gender-feature steering experiments (Tables 2 & 3) by running the pipeline under `query_circuit_behavior_analysis/` in order:
+Reproduce the gender-feature steering experiments (Tables 2 & A7) by running the pipeline under `gender_bias_sae_analysis/steering_effect_analysis/` in order:
 ```
-cd query_circuit_behavior_analysis
+cd gender_bias_sae_analysis/steering_effect_analysis
 python step1_collect_biased_samples.py
 python step2_unpaired_circuit_discovery.py
 python step2_paired_circuit_discovery.py
@@ -116,7 +116,7 @@ python step3_gender_feature_stats.py
 python step4_paired_steering.py
 python step4_unpaired_steering.py
 ```
-See `query_circuit_behavior_analysis/README.md` for details of each step.
+See `gender_bias_sae_analysis/steering_effect_analysis/README.md` for details of each step.
 
 ## Credit
 The codebase was revised from [EAP-IG](https://github.com/hannamw/eap-ig).

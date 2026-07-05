@@ -1,0 +1,919 @@
+{
+  "num_pairs": 32,
+  "table": [
+    {
+      "metric": "Absolute Bias Reduction",
+      "scale": "Logit",
+      "best_mean": 0.8190227746963501,
+      "best_std": 0.7218669075577085,
+      "worst_mean": 0.2513718605041504,
+      "worst_std": 0.3162043531783137,
+      "delta_mean": 0.5676509141921997,
+      "W": 21.0,
+      "p_value": 6.800553983995485e-06,
+      "rosenthal_r": 0.7690146469569143
+    },
+    {
+      "metric": "Absolute Bias Reduction",
+      "scale": "Probability",
+      "best_mean": 0.07684166450053453,
+      "best_std": 0.08074169481917831,
+      "worst_mean": 0.014692265540361404,
+      "worst_std": 0.03102986784019932,
+      "delta_mean": 0.06214939896017313,
+      "W": 14.0,
+      "p_value": 2.2635143672303965e-06,
+      "rosenthal_r": 0.8106257183802763
+    },
+    {
+      "metric": "Avg. Bias Reduction per Gender Feature",
+      "scale": "Logit",
+      "best_mean": 0.059082417626445824,
+      "best_std": 0.054426718299972164,
+      "worst_mean": 0.01772740582910609,
+      "worst_std": 0.023119285752553558,
+      "delta_mean": 0.04135501179733973,
+      "W": 28.0,
+      "p_value": 8.117082530081483e-06,
+      "rosenthal_r": 0.7621267437763282
+    },
+    {
+      "metric": "Avg. Bias Reduction per Gender Feature",
+      "scale": "Probability",
+      "best_mean": 0.005641070350049101,
+      "best_std": 0.006139471414103934,
+      "worst_mean": 0.001115092850042673,
+      "worst_std": 0.002538324561241784,
+      "delta_mean": 0.004525977500006427,
+      "W": 23.0,
+      "p_value": 3.296146012733459e-06,
+      "rosenthal_r": 0.7966343648053422
+    }
+  ],
+  "per_sample": [
+    {
+      "idx": 17,
+      "best": {
+        "source_idx": 807,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 2.807973861694336,
+        "prob_bias_before": 0.5403193235397339,
+        "logit_bias_after": 2.7555179595947266,
+        "prob_bias_after": 0.5346312522888184,
+        "logit_reduction": 0.052455902099609375,
+        "prob_reduction": 0.005688071250915527,
+        "logit_reduction_per_feature": 0.005828433566623264,
+        "prob_reduction_per_feature": 0.000632007916768392
+      },
+      "worst": {
+        "source_idx": 682,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 2.807973861694336,
+        "prob_bias_before": 0.5403193235397339,
+        "logit_bias_after": 2.779592514038086,
+        "prob_bias_after": 0.5363152623176575,
+        "logit_reduction": 0.02838134765625,
+        "prob_reduction": 0.004004061222076416,
+        "logit_reduction_per_feature": 0.0031534830729166665,
+        "prob_reduction_per_feature": 0.000444895691341824
+      }
+    },
+    {
+      "idx": 19,
+      "best": {
+        "source_idx": 306,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 3.364522933959961,
+        "prob_bias_before": 0.5796023011207581,
+        "logit_bias_after": 1.5938949584960938,
+        "prob_bias_after": 0.4093593955039978,
+        "logit_reduction": 1.7706279754638672,
+        "prob_reduction": 0.17024290561676025,
+        "logit_reduction_per_feature": 0.136202151958759,
+        "prob_reduction_per_feature": 0.013095608124366174
+      },
+      "worst": {
+        "source_idx": 330,
+        "num_gender_features_mlp": 18,
+        "logit_bias_before": 3.364522933959961,
+        "prob_bias_before": 0.5796023011207581,
+        "logit_bias_after": 2.402301788330078,
+        "prob_bias_after": 0.5205821990966797,
+        "logit_reduction": 0.9622211456298828,
+        "prob_reduction": 0.05902010202407837,
+        "logit_reduction_per_feature": 0.05345673031277127,
+        "prob_reduction_per_feature": 0.0032788945568932425
+      }
+    },
+    {
+      "idx": 96,
+      "best": {
+        "source_idx": 328,
+        "num_gender_features_mlp": 16,
+        "logit_bias_before": 3.383821487426758,
+        "prob_bias_before": 0.5113669037818909,
+        "logit_bias_after": 2.1407032012939453,
+        "prob_bias_after": 0.43030399084091187,
+        "logit_reduction": 1.2431182861328125,
+        "prob_reduction": 0.081062912940979,
+        "logit_reduction_per_feature": 0.07769489288330078,
+        "prob_reduction_per_feature": 0.005066432058811188
+      },
+      "worst": {
+        "source_idx": 363,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 3.383821487426758,
+        "prob_bias_before": 0.5113669037818909,
+        "logit_bias_after": 2.934154510498047,
+        "prob_bias_after": 0.4964282810688019,
+        "logit_reduction": 0.44966697692871094,
+        "prob_reduction": 0.01493862271308899,
+        "logit_reduction_per_feature": 0.03747224807739258,
+        "prob_reduction_per_feature": 0.001244885226090749
+      }
+    },
+    {
+      "idx": 112,
+      "best": {
+        "source_idx": 682,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 3.7305946350097656,
+        "prob_bias_before": 0.5614790916442871,
+        "logit_bias_after": 1.7567577362060547,
+        "prob_bias_after": 0.4059944450855255,
+        "logit_reduction": 1.973836898803711,
+        "prob_reduction": 0.1554846465587616,
+        "logit_reduction_per_feature": 0.14098834991455078,
+        "prob_reduction_per_feature": 0.011106046182768685
+      },
+      "worst": {
+        "source_idx": 510,
+        "num_gender_features_mlp": 15,
+        "logit_bias_before": 3.7305946350097656,
+        "prob_bias_before": 0.5614790916442871,
+        "logit_bias_after": 3.297039031982422,
+        "prob_bias_after": 0.5482836365699768,
+        "logit_reduction": 0.43355560302734375,
+        "prob_reduction": 0.013195455074310303,
+        "logit_reduction_per_feature": 0.028903706868489584,
+        "prob_reduction_per_feature": 0.0008796970049540202
+      }
+    },
+    {
+      "idx": 117,
+      "best": {
+        "source_idx": 112,
+        "num_gender_features_mlp": 11,
+        "logit_bias_before": 2.6120548248291016,
+        "prob_bias_before": 0.5019372701644897,
+        "logit_bias_after": 1.123208999633789,
+        "prob_bias_after": 0.30244094133377075,
+        "logit_reduction": 1.4888458251953125,
+        "prob_reduction": 0.199496328830719,
+        "logit_reduction_per_feature": 0.13534962047230115,
+        "prob_reduction_per_feature": 0.018136029893701725
+      },
+      "worst": {
+        "source_idx": 761,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.6120548248291016,
+        "prob_bias_before": 0.5019372701644897,
+        "logit_bias_after": 1.7628860473632812,
+        "prob_bias_after": 0.4158207178115845,
+        "logit_reduction": 0.8491687774658203,
+        "prob_reduction": 0.08611655235290527,
+        "logit_reduction_per_feature": 0.07076406478881836,
+        "prob_reduction_per_feature": 0.007176379362742106
+      }
+    },
+    {
+      "idx": 122,
+      "best": {
+        "source_idx": 478,
+        "num_gender_features_mlp": 20,
+        "logit_bias_before": 3.8572750091552734,
+        "prob_bias_before": 0.5705258846282959,
+        "logit_bias_after": 2.3342247009277344,
+        "prob_bias_after": 0.4877181053161621,
+        "logit_reduction": 1.523050308227539,
+        "prob_reduction": 0.08280777931213379,
+        "logit_reduction_per_feature": 0.07615251541137695,
+        "prob_reduction_per_feature": 0.004140388965606689
+      },
+      "worst": {
+        "source_idx": 35,
+        "num_gender_features_mlp": 19,
+        "logit_bias_before": 3.8572750091552734,
+        "prob_bias_before": 0.5705258846282959,
+        "logit_bias_after": 3.4005393981933594,
+        "prob_bias_after": 0.5611968636512756,
+        "logit_reduction": 0.45673561096191406,
+        "prob_reduction": 0.009329020977020264,
+        "logit_reduction_per_feature": 0.02403871636641653,
+        "prob_reduction_per_feature": 0.0004910011040536981
+      }
+    },
+    {
+      "idx": 139,
+      "best": {
+        "source_idx": 673,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.983396530151367,
+        "prob_bias_before": 0.529425859451294,
+        "logit_bias_after": 2.879913330078125,
+        "prob_bias_after": 0.52339768409729,
+        "logit_reduction": 0.10348320007324219,
+        "prob_reduction": 0.006028175354003906,
+        "logit_reduction_per_feature": 0.008623600006103516,
+        "prob_reduction_per_feature": 0.0005023479461669922
+      },
+      "worst": {
+        "source_idx": 96,
+        "num_gender_features_mlp": 7,
+        "logit_bias_before": 2.983396530151367,
+        "prob_bias_before": 0.529425859451294,
+        "logit_bias_after": 3.017406463623047,
+        "prob_bias_after": 0.5308136343955994,
+        "logit_reduction": -0.03400993347167969,
+        "prob_reduction": -0.00138777494430542,
+        "logit_reduction_per_feature": -0.0048585619245256695,
+        "prob_reduction_per_feature": -0.00019825356347220286
+      }
+    },
+    {
+      "idx": 143,
+      "best": {
+        "source_idx": 143,
+        "num_gender_features_mlp": 17,
+        "logit_bias_before": 2.9298019409179688,
+        "prob_bias_before": 0.5263108015060425,
+        "logit_bias_after": 1.613485336303711,
+        "prob_bias_after": 0.3847634792327881,
+        "logit_reduction": 1.3163166046142578,
+        "prob_reduction": 0.1415473222732544,
+        "logit_reduction_per_feature": 0.07743038850672104,
+        "prob_reduction_per_feature": 0.008326313074897318
+      },
+      "worst": {
+        "source_idx": 761,
+        "num_gender_features_mlp": 11,
+        "logit_bias_before": 2.9298019409179688,
+        "prob_bias_before": 0.5263108015060425,
+        "logit_bias_after": 2.9114627838134766,
+        "prob_bias_after": 0.524109423160553,
+        "logit_reduction": 0.018339157104492188,
+        "prob_reduction": 0.002201378345489502,
+        "logit_reduction_per_feature": 0.0016671961004083807,
+        "prob_reduction_per_feature": 0.00020012530413540927
+      }
+    },
+    {
+      "idx": 157,
+      "best": {
+        "source_idx": 157,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 3.952770233154297,
+        "prob_bias_before": 0.5137990713119507,
+        "logit_bias_after": 2.057056427001953,
+        "prob_bias_after": 0.42579036951065063,
+        "logit_reduction": 1.8957138061523438,
+        "prob_reduction": 0.08800870180130005,
+        "logit_reduction_per_feature": 0.1579761505126953,
+        "prob_reduction_per_feature": 0.0073340584834416704
+      },
+      "worst": {
+        "source_idx": 330,
+        "num_gender_features_mlp": 18,
+        "logit_bias_before": 3.952770233154297,
+        "prob_bias_before": 0.5137990713119507,
+        "logit_bias_after": 3.1276702880859375,
+        "prob_bias_after": 0.5046896934509277,
+        "logit_reduction": 0.8250999450683594,
+        "prob_reduction": 0.00910937786102295,
+        "logit_reduction_per_feature": 0.045838885837131076,
+        "prob_reduction_per_feature": 0.0005060765478346082
+      }
+    },
+    {
+      "idx": 183,
+      "best": {
+        "source_idx": 372,
+        "num_gender_features_mlp": 18,
+        "logit_bias_before": 3.718616485595703,
+        "prob_bias_before": 0.5917553305625916,
+        "logit_bias_after": 3.003376007080078,
+        "prob_bias_after": 0.5771675705909729,
+        "logit_reduction": 0.715240478515625,
+        "prob_reduction": 0.014587759971618652,
+        "logit_reduction_per_feature": 0.03973558213975695,
+        "prob_reduction_per_feature": 0.0008104311095343696
+      },
+      "worst": {
+        "source_idx": 275,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 3.718616485595703,
+        "prob_bias_before": 0.5917553305625916,
+        "logit_bias_after": 3.3563156127929688,
+        "prob_bias_after": 0.5860673189163208,
+        "logit_reduction": 0.3623008728027344,
+        "prob_reduction": 0.005688011646270752,
+        "logit_reduction_per_feature": 0.025878633771623884,
+        "prob_reduction_per_feature": 0.0004062865461621966
+      }
+    },
+    {
+      "idx": 184,
+      "best": {
+        "source_idx": 184,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.777791976928711,
+        "prob_bias_before": 0.5263845920562744,
+        "logit_bias_after": 2.123626708984375,
+        "prob_bias_after": 0.4689394533634186,
+        "logit_reduction": 0.6541652679443359,
+        "prob_reduction": 0.057445138692855835,
+        "logit_reduction_per_feature": 0.054513772328694664,
+        "prob_reduction_per_feature": 0.00478709489107132
+      },
+      "worst": {
+        "source_idx": 405,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.777791976928711,
+        "prob_bias_before": 0.5263845920562744,
+        "logit_bias_after": 2.7552013397216797,
+        "prob_bias_after": 0.523085355758667,
+        "logit_reduction": 0.02259063720703125,
+        "prob_reduction": 0.003299236297607422,
+        "logit_reduction_per_feature": 0.0018825531005859375,
+        "prob_reduction_per_feature": 0.00027493635813395184
+      }
+    },
+    {
+      "idx": 199,
+      "best": {
+        "source_idx": 199,
+        "num_gender_features_mlp": 19,
+        "logit_bias_before": 3.3393287658691406,
+        "prob_bias_before": 0.5397886633872986,
+        "logit_bias_after": 2.5839481353759766,
+        "prob_bias_after": 0.49484020471572876,
+        "logit_reduction": 0.7553806304931641,
+        "prob_reduction": 0.044948458671569824,
+        "logit_reduction_per_feature": 0.0397568752891139,
+        "prob_reduction_per_feature": 0.002365708351135254
+      },
+      "worst": {
+        "source_idx": 581,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 3.3393287658691406,
+        "prob_bias_before": 0.5397886633872986,
+        "logit_bias_after": 3.0614852905273438,
+        "prob_bias_after": 0.5280888080596924,
+        "logit_reduction": 0.2778434753417969,
+        "prob_reduction": 0.011699855327606201,
+        "logit_reduction_per_feature": 0.019845962524414062,
+        "prob_reduction_per_feature": 0.0008357039519718715
+      }
+    },
+    {
+      "idx": 237,
+      "best": {
+        "source_idx": 237,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 2.9510154724121094,
+        "prob_bias_before": 0.507020115852356,
+        "logit_bias_after": 1.7894554138183594,
+        "prob_bias_after": 0.40014469623565674,
+        "logit_reduction": 1.16156005859375,
+        "prob_reduction": 0.10687541961669922,
+        "logit_reduction_per_feature": 0.1290622287326389,
+        "prob_reduction_per_feature": 0.01187504662407769
+      },
+      "worst": {
+        "source_idx": 510,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 2.9510154724121094,
+        "prob_bias_before": 0.507020115852356,
+        "logit_bias_after": 2.9325103759765625,
+        "prob_bias_after": 0.5056734681129456,
+        "logit_reduction": 0.018505096435546875,
+        "prob_reduction": 0.0013466477394104004,
+        "logit_reduction_per_feature": 0.0013217926025390625,
+        "prob_reduction_per_feature": 9.618912424360002e-05
+      }
+    },
+    {
+      "idx": 275,
+      "best": {
+        "source_idx": 868,
+        "num_gender_features_mlp": 7,
+        "logit_bias_before": 2.6373863220214844,
+        "prob_bias_before": 0.5270607471466064,
+        "logit_bias_after": 2.643157958984375,
+        "prob_bias_after": 0.5275447368621826,
+        "logit_reduction": -0.005771636962890625,
+        "prob_reduction": -0.0004839897155761719,
+        "logit_reduction_per_feature": -0.0008245195661272321,
+        "prob_reduction_per_feature": -6.914138793945312e-05
+      },
+      "worst": {
+        "source_idx": 405,
+        "num_gender_features_mlp": 10,
+        "logit_bias_before": 2.6373863220214844,
+        "prob_bias_before": 0.5270607471466064,
+        "logit_bias_after": 2.644254684448242,
+        "prob_bias_after": 0.5277000665664673,
+        "logit_reduction": -0.0068683624267578125,
+        "prob_reduction": -0.0006393194198608398,
+        "logit_reduction_per_feature": -0.0006868362426757813,
+        "prob_reduction_per_feature": -6.393194198608398e-05
+      }
+    },
+    {
+      "idx": 317,
+      "best": {
+        "source_idx": 908,
+        "num_gender_features_mlp": 7,
+        "logit_bias_before": 2.7507972717285156,
+        "prob_bias_before": 0.5372356176376343,
+        "logit_bias_after": 2.7532882690429688,
+        "prob_bias_after": 0.5370137691497803,
+        "logit_reduction": -0.002490997314453125,
+        "prob_reduction": 0.0002218484878540039,
+        "logit_reduction_per_feature": -0.0003558567592075893,
+        "prob_reduction_per_feature": 3.1692641122000555e-05
+      },
+      "worst": {
+        "source_idx": 117,
+        "num_gender_features_mlp": 8,
+        "logit_bias_before": 2.7507972717285156,
+        "prob_bias_before": 0.5372356176376343,
+        "logit_bias_after": 2.7637863159179688,
+        "prob_bias_after": 0.5375455617904663,
+        "logit_reduction": -0.012989044189453125,
+        "prob_reduction": -0.00030994415283203125,
+        "logit_reduction_per_feature": -0.0016236305236816406,
+        "prob_reduction_per_feature": -3.8743019104003906e-05
+      }
+    },
+    {
+      "idx": 330,
+      "best": {
+        "source_idx": 328,
+        "num_gender_features_mlp": 15,
+        "logit_bias_before": 3.040975570678711,
+        "prob_bias_before": 0.5130682587623596,
+        "logit_bias_after": 2.1140213012695312,
+        "prob_bias_after": 0.43853044509887695,
+        "logit_reduction": 0.9269542694091797,
+        "prob_reduction": 0.07453781366348267,
+        "logit_reduction_per_feature": 0.061796951293945315,
+        "prob_reduction_per_feature": 0.004969187577565511
+      },
+      "worst": {
+        "source_idx": 623,
+        "num_gender_features_mlp": 15,
+        "logit_bias_before": 3.040975570678711,
+        "prob_bias_before": 0.5130682587623596,
+        "logit_bias_after": 2.7829761505126953,
+        "prob_bias_after": 0.4988565742969513,
+        "logit_reduction": 0.2579994201660156,
+        "prob_reduction": 0.014211684465408325,
+        "logit_reduction_per_feature": 0.017199961344401042,
+        "prob_reduction_per_feature": 0.0009474456310272217
+      }
+    },
+    {
+      "idx": 363,
+      "best": {
+        "source_idx": 183,
+        "num_gender_features_mlp": 15,
+        "logit_bias_before": 3.4513912200927734,
+        "prob_bias_before": 0.5033437609672546,
+        "logit_bias_after": 3.192495346069336,
+        "prob_bias_after": 0.5019544363021851,
+        "logit_reduction": 0.2588958740234375,
+        "prob_reduction": 0.00138932466506958,
+        "logit_reduction_per_feature": 0.017259724934895835,
+        "prob_reduction_per_feature": 9.262164433797201e-05
+      },
+      "worst": {
+        "source_idx": 587,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 3.4513912200927734,
+        "prob_bias_before": 0.5033437609672546,
+        "logit_bias_after": 2.787933349609375,
+        "prob_bias_after": 0.4876590967178345,
+        "logit_reduction": 0.6634578704833984,
+        "prob_reduction": 0.015684664249420166,
+        "logit_reduction_per_feature": 0.05103522080641527,
+        "prob_reduction_per_feature": 0.001206512634570782
+      }
+    },
+    {
+      "idx": 372,
+      "best": {
+        "source_idx": 69,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 2.880025863647461,
+        "prob_bias_before": 0.5210926532745361,
+        "logit_bias_after": 1.5770263671875,
+        "prob_bias_after": 0.38053926825523376,
+        "logit_reduction": 1.302999496459961,
+        "prob_reduction": 0.14055338501930237,
+        "logit_reduction_per_feature": 0.10023073049692008,
+        "prob_reduction_per_feature": 0.010811798847638644
+      },
+      "worst": {
+        "source_idx": 35,
+        "num_gender_features_mlp": 19,
+        "logit_bias_before": 2.880025863647461,
+        "prob_bias_before": 0.5210926532745361,
+        "logit_bias_after": 2.8629302978515625,
+        "prob_bias_after": 0.51921147108078,
+        "logit_reduction": 0.017095565795898438,
+        "prob_reduction": 0.0018811821937561035,
+        "logit_reduction_per_feature": 0.0008997666208367599,
+        "prob_reduction_per_feature": 9.900958914505808e-05
+      }
+    },
+    {
+      "idx": 424,
+      "best": {
+        "source_idx": 673,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.666532516479492,
+        "prob_bias_before": 0.5294384956359863,
+        "logit_bias_after": 2.6354427337646484,
+        "prob_bias_after": 0.5269384384155273,
+        "logit_reduction": 0.03108978271484375,
+        "prob_reduction": 0.0025000572204589844,
+        "logit_reduction_per_feature": 0.002590815226236979,
+        "prob_reduction_per_feature": 0.00020833810170491537
+      },
+      "worst": {
+        "source_idx": 593,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.666532516479492,
+        "prob_bias_before": 0.5294384956359863,
+        "logit_bias_after": 2.6478099822998047,
+        "prob_bias_after": 0.5276188254356384,
+        "logit_reduction": 0.0187225341796875,
+        "prob_reduction": 0.0018196702003479004,
+        "logit_reduction_per_feature": 0.001560211181640625,
+        "prob_reduction_per_feature": 0.00015163918336232504
+      }
+    },
+    {
+      "idx": 437,
+      "best": {
+        "source_idx": 328,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 2.3562393188476562,
+        "prob_bias_before": 0.5536222457885742,
+        "logit_bias_after": 0.7289409637451172,
+        "prob_bias_after": 0.23860684037208557,
+        "logit_reduction": 1.627298355102539,
+        "prob_reduction": 0.31501540541648865,
+        "logit_reduction_per_feature": 0.1162355967930385,
+        "prob_reduction_per_feature": 0.022501100386892046
+      },
+      "worst": {
+        "source_idx": 761,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.3562393188476562,
+        "prob_bias_before": 0.5536222457885742,
+        "logit_bias_after": 1.3455276489257812,
+        "prob_bias_after": 0.39754486083984375,
+        "logit_reduction": 1.010711669921875,
+        "prob_reduction": 0.15607738494873047,
+        "logit_reduction_per_feature": 0.08422597249348958,
+        "prob_reduction_per_feature": 0.013006448745727539
+      }
+    },
+    {
+      "idx": 438,
+      "best": {
+        "source_idx": 908,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 2.3676280975341797,
+        "prob_bias_before": 0.5255873799324036,
+        "logit_bias_after": 2.3548221588134766,
+        "prob_bias_after": 0.5223057866096497,
+        "logit_reduction": 0.012805938720703125,
+        "prob_reduction": 0.0032815933227539062,
+        "logit_reduction_per_feature": 0.001422882080078125,
+        "prob_reduction_per_feature": 0.00036462148030598957
+      },
+      "worst": {
+        "source_idx": 956,
+        "num_gender_features_mlp": 16,
+        "logit_bias_before": 2.3676280975341797,
+        "prob_bias_before": 0.5255873799324036,
+        "logit_bias_after": 2.3592967987060547,
+        "prob_bias_after": 0.5229756236076355,
+        "logit_reduction": 0.008331298828125,
+        "prob_reduction": 0.0026117563247680664,
+        "logit_reduction_per_feature": 0.0005207061767578125,
+        "prob_reduction_per_feature": 0.00016323477029800415
+      }
+    },
+    {
+      "idx": 510,
+      "best": {
+        "source_idx": 157,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 2.8355655670166016,
+        "prob_bias_before": 0.5055385828018188,
+        "logit_bias_after": 1.5068931579589844,
+        "prob_bias_after": 0.3596828579902649,
+        "logit_reduction": 1.3286724090576172,
+        "prob_reduction": 0.14585572481155396,
+        "logit_reduction_per_feature": 0.10220556992750901,
+        "prob_reduction_per_feature": 0.011219671139350304
+      },
+      "worst": {
+        "source_idx": 510,
+        "num_gender_features_mlp": 15,
+        "logit_bias_before": 2.8355655670166016,
+        "prob_bias_before": 0.5055385828018188,
+        "logit_bias_after": 2.719390869140625,
+        "prob_bias_after": 0.5003083944320679,
+        "logit_reduction": 0.11617469787597656,
+        "prob_reduction": 0.0052301883697509766,
+        "logit_reduction_per_feature": 0.007744979858398437,
+        "prob_reduction_per_feature": 0.0003486792246500651
+      }
+    },
+    {
+      "idx": 531,
+      "best": {
+        "source_idx": 581,
+        "num_gender_features_mlp": 10,
+        "logit_bias_before": 4.470617294311523,
+        "prob_bias_before": 0.5897648334503174,
+        "logit_bias_after": 4.441221237182617,
+        "prob_bias_after": 0.5884427428245544,
+        "logit_reduction": 0.02939605712890625,
+        "prob_reduction": 0.0013220906257629395,
+        "logit_reduction_per_feature": 0.002939605712890625,
+        "prob_reduction_per_feature": 0.00013220906257629394
+      },
+      "worst": {
+        "source_idx": 122,
+        "num_gender_features_mlp": 14,
+        "logit_bias_before": 4.470617294311523,
+        "prob_bias_before": 0.5897648334503174,
+        "logit_bias_after": 4.304960250854492,
+        "prob_bias_after": 0.5887960195541382,
+        "logit_reduction": 0.16565704345703125,
+        "prob_reduction": 0.0009688138961791992,
+        "logit_reduction_per_feature": 0.011832645961216517,
+        "prob_reduction_per_feature": 6.920099258422852e-05
+      }
+    },
+    {
+      "idx": 581,
+      "best": {
+        "source_idx": 581,
+        "num_gender_features_mlp": 7,
+        "logit_bias_before": 3.1312694549560547,
+        "prob_bias_before": 0.517814040184021,
+        "logit_bias_after": 3.1317405700683594,
+        "prob_bias_after": 0.5176122188568115,
+        "logit_reduction": -0.0004711151123046875,
+        "prob_reduction": 0.00020182132720947266,
+        "logit_reduction_per_feature": -6.730215890066964e-05,
+        "prob_reduction_per_feature": 2.883161817278181e-05
+      },
+      "worst": {
+        "source_idx": 122,
+        "num_gender_features_mlp": 10,
+        "logit_bias_before": 3.1312694549560547,
+        "prob_bias_before": 0.517814040184021,
+        "logit_bias_after": 3.178882598876953,
+        "prob_bias_after": 0.5196406245231628,
+        "logit_reduction": -0.04761314392089844,
+        "prob_reduction": -0.0018265843391418457,
+        "logit_reduction_per_feature": -0.004761314392089844,
+        "prob_reduction_per_feature": -0.00018265843391418457
+      }
+    },
+    {
+      "idx": 587,
+      "best": {
+        "source_idx": 69,
+        "num_gender_features_mlp": 16,
+        "logit_bias_before": 3.438365936279297,
+        "prob_bias_before": 0.5523660182952881,
+        "logit_bias_after": 1.6477394104003906,
+        "prob_bias_after": 0.39624983072280884,
+        "logit_reduction": 1.7906265258789062,
+        "prob_reduction": 0.15611618757247925,
+        "logit_reduction_per_feature": 0.11191415786743164,
+        "prob_reduction_per_feature": 0.009757261723279953
+      },
+      "worst": {
+        "source_idx": 35,
+        "num_gender_features_mlp": 19,
+        "logit_bias_before": 3.438365936279297,
+        "prob_bias_before": 0.5523660182952881,
+        "logit_bias_after": 2.9760475158691406,
+        "prob_bias_after": 0.5335494875907898,
+        "logit_reduction": 0.46231842041015625,
+        "prob_reduction": 0.01881653070449829,
+        "logit_reduction_per_feature": 0.024332548442639802,
+        "prob_reduction_per_feature": 0.0009903437212893838
+      }
+    },
+    {
+      "idx": 593,
+      "best": {
+        "source_idx": 157,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.965665817260742,
+        "prob_bias_before": 0.5553088188171387,
+        "logit_bias_after": 1.3424510955810547,
+        "prob_bias_after": 0.3718761205673218,
+        "logit_reduction": 1.6232147216796875,
+        "prob_reduction": 0.1834326982498169,
+        "logit_reduction_per_feature": 0.13526789347330728,
+        "prob_reduction_per_feature": 0.015286058187484741
+      },
+      "worst": {
+        "source_idx": 424,
+        "num_gender_features_mlp": 11,
+        "logit_bias_before": 2.965665817260742,
+        "prob_bias_before": 0.5553088188171387,
+        "logit_bias_after": 2.856250762939453,
+        "prob_bias_after": 0.552406907081604,
+        "logit_reduction": 0.10941505432128906,
+        "prob_reduction": 0.002901911735534668,
+        "logit_reduction_per_feature": 0.009946823120117188,
+        "prob_reduction_per_feature": 0.0002638101577758789
+      }
+    },
+    {
+      "idx": 618,
+      "best": {
+        "source_idx": 618,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 2.803529739379883,
+        "prob_bias_before": 0.5596391558647156,
+        "logit_bias_after": 2.8067188262939453,
+        "prob_bias_after": 0.5592755675315857,
+        "logit_reduction": -0.0031890869140625,
+        "prob_reduction": 0.0003635883331298828,
+        "logit_reduction_per_feature": -0.0002453143780048077,
+        "prob_reduction_per_feature": 2.7968333317683293e-05
+      },
+      "worst": {
+        "source_idx": 122,
+        "num_gender_features_mlp": 13,
+        "logit_bias_before": 2.803529739379883,
+        "prob_bias_before": 0.5596391558647156,
+        "logit_bias_after": 2.8274765014648438,
+        "prob_bias_after": 0.5604478716850281,
+        "logit_reduction": -0.023946762084960938,
+        "prob_reduction": -0.0008087158203125,
+        "logit_reduction_per_feature": -0.001842058621920072,
+        "prob_reduction_per_feature": -6.220890925480769e-05
+      }
+    },
+    {
+      "idx": 623,
+      "best": {
+        "source_idx": 581,
+        "num_gender_features_mlp": 8,
+        "logit_bias_before": 2.7759151458740234,
+        "prob_bias_before": 0.5022671222686768,
+        "logit_bias_after": 2.7714481353759766,
+        "prob_bias_after": 0.5027895569801331,
+        "logit_reduction": 0.004467010498046875,
+        "prob_reduction": -0.0005224347114562988,
+        "logit_reduction_per_feature": 0.0005583763122558594,
+        "prob_reduction_per_feature": -6.530433893203735e-05
+      },
+      "worst": {
+        "source_idx": 793,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 2.7759151458740234,
+        "prob_bias_before": 0.5022671222686768,
+        "logit_bias_after": 2.784564971923828,
+        "prob_bias_after": 0.503771960735321,
+        "logit_reduction": -0.008649826049804688,
+        "prob_reduction": -0.0015048384666442871,
+        "logit_reduction_per_feature": -0.000961091783311632,
+        "prob_reduction_per_feature": -0.00016720427407158745
+      }
+    },
+    {
+      "idx": 734,
+      "best": {
+        "source_idx": 908,
+        "num_gender_features_mlp": 7,
+        "logit_bias_before": 2.3140010833740234,
+        "prob_bias_before": 0.5036448240280151,
+        "logit_bias_after": 2.3224239349365234,
+        "prob_bias_after": 0.504916250705719,
+        "logit_reduction": -0.0084228515625,
+        "prob_reduction": -0.0012714266777038574,
+        "logit_reduction_per_feature": -0.0012032645089285715,
+        "prob_reduction_per_feature": -0.00018163238252912248
+      },
+      "worst": {
+        "source_idx": 122,
+        "num_gender_features_mlp": 12,
+        "logit_bias_before": 2.3140010833740234,
+        "prob_bias_before": 0.5036448240280151,
+        "logit_bias_after": 2.3224239349365234,
+        "prob_bias_after": 0.504916250705719,
+        "logit_reduction": -0.0084228515625,
+        "prob_reduction": -0.0012714266777038574,
+        "logit_reduction_per_feature": -0.000701904296875,
+        "prob_reduction_per_feature": -0.00010595222314198811
+      }
+    },
+    {
+      "idx": 793,
+      "best": {
+        "source_idx": 618,
+        "num_gender_features_mlp": 17,
+        "logit_bias_before": 2.3974838256835938,
+        "prob_bias_before": 0.5154280662536621,
+        "logit_bias_after": 1.5520057678222656,
+        "prob_bias_after": 0.40966352820396423,
+        "logit_reduction": 0.8454780578613281,
+        "prob_reduction": 0.10576453804969788,
+        "logit_reduction_per_feature": 0.049734003403607535,
+        "prob_reduction_per_feature": 0.00622144341468811
+      },
+      "worst": {
+        "source_idx": 424,
+        "num_gender_features_mlp": 11,
+        "logit_bias_before": 2.3974838256835938,
+        "prob_bias_before": 0.5154280662536621,
+        "logit_bias_after": 2.2547473907470703,
+        "prob_bias_after": 0.5030803680419922,
+        "logit_reduction": 0.14273643493652344,
+        "prob_reduction": 0.012347698211669922,
+        "logit_reduction_per_feature": 0.012976039539683949,
+        "prob_reduction_per_feature": 0.0011225180192427201
+      }
+    },
+    {
+      "idx": 868,
+      "best": {
+        "source_idx": 581,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 3.7817153930664062,
+        "prob_bias_before": 0.5671943426132202,
+        "logit_bias_after": 3.786314010620117,
+        "prob_bias_after": 0.5677487850189209,
+        "logit_reduction": -0.0045986175537109375,
+        "prob_reduction": -0.0005544424057006836,
+        "logit_reduction_per_feature": -0.000510957505967882,
+        "prob_reduction_per_feature": -6.16047117445204e-05
+      },
+      "worst": {
+        "source_idx": 587,
+        "num_gender_features_mlp": 9,
+        "logit_bias_before": 3.7817153930664062,
+        "prob_bias_before": 0.5671943426132202,
+        "logit_bias_after": 3.786314010620117,
+        "prob_bias_after": 0.5677486658096313,
+        "logit_reduction": -0.0045986175537109375,
+        "prob_reduction": -0.0005543231964111328,
+        "logit_reduction_per_feature": -0.000510957505967882,
+        "prob_reduction_per_feature": -6.159146626790364e-05
+      }
+    },
+    {
+      "idx": 956,
+      "best": {
+        "source_idx": 734,
+        "num_gender_features_mlp": 16,
+        "logit_bias_before": 3.2989273071289062,
+        "prob_bias_before": 0.5345197319984436,
+        "logit_bias_after": 1.5009479522705078,
+        "prob_bias_after": 0.35753387212753296,
+        "logit_reduction": 1.7979793548583984,
+        "prob_reduction": 0.17698585987091064,
+        "logit_reduction_per_feature": 0.1123737096786499,
+        "prob_reduction_per_feature": 0.011061616241931915
+      },
+      "worst": {
+        "source_idx": 405,
+        "num_gender_features_mlp": 11,
+        "logit_bias_before": 3.2989273071289062,
+        "prob_bias_before": 0.5345197319984436,
+        "logit_bias_after": 2.7849578857421875,
+        "prob_bias_after": 0.5085641145706177,
+        "logit_reduction": 0.5139694213867188,
+        "prob_reduction": 0.025955617427825928,
+        "logit_reduction_per_feature": 0.046724492853338066,
+        "prob_reduction_per_feature": 0.0023596015843478117
+      }
+    }
+  ]
+}
