@@ -1,4 +1,4 @@
-# Query Circuits: Explaining How Language Models Answer User Prompts
+# Query Circuits: Explaining How Language Models Answer User Prompts (ICML 2026)
 
 [Project Page](https://tony10101105.github.io/query-circuit/) | [Paper (arXiv)](https://arxiv.org/abs/2509.24808) | [OpenReview](https://openreview.net/forum?id=7F0sragazb)
 
