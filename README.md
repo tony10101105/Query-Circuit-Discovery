@@ -51,13 +51,21 @@ cd Query-Circuit-Dataset
 bash merge_arc_challenge.sh
 ```
 
-### Download SAE data
+### Download SAE Data
 Download labeled SAE features if you want to apply SAEs on discovered circuits.
 ```
 cd sae_data
 bash download_sae.sh
 python data_unzipper.py
 ```
+
+## Query Circuit Analysis
+With the score matrices, you can analyze the query circuits they identify. The `query_circuit_analysis/` directory contains the subfolders `main/` (Figure 6), `para_num/` (Figure 7), `complement/` (Figure A13), and `different_bon/` (Figure A17), each of which contains Python scripts for running the corresponding analysis. For example,
+```
+cd query_circuit_analysis/main
+python ioi_query_circuit_analysis.py
+```
+will give you Figure 6(a).
 
 ## Credit
 The codebase was revised from [EAP-IG](https://github.com/hannamw/eap-ig).
