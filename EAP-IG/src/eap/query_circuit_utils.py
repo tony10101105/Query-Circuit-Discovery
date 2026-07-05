@@ -4,6 +4,8 @@ Shared utilities developed for our query circuit scripts.
 Exports:
   get_logit_positions  -- extract last-token logits from a batch
   logit_diff           -- unified logit diff (mc=False: gather-based; mc=True: correct − mean wrong)
+  ndf                  -- Normalized Deviation Faithfulness: 1 - min(|Δ_circuit / Δ_baseline|, 1)
+  nfs                  -- Normalized Faithfulness Score: (results - corrupted) / (baseline - corrupted)
   collate_EAP          -- collate for EAP samples (tensor_labels=True/False)
   collate_PARA         -- collate for PARA datasets (batch_size=1 paraphrase expansion)
   EAPDataset           -- unified flat-CSV dataset (mc=False/True controls label parsing)
@@ -57,6 +59,20 @@ def logit_diff(
         results = results.mean()
     
     return results
+
+
+def ndf(results: float, baseline: float, corrupted_baseline: float) -> float:
+    """Normalized Deviation Faithfulness: 1 - min(|Δ_circuit / Δ_baseline|, 1)."""
+    if baseline == corrupted_baseline:
+        return 0
+    return 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+
+
+def nfs(results: float, baseline: float, corrupted_baseline: float) -> float:
+    """Normalized Faithfulness Score: (results - corrupted_baseline) / (baseline - corrupted_baseline)."""
+    if baseline == corrupted_baseline:
+        return 0
+    return (results - corrupted_baseline) / (baseline - corrupted_baseline)
 
 
 def collate_EAP(xs, tensor_labels: bool = True):

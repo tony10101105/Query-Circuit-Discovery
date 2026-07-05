@@ -23,15 +23,14 @@ set_seed(2025)
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_name', type=str, default='gpt2-small')
 parser.add_argument('--num_samples', type=int, default=1000)
-parser.add_argument('--score_matrix_save_dir', type=str, default=None)
+parser.add_argument('--score_matrix_save_dir', type=str, default='score_matrix/ioi/gpt2-small')
 parser.add_argument('--dataset_path', type=str, default='probing_dataset/ioi_gpt2.csv')
 args = parser.parse_args()
 
 dataset_cfg = DatasetConfig(num_samples=args.num_samples)
 model_cfg = TargetModelConfig(model_name=args.model_name)
 alg_cfg = DiscoveryAlgConfig()
-score_matrix_save_dir = args.score_matrix_save_dir or f'score_matrix/ioi/{model_cfg.model_name}'
-os.makedirs(score_matrix_save_dir, exist_ok=True)
+os.makedirs(args.score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
 model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
@@ -56,4 +55,4 @@ for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(datalo
 
     x = g.scores.cpu().detach().numpy()
     x[~g.real_edge_mask] = -np.inf
-    np.save(f'{score_matrix_save_dir}/{i}.npy', x)
+    np.save(f'{args.score_matrix_save_dir}/{i}.npy', x)

@@ -30,8 +30,7 @@ args = parser.parse_args()
 dataset_cfg = DatasetConfig(num_samples=args.num_samples)
 model_cfg = TargetModelConfig(model_name=args.model_name)
 alg_cfg = DiscoveryAlgConfig()
-score_matrix_save_dir = args.score_matrix_save_dir
-os.makedirs(score_matrix_save_dir, exist_ok=True)
+os.makedirs(args.score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
 model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
@@ -56,4 +55,4 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     pad_corrupted_to_clean(model, batch_slice_data)
 
     print('attributing for this single data and save the score matrix...')
-    attribute(model, g, batch_slice_data, partial(logit_diff, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, score_matrix_save_dir=score_matrix_save_dir, file_idx=i)
+    attribute(model, g, batch_slice_data, partial(logit_diff, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, score_matrix_save_dir=args.score_matrix_save_dir, file_idx=i)

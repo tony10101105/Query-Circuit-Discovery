@@ -1,45 +1,50 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
-
-from functools import partial
-
 import os
 import sys
-import ast
-import json
+_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(_root)
+sys.path.insert(0, _root)
+
+import argparse
+from functools import partial
+
 import bisect
 import numpy as np
-import random
-from scipy.stats import spearmanr
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-import pandas as pd
-from copy import deepcopy
 import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
 from eap.graph import Graph
 from eap.evaluate import evaluate_graph, evaluate_baseline
-from eap.attribute import attribute
-from eap.utils import topn_indices, set_seed
-from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
-
-
+from eap.utils import topn_indices, set_seed, pad_corrupted_to_clean
+from eap.query_circuit_utils import logit_diff, EAPDataset, ndf, nfs
+from save_score_matrix.models import DatasetConfig, TargetModelConfig, DiscoveryAlgConfig
 set_seed(2025)
-data_num = 500
-topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000] # 32491 for gpt2-small, 386713 for llama
-method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
-steps = 20
-intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'meta-llama/Llama-3.2-1B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
-model = HookedTransformer.from_pretrained(model_name, device='cuda')
-model.cfg.use_split_qkv_input = True
-model.cfg.use_attn_result = True
-model.cfg.use_hook_mlp_in = True
-model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset(f'probing_dataset/arithmetic_add_Llama-32-1B.csv', data_num=data_num)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
+parser.add_argument('--num_samples', type=int, default=500)
+parser.add_argument('--topns', type=int, nargs='+', default=[500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 40000, 50000])
+parser.add_argument('--score_matrix_dir', type=str, default='probing_dataset/Query-Circuit-Dataset/score_matrix/arithmetic_add/llama32-1b')
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/arithmetic_add_Llama-32-1B.csv')
+parser.add_argument('--output_figure', type=str, default='figures/arithmetic_add.pdf')
+parser.add_argument('--faithfulness_metric', type=str, default='NDF', choices=['NDF', 'NFS'])
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+topns = args.topns
+faithfulness_fn = ndf if args.faithfulness_metric == 'NDF' else nfs
+
+model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
+model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
+model.cfg.use_attn_result = model_cfg.use_attn_result
+model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
+model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
+
+ds = EAPDataset(args.dataset_path, num_samples=dataset_cfg.num_samples)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_best_results = []
@@ -49,68 +54,51 @@ all_csm_results = []
 all_ibon_results = []
 
 for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloader), desc="Processing samples", position=0)):
-    
+
     para_data = []
     for k in range(10):
-        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/arithmetic_add/{i}_{k}.npy"))
+        para_data.append(np.load(f"{args.score_matrix_dir}/{i}_{k}.npy"))
 
     para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
-    
+
     single_data = [(clean, corrupted, label)]
 
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), quiet=True).mean().item()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, quiet=True).mean().item()
-    # print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
-    # only for padding corrupted input
-    _ = evaluate_baseline(model, single_data, partial(logit_diff, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
+    pad_corrupted_to_clean(model, single_data)
 
     best_results = [-1]*len(topns)
-    # best_complement_results = [-1]*len(topns)
     best_para_indices = [0]*len(topns) # keep track of the best paraphrase index for each topn
-    
+
     for j in tqdm(range(para_data.shape[0]), total=para_data.shape[0], desc="Processing paraphrases", position=1):
         model.reset_hooks()
-        
+
         g = Graph.from_model(model)
 
         g.scores = torch.from_numpy(para_data[j])
 
-        circuit_performance, circuit_complement_performance, circuit_faithfulness, circuit_complement_faithfulness = [], [], [], []
+        circuit_performance, circuit_faithfulness = [], []
         for topn in topns:
             g.apply_topn(topn, True)
-
             # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+            results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
             results = results.mean().item()
             circuit_performance.append(results)
-            
-            faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+
+            faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
             circuit_faithfulness.append(faithfulness)
-            
-            # g.apply_topn(topn, True, complement=True) # if complement is True, return M\C instead of C
-            # complement_results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
-            # complement_results = complement_results.mean().item()
-            # circuit_complement_performance.append(complement_results)
-
-            # complement_faithfulness = 1 - min(abs((baseline - complement_results) / (baseline - corrupted_baseline)), 1)
-            # circuit_complement_faithfulness.append(complement_faithfulness)
-
-            # print(f"Model performance: {baseline:.2f}; corrupted baseline: {corrupted_baseline:.2f}'; circuit performance: {results:.2f}; faithfulness: {faithfulness:.2f}")
 
         if j == 0:
             all_vanilla_results.append(circuit_faithfulness)
-            # all_vanilla_complement_results.append(circuit_complement_faithfulness)
 
         for idx in range(len(best_results)):
             if circuit_faithfulness[idx] > best_results[idx]:
                 best_results[idx] = circuit_faithfulness[idx]
-                # best_complement_results[idx] = circuit_complement_faithfulness[idx]
                 best_para_indices[idx] = j
 
     all_best_results.append(best_results)
-    # all_best_complement_results.append(best_complement_results)
 
     # averaging
     model.reset_hooks()
@@ -121,13 +109,13 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     circuit_faithfulness = []
     for topn in topns:
         g.apply_topn(topn, True)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
 
     all_avg_results.append(circuit_faithfulness)
-    
+
     # BoN with Constraint-adaptive Score Matrix (BoN-CSM)
     score_mat = np.full_like(para_data[j], 0, dtype=float)
     tier_mat  = np.full(para_data[j].shape, fill_value=np.iinfo(np.int32).max, dtype=np.int32)
@@ -150,25 +138,24 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
     circuit_faithfulness = []
     for topn in topns:
         g.apply_topn_by_tier(topn, tier_mat)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
 
     all_csm_results.append(circuit_faithfulness)
 
     # interpolated BoN (iBoN)
     new_topns = [int((topns[k]+topns[k-1])/2) for k in range(1, len(topns))]
-    # new_topns = sorted(new_topns+topns)
     circuit_faithfulness = []
     for k, topn in enumerate(new_topns):
         model.reset_hooks()
         g = Graph.from_model(model)
-        
+
         score_mat = np.full_like(para_data[j], 0, dtype=float)
         tier_mat  = np.full(para_data[j].shape, fill_value=np.iinfo(np.int32).max, dtype=np.int32)
         filled    = np.zeros_like(score_mat, dtype=bool)
-            
+
         idx = bisect.bisect_left(topns, topn)
         if topn not in topns:
             prev_idx, previous_topn = idx - 1, topns[idx - 1]
@@ -196,15 +183,15 @@ for i, (clean, corrupted, label) in enumerate(tqdm(dataloader, total=len(dataloa
 
         g.scores = torch.from_numpy(score_mat)
         g.apply_topn_by_tier(topn, tier_mat)
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
-        faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        faithfulness = faithfulness_fn(results, baseline, corrupted_baseline)
         circuit_faithfulness.append(faithfulness)
     all_ibon_results.append(circuit_faithfulness)
-    
 
-topns = [x // 1000 for x in topns]  # Convert to 'k'
-new_topns = [x // 1000 for x in new_topns]  # Convert to 'k'
+
+topns = [x / 1000 for x in topns]  # Convert to 'k'
+new_topns = [x / 1000 for x in new_topns]  # Convert to 'k'
 
 all_best_results = np.array(all_best_results).mean(0)
 all_vanilla_results = np.array(all_vanilla_results).mean(0)
@@ -229,4 +216,4 @@ plt.yticks(fontsize=15)
 plt.legend(loc='lower right', fontsize=15)
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'figures/arithmetic_add.pdf')
+plt.savefig(args.output_figure)

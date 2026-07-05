@@ -5,9 +5,7 @@ Output: "he" (biased towards male pronoun)
 """
 
 import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
-
 import json
-from pathlib import Path
 
 # Load the circuit graph and SAE features
 with open('graph_data/top100/gender_bias_107_top100.json', 'r') as f:
@@ -78,7 +76,7 @@ for node in active_nodes:
         node_layers.setdefault(f'layer_{layer}', []).append(node)
 
 # Analyze key nodes with gender/doctor features
-print("\n📍 EARLY LAYERS (0-2): Detecting 'doctor' and processing context")
+print("\nEARLY LAYERS (0-2): Detecting 'doctor' and processing context")
 print("-"*80)
 
 # Layer 0 - where "doctor" token is processed
@@ -119,7 +117,7 @@ for layer in [1, 2]:
                         print(f"     Activation: {feat['activation']:.3f}")
 
 print("\n" + "="*80)
-print("📍 MIDDLE LAYERS (3-7): Building gender associations")
+print("MIDDLE LAYERS (3-7): Building gender associations")
 print("-"*80)
 
 for layer in [3, 4, 5, 6, 7]:
@@ -139,7 +137,7 @@ for layer in [3, 4, 5, 6, 7]:
                 break
     
     if has_features:
-        print(f"\n🔍 Layer {layer}:")
+        print(f"\nLayer {layer}:")
         
         if layer_key_att in sae_features['circuit_features']:
             for token_idx, token_features in enumerate(sae_features['circuit_features'][layer_key_att]):
@@ -162,7 +160,7 @@ for layer in [3, 4, 5, 6, 7]:
                             print(f"     Activation: {feat['activation']:.3f}")
 
 print("\n" + "="*80)
-print("📍 LATE LAYERS (8-11): Finalizing gender prediction")
+print("LATE LAYERS (8-11): Finalizing gender prediction")
 print("-"*80)
 
 for layer in [8, 9, 10, 11]:
@@ -182,7 +180,7 @@ for layer in [8, 9, 10, 11]:
                 break
     
     if has_features:
-        print(f"\n🔍 Layer {layer}:")
+        print(f"\nLayer {layer}:")
         
         if layer_key_att in sae_features['circuit_features']:
             for token_idx, token_features in enumerate(sae_features['circuit_features'][layer_key_att]):

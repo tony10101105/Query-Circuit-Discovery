@@ -24,15 +24,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--category', type=str, default='astronomy')
 parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
 parser.add_argument('--num_samples', type=int, default=-1)
-parser.add_argument('--score_matrix_save_dir', type=str, default=None)
+parser.add_argument('--score_matrix_save_dir', type=str, default='score_matrix/mmlu_astronomy/llama32-1b')
 parser.add_argument('--dataset_path', type=str, default=None)
 args = parser.parse_args()
 
 dataset_cfg = DatasetConfig(category=args.category, num_samples=args.num_samples)
 model_cfg = TargetModelConfig(model_name=args.model_name)
 alg_cfg = DiscoveryAlgConfig()
-score_matrix_save_dir = args.score_matrix_save_dir or f'score_matrix/mmlu_{dataset_cfg.category}/llama32-1b'
-os.makedirs(score_matrix_save_dir, exist_ok=True)
+os.makedirs(args.score_matrix_save_dir, exist_ok=True)
 
 model = HookedTransformer.from_pretrained_no_processing(model_cfg.model_name, device=model_cfg.device, torch_dtype=torch.float16)
 model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
@@ -59,4 +58,4 @@ for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(datalo
     pad_corrupted_to_clean(model, batch_slice_data)
 
     print('attributing for this single data...')
-    attribute(model, g, batch_slice_data, partial(logit_diff, mc=True, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, score_matrix_save_dir=score_matrix_save_dir, file_idx=i)
+    attribute(model, g, batch_slice_data, partial(logit_diff, mc=True, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, score_matrix_save_dir=args.score_matrix_save_dir, file_idx=i)

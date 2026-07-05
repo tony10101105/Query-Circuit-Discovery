@@ -591,10 +591,11 @@ class Graph:
     def apply_topn_by_tier(self, n:int, tier_mat, reset: bool=True, prune:bool=True, complement:bool=False):
         assert n <= self.real_edge_mask.sum(), f"Requested n ({n}) is greater than the number of edges ({self.real_edge_mask.sum()})"
         chosen = []
-        for l in range(np.min(tier_mat), np.max(tier_mat)+1):
+        sentinel = np.iinfo(np.int32).max
+        for l in np.unique(tier_mat):
+            if l == sentinel:
+                continue
             mask = (tier_mat == l)
-            # if not np.any(mask):
-            #     continue
             vals = self.scores[mask]
             # how many more do we still need?
             need = n - len(chosen)
