@@ -67,6 +67,24 @@ python ioi_query_circuit_analysis.py
 ```
 will give you Figure 6(a).
 
+## Misc Analysis
+The `misc_analysis/` directory contains standalone analysis scripts. Each corresponds to a specific figure or table in the paper.
+
+| Script | Figure / Table | Description |
+|--------|---------------|-------------|
+| `plot_score_matrix.py` | Figure A9, A10 | Visualizes score matrix heatmaps for each task and model. |
+| `query_circuit_vs_task_circuit_performance.py` | Figure 2(b) | Compares query circuit faithfulness against task (capability) circuit faithfulness on GPT-2 Small. |
+| `mmlu_NFS_instability_examples.py` | Figure 2(a) | Plots NFS curves for specific MMLU queries to illustrate NFS instability. |
+| `mmlu_NFS_NDF_comparison.py` | Figure 3 | Side-by-side comparison of NFS and NDF faithfulness metrics across individual MMLU queries in a grid layout. |
+| `gender_bias_greedy_dijkstra_comparison.py` | Figure A15 | Compares greedy top-N edge selection against Dijkstra-like circuit construction on the gender bias task with GPT-2 Small. |
+| `mmlu_runtime_analysis.py` | Table A4 | Measures and compares runtime for single-query vs. best-of-N circuit discovery on MMLU. |
+
+Run any script from the `EAP-IG/` root, e.g.:
+```
+cd EAP-IG
+python misc_analysis/mmlu_NFS_NDF_comparison.py
+```
+
 ## Credit
 The codebase was revised from [EAP-IG](https://github.com/hannamw/eap-ig).
 
