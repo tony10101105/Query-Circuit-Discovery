@@ -13,12 +13,12 @@ pip install .
 ```
 cp env.template .env
 ```
-Then put in necessary environment variables, such as your OPENAI_API_KEY and HF_TOKEN, to .env
+Then put the necessary environment variables, such as OPENAI_API_KEY and HF_TOKEN, into .env
 
 ## Download and Preprocess Data
 
 ### Dataset for Circuit Discovery
-Below we use mmlu as an example. You can run scripts of different datasets based on your need.
+Below, we use MMLU as an example. You can run different datasets based on your needs.
 ```
 cd probing_dataset
 python mmlu_data_download_and_format.py --category marketing
@@ -36,14 +36,14 @@ cd save_score_matrix
 python arcc_save_score_matrix.py
 ```
 
-We provide pre-generated score matrix in [HF data repo](https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset) for fast replication. Follow the following steps to download it:
+We provide pre-generated score matrices in [HF data repo](https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset) for fast replication. Follow the following steps to download it:
 ```
 apt-get update
 apt-get install git-lfs
 git lfs install
 git clone https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset
 ```
-The dataset occupies ~310GB.
+The dataset occupies ~310 GB.
 
 Then merge `arc_challenge_1/` and `arc_challenge_2/` into `arc_challenge/`:
 ```
@@ -64,7 +64,7 @@ The `misc_analysis/` directory contains self-contained analysis scripts. Each co
 
 | Script | Figure / Table | Description |
 |--------|---------------|-------------|
-| `plot_score_matrix.py` | Figure A9, A10 | Visualizes score matrix heatmaps for each task and model. |
+| `plot_score_matrix.py` | Figures A9, A10 | Visualizes score matrix heatmaps for each task and model. |
 | `query_circuit_vs_task_circuit_performance.py` | Figure 2(b) | Compares query circuit faithfulness against task (capability) circuit faithfulness on GPT-2 Small. |
 | `mmlu_NFS_instability_examples.py` | Figure 2(a) | Plots NFS curves for specific MMLU queries to illustrate NFS instability. |
 | `mmlu_NFS_NDF_comparison.py` | Figure 3 | Side-by-side comparison of NFS and NDF faithfulness metrics across individual MMLU queries in a grid layout. |
@@ -80,7 +80,7 @@ python mmlu_NFS_NDF_comparison.py
 ## Query Circuit with SAEs
 
 ### Download SAE Data
-Download labeled SAE features if you want to apply SAEs on discovered circuits.
+Download labeled SAE features if you want to apply SAEs to discovered circuits.
 ```
 cd sae_data
 bash download_sae.sh
@@ -90,7 +90,7 @@ python data_unzipper.py
 ### Run SAEs on Query Circuits
 Feed activations of nodes in a circuit into corresponding SAEs and examine parsed concepts:
 
-First save the detailed graph (circuit) data:
+First, save the detailed graph (circuit) data:
 ```
 cd gender_bias_sae_analysis
 python gender_bias_save_graph_data.py
@@ -103,7 +103,7 @@ python gender_bias_sae_analysis.py
 ```
 which will create a `sae_analysis_data` folder.
 
-Now, you can manually inspect feature connections or use coding agent/print script to help summarize insights, e.g., `gender_bias_sae_circuit_print.py`.
+Now, you can manually inspect feature connections or use coding agents/print scripts to help summarize insights, e.g., `gender_bias_sae_circuit_print.py`.
 
 ### Circuit Steerability Analysis
 Reproduce the gender-feature steering experiments (Tables 2 & A7) by running the pipeline under `gender_bias_sae_analysis/steering_effect_analysis/` in order:
