@@ -15,9 +15,9 @@ cp env.template .env
 ```
 Then put in necessary environment variables, such as your OPENAI_API_KEY and HF_TOKEN, to .env
 
-## Download Data
+## Download and Preprocess Data
 
-### Download and Process Dataset for Circuit Discovery
+### Dataset for Circuit Discovery
 Below we use mmlu as an example. You can run scripts of different datasets based on your need.
 ```
 cd probing_dataset
@@ -29,34 +29,26 @@ python mmlu_rephrase_only_stem.py
 ```
 The above generates paraphrases for each query and produces `mmlu_marketing_Llama-32-1B_gpt4o_paraphrases_only_stem.csv`. The generated file is already provided, so you don't need to rerun this step.
 
-### Download and Process Score Matrix
-You need to generate score matrices before doing BoN or any other analyses. This can be done by running scripts under `save_score_matrix/`. For example, this generates score matrix:
+### Score Matrix
+You need to generate score matrices before doing BoN or any other analyses. This can be done by running scripts under `save_score_matrix/`, e.g., 
 ```
 cd save_score_matrix
 python arcc_save_score_matrix.py
 ```
 
-We provide intermediate data (e.g., score matrix) in [HF data repo](https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset) useful for fast replication. Follow the following steps to download it:
+We provide pre-generated score matrix in [HF data repo](https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset) for fast replication. Follow the following steps to download it:
 ```
 apt-get update
 apt-get install git-lfs
 git lfs install
 git clone https://huggingface.co/datasets/tony10101105/Query-Circuit-Dataset
 ```
-The dataset occupies ~366GB. You can download a part of it if you don't have enough disk space.
+The dataset occupies ~346GB.
 
-Now merge `arc_challenge_1/` and `arc_challenge_2/` into `arc_challenge/`:
+Then merge `arc_challenge_1/` and `arc_challenge_2/` into `arc_challenge/`:
 ```
 cd Query-Circuit-Dataset
 bash merge_arc_challenge.sh
-```
-
-### Download SAE Data
-Download labeled SAE features if you want to apply SAEs on discovered circuits.
-```
-cd sae_data
-bash download_sae.sh
-python data_unzipper.py
 ```
 
 ## Query Circuit Analysis
@@ -68,7 +60,7 @@ python ioi_query_circuit_analysis.py
 will give you Figure 6(a).
 
 ## Misc Analysis
-The `misc_analysis/` directory contains standalone analysis scripts. Each corresponds to a specific figure or table in the paper.
+The `misc_analysis/` directory contains self-contained analysis scripts. Each corresponds to a specific figure or table in the paper.
 
 | Script | Figure / Table | Description |
 |--------|---------------|-------------|
@@ -79,11 +71,39 @@ The `misc_analysis/` directory contains standalone analysis scripts. Each corres
 | `gender_bias_greedy_dijkstra_comparison.py` | Figure A15 | Compares greedy top-N edge selection against Dijkstra-like circuit construction on the gender bias task with GPT-2 Small. |
 | `mmlu_runtime_analysis.py` | Table A4 | Measures and compares runtime for single-query vs. best-of-N circuit discovery on MMLU. |
 
-Run any script from the `EAP-IG/` root, e.g.:
+Run any script from `misc_analysis/`, e.g.:
 ```
-cd EAP-IG
-python misc_analysis/mmlu_NFS_NDF_comparison.py
+cd misc_analysis
+python mmlu_NFS_NDF_comparison.py
 ```
+
+## Query Circuit with SAEs
+
+### Download SAE Data
+Download labeled SAE features if you want to apply SAEs on discovered circuits.
+```
+cd sae_data
+bash download_sae.sh
+python data_unzipper.py
+```
+
+### Run SAEs on Query Circuits
+Feed activations of nodes in a circuit into corresponding SAEs and examine parsed concepts:
+
+First save the detailed graph (circuit) data:
+```
+cd gender_bias_sae_analysis
+python gender_bias_save_graph_data.py
+```
+which will create a `graph_data` folder.
+
+Then, enrich the data with SAE features:
+```
+python gender_bias_sae_analysis.py
+```
+which will create a `sae_analysis_data` folder.
+
+You can manually inspect interesting feature connections, or use coding agent/print script to help summarize, e.g., `gender_bias_sae_circuit_print.py`.
 
 ## Credit
 The codebase was revised from [EAP-IG](https://github.com/hannamw/eap-ig).
