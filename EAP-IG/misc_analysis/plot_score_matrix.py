@@ -1,36 +1,24 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-
-from functools import partial
-
 import os
 import sys
-import ast
-import json
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
+
 import numpy as np
-from scipy.stats import spearmanr
-from tqdm import tqdm
 import matplotlib.pyplot as plt
-import pandas as pd
-from copy import deepcopy
-import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
-from transformer_lens import HookedTransformer
-
-from eap.utils import topn_indices, set_seed
 
 
-set_seed(2025)
-
-dataset = 'ioi' # mmlu_astronomy # ioi
+dataset = 'ioi' # mmlu_astronomy or ioi
 i = 1
 para_data = []
 if 'mmlu' in dataset:
     for k in range(10):
-        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/mmlu_astronomy/metric4_{i}_{k}.npy"))
+        para_data.append(np.load(f"probing_dataset/Query-Circuit-Dataset/score_matrix/mmlu_astronomy/llama32-1b/{i}_{k}.npy"))
 elif 'ioi' in dataset:
-    for i in range(0, 10):
-        para_data.append(np.load(f"Query-Circuit-Dataset/score_data/ioi_20steps/llama32-1b/ioi_edge_scores_{i}.npy"))
+    for j in range(10):
+        para_data.append(np.load(f"probing_dataset/Query-Circuit-Dataset/score_matrix/ioi/llama32-1b/{j}.npy"))
+else:
+    raise ValueError(f"Unknown dataset: {dataset}")
 
 para_data = np.stack(para_data, axis=0)   # shape: (len(arrays), rows, cols)
 
@@ -45,7 +33,7 @@ vmin = np.nanpercentile(ALL_SCORES, 3)
 fig, axes = plt.subplots(4, 3, figsize=(15, 9))  # 4 rows × 3 cols
 axes = axes.flatten()
 
-for j in range(10):  # 10 plots
+for j in range(10): # 10 plots
     arr = para_data[j]
     arr = arr[6*(32+1)+1:10*(32+1)+1, 7*(32*3+1)+1:11*(32*3+1)+1]
     arr[np.isinf(arr)] = np.nan

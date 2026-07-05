@@ -1,32 +1,40 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import os
+import sys
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
 
+import argparse
 from functools import partial
 
-import json
 import matplotlib.pyplot as plt
-import pandas as pd
 from tqdm import tqdm
-import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
 from eap.graph import Graph
 from eap.evaluate import evaluate_graph, evaluate_baseline
-from eap.attribute import attribute 
-from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
-topns = [50, 100, 200, 300, 400, 500, 750, 1000] # 32491
-method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations
-steps = 20
-intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'gpt2-small' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
-model = HookedTransformer.from_pretrained(model_name, device='cuda')
-model.cfg.use_split_qkv_input = True
-model.cfg.use_attn_result = True
-model.cfg.use_hook_mlp_in = True
-model.cfg.ungroup_grouped_query_attention = True
+from eap.attribute import attribute
+from eap.query_circuit_utils import logit_diff, EAPDataset, nfs
+from save_score_matrix.models import TargetModelConfig, DiscoveryAlgConfig
 
-ds = EAPDataset('probing_dataset/gender_bias_gpt2.csv', correct_col='clean_answer_idx', incorrect_col='corrupted_answer_idx')
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_name', type=str, default='gpt2-small')
+parser.add_argument('--topns', type=int, nargs='+', default=[50, 100, 200, 300, 400, 500, 750, 1000])
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/gender_bias_gpt2.csv')
+parser.add_argument('--output_figure', type=str, default='figures/gender_bias_topn_vs_dijkstra.pdf')
+args = parser.parse_args()
+
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+
+model = HookedTransformer.from_pretrained(model_cfg.model_name, device=model_cfg.device)
+model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
+model.cfg.use_attn_result = model_cfg.use_attn_result
+model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
+model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
+
+ds = EAPDataset(args.dataset_path, correct_col='clean_answer_idx', incorrect_col='corrupted_answer_idx')
 dataloader = ds.to_dataloader(batch_size=10)
 
 g = Graph.from_model(model)
@@ -36,52 +44,32 @@ baseline = evaluate_baseline(model, dataloader, partial(logit_diff, loss=False, 
 corrupted_baseline = evaluate_baseline(model, dataloader, partial(logit_diff, loss=False, mean=False), run_corrupted=True).mean().item()
 print(f'Baseline: {baseline}, Corrupted Baseline: {corrupted_baseline}')
 
-# Attribute using the model, graph, clean / corrupted data and labels, as well as a metric
 print('attributing...')
-attribute(model, g, dataloader, partial(logit_diff, loss=True, mean=True), method=method, ig_steps=steps, intervention=intervention)
+attribute(model, g, dataloader, partial(logit_diff, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention)
 print('evaluating circuit...')
-circuit_results = []
 circuit_faithfulness_g, circuit_faithfulness_t = [], []
-for topn in tqdm(topns):
+for topn in tqdm(args.topns):
     g.apply_topn(topn, True)
     g.prune()
-    # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention)
-
+    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention)
     results = results.mean().item()
-    circuit_results.append(results)
-    
-    faithfulness_t = (results - corrupted_baseline) / (baseline - corrupted_baseline)
-    # faithfulness = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
-    circuit_faithfulness_t.append(round(faithfulness_t, 2))
+
+    circuit_faithfulness_t.append(round(nfs(results, baseline, corrupted_baseline), 2))
 
     g.apply_greedy(topn, True)
     g.prune()
 
-    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention)
-
+    results, _, _, _ = evaluate_graph(model, g, dataloader, partial(logit_diff, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention)
     results = results.mean().item()
-    circuit_results.append(results)
-    
-    faithfulness_g = (results - corrupted_baseline) / (baseline - corrupted_baseline)
-    circuit_faithfulness_g.append(round(faithfulness_g, 2))
 
-    # print(f"Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness: {faithfulness:.2f}")
+    circuit_faithfulness_g.append(round(nfs(results, baseline, corrupted_baseline), 2))
 
-# all_results = {
-#     'baseline': baseline,
-#     'corrupted_baseline': corrupted_baseline,
-#     'topns': topns,
-#     'circuit_results': circuit_results,
-#     'circuit_faithfulness': circuit_faithfulness
-# }
-
-print('topns: ', topns)
+print('topns: ', args.topns)
 print('circuit_faithfulness_t: ', circuit_faithfulness_t)
 print('circuit_faithfulness_g: ', circuit_faithfulness_g)
-plt.plot(topns, circuit_faithfulness_t, label=f'Greedy Selection', marker='o')
-plt.plot(topns, circuit_faithfulness_g, label=f'Dijkstra-like Construction', marker='o')
+plt.plot(args.topns, circuit_faithfulness_t, label='Greedy Selection', marker='o')
+plt.plot(args.topns, circuit_faithfulness_g, label='Dijkstra-like Construction', marker='o')
 
 plt.ylim(-0.1, 1.1)
 plt.xlabel('Number of Edges', fontsize=16)
@@ -91,4 +79,4 @@ plt.yticks(fontsize=16)
 plt.legend(fontsize=16, loc='lower right')
 plt.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 plt.tight_layout()
-plt.savefig(f'gender_bias_replication.pdf', bbox_inches='tight')
+plt.savefig(args.output_figure, bbox_inches='tight')

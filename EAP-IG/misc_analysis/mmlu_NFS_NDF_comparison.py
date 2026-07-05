@@ -1,104 +1,90 @@
-import os as _os; _os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-
-from functools import partial
-
 import os
 import sys
-import ast
-import json
-import numpy as np
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(_root)
+sys.path.insert(0, _root)
+
+import argparse
+from functools import partial
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-import pandas as pd
-from copy import deepcopy
 import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import PreTrainedTokenizer
 from transformer_lens import HookedTransformer
 
 from eap.graph import Graph
 from eap.evaluate import evaluate_graph, evaluate_baseline
 from eap.attribute import attribute
-from eap.utils import topn_indices, set_seed
-from eap.query_circuit_utils import get_logit_positions, logit_diff, EAPDataset
-
-shots = "Which is the most possible answer?\n"
-
-
+from eap.utils import set_seed, pad_corrupted_to_clean
+from eap.query_circuit_utils import logit_diff, EAPDataset, ndf, nfs
+from save_score_matrix.models import DatasetConfig, TargetModelConfig, DiscoveryAlgConfig
 set_seed(2025)
-# topns = [500, 1000, 1500, 2000, 3000, 5000, 10000, 20000, 30000, 32000, 32491] # 32491 for gpt2-small, 386713 for llama
-topns = [500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000] # 386713 for llama
-category = 'marketing'
-metric_version = 4 # 1,2,3,4,5,6,7,8,9
-method = 'EAP-IG-inputs' # EAP-IG-inputs # EAP-IG-activations # EAP
-steps = 20
-intervention = 'zero' if method == 'EAP-IG-activations' else 'patching'
-model_name = 'meta-llama/Llama-3.2-1B-Instruct' # gpt2-small # meta-llama/Llama-3.2-1B # meta-llama/Meta-Llama-3-8B-Instruct
-model = HookedTransformer.from_pretrained(model_name, device='cuda')
-model.cfg.use_split_qkv_input = True
-model.cfg.use_attn_result = True
-model.cfg.use_hook_mlp_in = True
-model.cfg.ungroup_grouped_query_attention = True
 
-ds = EAPDataset(f'probing_dataset/mmlu_{category}_Llama-32-1B.csv', num_samples=300, mc=True)
-# ds = EAPDataset(f'probing_dataset/test_paraphrase.csv', num_samples=300)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--category', type=str, default='marketing')
+parser.add_argument('--model_name', type=str, default='meta-llama/Llama-3.2-1B-Instruct')
+parser.add_argument('--num_samples', type=int, default=-1)
+parser.add_argument('--topns', type=int, nargs='+', default=[500, 2000, 5000, 10000, 30000, 50000, 100000, 150000, 200000, 250000, 300000])
+parser.add_argument('--dataset_path', type=str, default='probing_dataset/mmlu_marketing_Llama-32-1B.csv')
+parser.add_argument('--sample_indices', type=int, nargs='+', default=list(range(18)))
+parser.add_argument('--output_figure', type=str, default='figures/mmlu_marketing_NFS_NDF_grid_full.pdf')
+args = parser.parse_args()
+
+dataset_cfg = DatasetConfig(category=args.category, num_samples=args.num_samples)
+model_cfg = TargetModelConfig(model_name=args.model_name)
+alg_cfg = DiscoveryAlgConfig()
+
+model = HookedTransformer.from_pretrained_no_processing(model_cfg.model_name, device=model_cfg.device, torch_dtype=torch.float16)
+model.cfg.use_split_qkv_input = model_cfg.use_split_qkv_input
+model.cfg.use_attn_result = model_cfg.use_attn_result
+model.cfg.use_hook_mlp_in = model_cfg.use_hook_mlp_in
+model.cfg.ungroup_grouped_query_attention = model_cfg.ungroup_grouped_query_attention
+
+ds = EAPDataset(args.dataset_path, num_samples=dataset_cfg.num_samples, mc=True)
 dataloader = ds.to_dataloader(batch_size=1)
 
 all_results = []
 for i, (clean, corrupted, label) in tqdm(enumerate(dataloader), total=len(dataloader), desc="Processing samples"):
-    # if i not in [11,41,49]:
-    if i not in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]:
+    if i not in args.sample_indices:
         continue
     single_data = [(clean, corrupted, label)]
 
     model.reset_hooks()
-    
+
     g = Graph.from_model(model)
 
-    # print('evaluating baseline on this single data...')
     baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False)).mean().item()
     corrupted_baseline = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True).mean().item()
 
-    # only for padding corrupted input
-    _ = evaluate_baseline(model, single_data, partial(logit_diff, mc=True, loss=False, mean=False), run_corrupted=True, manual_pad=True, quiet=True)
-    
+    pad_corrupted_to_clean(model, single_data)
+
     print(f"{i}-th sample. Original: {baseline}; corrupted: {corrupted_baseline}")
-    # print('attributing for this single data...')
-    attribute(model, g, single_data, partial(logit_diff, mc=True, loss=True, mean=True), method=method, ig_steps=steps, intervention=intervention, quiet=True)
-    
-    # print('evaluating circuit of this single data...')
-    circuit_results = []
+    attribute(model, g, single_data, partial(logit_diff, mc=True, loss=True, mean=True), method=alg_cfg.method, ig_steps=alg_cfg.steps, intervention=alg_cfg.intervention, quiet=True)
+
     circuit_faithfulness_ndf, circuit_faithfulness_nfs = [], []
-    for topn in topns:
+    for topn in args.topns:
         g.apply_topn(topn, True)
-        # g.apply_greedy(topn, True)
 
-        print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
+        # print(f'top{topn}. Node, edge number: {g.count_included_nodes()}, {g.count_included_edges()}')
 
-        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=intervention, quiet=True)
+        results, _, _, _ = evaluate_graph(model, g, single_data, partial(logit_diff, mc=True, loss=False, mean=False), hook_rep=False, hook_layer=False, hook_pattern=False, intervention=alg_cfg.intervention, quiet=True)
         results = results.mean().item()
-        circuit_results.append(results)
 
-        # faithfulness = (results - corrupted_baseline) / (baseline - corrupted_baseline)
-        faithfulness_ndf = 1 - min(abs((baseline - results) / (baseline - corrupted_baseline)), 1)
+        faithfulness_ndf = ndf(results, baseline, corrupted_baseline)
         circuit_faithfulness_ndf.append(faithfulness_ndf)
 
-        faithfulness_nfs = (results - corrupted_baseline) / (baseline - corrupted_baseline)
+        faithfulness_nfs = nfs(results, baseline, corrupted_baseline)
         circuit_faithfulness_nfs.append(faithfulness_nfs)
 
-        print(f"{i}-th sample. Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness (NDF): {faithfulness_ndf:.2f}; faithfulness (NFS): {faithfulness_nfs:.2f}")
+        # print(f"{i}-th sample. Original performance: {baseline:.2f}; circuit performance: {results:.2f}; corrupted_baseline: {corrupted_baseline:.2f}; faithfulness (NDF): {faithfulness_ndf:.2f}; faithfulness (NFS): {faithfulness_nfs:.2f}")
 
     all_results.append({
-        'baseline': baseline,
-        'corrupted_baseline': corrupted_baseline,
-        'topns': topns,
-        'circuit_results': circuit_results,
         'circuit_faithfulness_ndf': circuit_faithfulness_ndf,
         'circuit_faithfulness_nfs': circuit_faithfulness_nfs
     })
 
 
-topns = [x // 1000 for x in topns]  # Convert to 'k'
+topns = [x / 1000 for x in args.topns]  # Convert to 'k'
 
 fig, axes = plt.subplots(6, 3, figsize=(15, 24))  # 3 rows × 3 cols
 for i, (results, ax1) in enumerate(zip(all_results, axes.flat)):
@@ -113,7 +99,6 @@ for i, (results, ax1) in enumerate(zip(all_results, axes.flat)):
     ax1.axhline(y=1, linestyle='--', color='gray')
     ax1.grid(True, which='both', linestyle='--', linewidth=0.8, alpha=0.6)
 
-    # Add NFS label only on left-middle subplot (i == 3)
     if i == 6:
         ax1.set_ylabel("Normalized Faithfulness Score (NFS)", color='tab:red', fontsize=20)
     else:
@@ -126,13 +111,11 @@ for i, (results, ax1) in enumerate(zip(all_results, axes.flat)):
     ax2.tick_params(axis='y', labelcolor='tab:blue', labelsize=14)
     ax2.set_ylim(-2.1, 2.1)
 
-    # Add NDF label only on right-middle subplot (i == 5)
     if i == 8:
         ax2.set_ylabel("Normalized Deviation Faithfulness (NDF)", color='tab:blue', fontsize=20)
     else:
         ax2.set_ylabel("")
 
-    # X-axis label on bottom-middle subplot (i == 7)
     if i == 16:
         ax1.set_xlabel("Number of Edges (k)", fontsize=20)
 
@@ -140,11 +123,10 @@ for i, (results, ax1) in enumerate(zip(all_results, axes.flat)):
     ax1.set_xticks([topns[0]] + topns[5:])
     ax1.tick_params(axis='x', labelsize=14)
 
-    # Optional: legend on first subplot only
     if i == 0:
         lines1, labels1 = ax1.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
         ax1.legend(lines1 + lines2, labels1 + labels2, fontsize=20, loc='lower right')
 
 fig.tight_layout()
-fig.savefig(f'mmlu_marketing_metric{metric_version}_NFS_NDF_grid.pdf')
+fig.savefig(args.output_figure)
